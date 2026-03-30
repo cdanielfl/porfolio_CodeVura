@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, BriefcaseBusiness, CheckCircle2, ChevronDown, ExternalLink, Layers3, Target } from 'lucide-react';
@@ -84,6 +84,14 @@ export default function Portfolio() {
     return projects.filter((project) => project.category === activeCategory);
   }, [activeCategory, projects]);
 
+  useEffect(() => {
+    if (activeCategory !== 'all' && !categoryOptions.includes(activeCategory)) {
+      setActiveCategory('all');
+    }
+  }, [activeCategory, categoryOptions]);
+
+  const visibleProjects = filteredProjects.length > 0 ? filteredProjects : projects;
+
   return (
     <main className="flex-grow pb-24 pt-32 text-white">
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -149,11 +157,10 @@ export default function Portfolio() {
         <motion.div
           variants={staggerGroup}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.18 }}
+          animate="visible"
           className="grid gap-6 xl:grid-cols-3"
         >
-          {filteredProjects.map((project, index) => (
+          {visibleProjects.map((project, index) => (
             <motion.article
               key={project.id}
               variants={revealUp}

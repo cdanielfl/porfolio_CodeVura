@@ -1,0 +1,125 @@
+import { Card, Button, Badge } from '../components/UI';
+import { MOCK_PRODUCTS } from '../data/mock';
+import { Package, Plus, Search, Filter, MoreVertical, Edit3, Trash2 } from 'lucide-react';
+import { motion } from 'motion/react';
+
+export const Inventory = () => {
+  return (
+    <div className="space-y-8">
+      <div className="flex items-end justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Inventory & Catalog</h1>
+          <p className="text-slate-500 mt-1">Manage your products, services, and stock levels.</p>
+        </div>
+        <div className="flex gap-3">
+          <Button variant="outline" className="gap-2">
+            <Package size={16} />
+            Categories
+          </Button>
+          <Button className="gap-2">
+            <Plus size={16} />
+            Add Product / Service
+          </Button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[
+          { label: 'Total Items', value: '142', sub: 'Across 12 categories' },
+          { label: 'Low Stock', value: '8', sub: 'Requires attention', color: 'text-amber-600' },
+          { label: 'Out of Stock', value: '3', sub: 'Restock immediately', color: 'text-red-600' },
+          { label: 'Services', value: '15', sub: 'Active offerings' },
+        ].map((stat, i) => (
+          <Card key={i}>
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{stat.label}</p>
+            <p className={cn("text-2xl font-bold mt-1", stat.color || "text-slate-900")}>{stat.value}</p>
+            <p className="text-[10px] text-slate-500 mt-1">{stat.sub}</p>
+          </Card>
+        ))}
+      </div>
+
+      <Card noPadding>
+        <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/30">
+          <div className="flex items-center gap-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+              <input 
+                type="text" 
+                placeholder="Search inventory..." 
+                className="pl-9 pr-4 py-1.5 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20 w-64"
+              />
+            </div>
+            <Button variant="outline" size="sm" className="gap-2">
+              <Filter size={14} />
+              Filter
+            </Button>
+          </div>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-left">
+            <thead>
+              <tr className="border-b border-slate-100">
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Item</th>
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Category</th>
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Price</th>
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Stock</th>
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Status</th>
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {MOCK_PRODUCTS.map((product) => (
+                <tr key={product.id} className="hover:bg-slate-50/50 transition-colors group">
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-3">
+                      <img 
+                        src={product.image} 
+                        alt={product.name} 
+                        className="w-10 h-10 rounded-lg object-cover border border-slate-100"
+                        referrerPolicy="no-referrer"
+                      />
+                      <div>
+                        <p className="text-sm font-semibold text-slate-900">{product.name}</p>
+                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">{product.id}</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <Badge variant={product.category === 'Service' ? 'info' : 'neutral'}>
+                      {product.category}
+                    </Badge>
+                  </td>
+                  <td className="px-6 py-4 text-sm font-bold text-slate-900">${product.price.toFixed(2)}</td>
+                  <td className="px-6 py-4 text-sm text-slate-600">
+                    {product.category === 'Service' ? '—' : `${product.stock} units`}
+                  </td>
+                  <td className="px-6 py-4">
+                    <Badge variant={
+                      product.status === 'In Stock' || product.status === 'Active' ? 'success' : 
+                      product.status === 'Low Stock' ? 'warning' : 'error'
+                    }>
+                      {product.status}
+                    </Badge>
+                  </td>
+                  <td className="px-6 py-4 text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Edit3 size={16} />
+                      </Button>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-red-500 hover:bg-red-50">
+                        <Trash2 size={16} />
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
+    </div>
+  );
+};
+
+import { cn } from '../lib/utils';

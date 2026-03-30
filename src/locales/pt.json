@@ -130,8 +130,8 @@
     "subtitle": "Cada projeto abaixo demonstra como combinamos direção de negócio, design e engenharia para construir presença digital com mais clareza e autoridade.",
     "stats": [
       {
-        "value": "4 segmentos",
-        "label": "demos para contextos reais de serviços, negócios locais e operação B2B"
+        "value": "6 segmentos",
+        "label": "demos para contextos reais de serviços, negócios locais, operação B2B, SaaS e plataforma de carreira"
       },
       {
         "value": "Fluxo completo",
@@ -144,10 +144,16 @@
     ],
     "openDemo": "Abrir Demo",
     "viewDemo": "Ver Demo Completa",
+    "viewDemoSimple": "Ver demo",
+    "filters": {
+      "label": "Filtrar por segmento",
+      "all": "Todos"
+    },
     "caseLabels": {
       "challenge": "Desafio principal",
       "focus": "Foco da solução",
-      "stack": "Stack aplicada"
+      "stack": "Stack aplicada",
+      "details": "Ver detalhes do case"
     },
     "projects": {
       "mecanica": {
@@ -181,6 +187,22 @@
         "challenge": "Organizar grande volume de SKU e manter clareza operacional para compras de alto ticket.",
         "focus": "Arquitetura robusta de navegação, linguagem técnica e jornadas para aquisição e atacado.",
         "stack": ["Catálogo escalável", "Rotas de produto", "Carrinho B2B", "UX de operação"]
+      },
+      "saas": {
+        "title": "NexusBiz SaaS",
+        "category": "Plataforma SaaS",
+        "description": "Painel SaaS operacional com módulos de pedidos, estoque, clientes, vendas e relatórios em uma interface única.",
+        "challenge": "Concentrar indicadores e fluxos do time em um ambiente claro, rápido e fácil de operar.",
+        "focus": "Navegação por módulos, priorização de dados críticos e experiência fluida para uso diário.",
+        "stack": ["Dashboard analítico", "Módulos operacionais", "UI escalável", "Fluxo multiárea"]
+      },
+      "curate": {
+        "title": "Curate Resume SaaS",
+        "category": "Plataforma de Carreira",
+        "description": "SaaS de currículos com onboarding, dashboard, construtor e preview em um fluxo único de produto.",
+        "challenge": "Apresentar uma jornada completa de produto com equilíbrio entre UI premium e profundidade funcional.",
+        "focus": "Posicionamento premium, fluxo guiado e telas realistas para demos de alto valor.",
+        "stack": ["UX SaaS", "Produto multipágina", "Onboarding com IA", "Builder + Preview"]
       }
     },
     "execution": {
@@ -212,7 +234,7 @@
   "contact": {
     "backHome": "Voltar para Home",
     "title": "Vamos conversar?",
-    "subtitle": "Estamos prontos para ouvir sua ideia, montar um escopo e responder em até 48 horas. Preencha o formulário ou entre em contato pelos canais abaixo.",
+    "subtitle": "Estamos prontos para ouvir sua ideia, montar um escopo e responder em até 48 horas. Para avançar, preencha o formulário abaixo.",
     "email": "Email",
     "whatsapp": "WhatsApp",
     "location": "Localização",
@@ -245,7 +267,9 @@
       "mechanic": "Mecânica",
       "restaurant": "Restaurante",
       "clinic": "Clínica",
-      "marketplace": "Marketplace"
+      "marketplace": "Marketplace",
+      "saas": "SaaS",
+      "curate": "Curate"
     },
     "rights": "Todos os direitos reservados.",
     "privacy": "Privacidade",

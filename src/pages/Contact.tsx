@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, Send, CheckCircle, ArrowLeft } from 'lucide-react';
+import { Send, CheckCircle, ArrowLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { routes } from '../routes';
+
+const sectionReveal = {
+  hidden: { opacity: 0, y: 28 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: 'easeOut' },
+  },
+};
 
 export default function Contact() {
   const { t, i18n } = useTranslation();
@@ -27,7 +36,13 @@ export default function Contact() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row gap-16">
           {/* Contact Info */}
-          <div className="lg:w-1/3">
+          <motion.div
+            className="lg:w-1/3"
+            variants={sectionReveal}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.35 }}
+          >
             <Link to={routes[lang].home} className="inline-flex items-center gap-2 text-indigo-300 font-semibold mb-8 hover:gap-3 transition-all">
               <ArrowLeft className="w-5 h-5" /> {t('contact.backHome')}
             </Link>
@@ -36,39 +51,16 @@ export default function Contact() {
               {t('contact.subtitle')}
             </p>
 
-            <div className="space-y-8">
-              <div className="flex items-start gap-4">
-                <div className="bg-indigo-500/10 border border-white/20 p-3 rounded-xl text-indigo-300">
-                  <Mail className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-white">{t('contact.email')}</h3>
-                  <p className="text-slate-300">contato@devportfolio.com</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="bg-indigo-500/10 border border-white/20 p-3 rounded-xl text-indigo-300">
-                  <Phone className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-white">{t('contact.whatsapp')}</h3>
-                  <p className="text-slate-300">+55 (11) 99999-9999</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="bg-indigo-500/10 border border-white/20 p-3 rounded-xl text-indigo-300">
-                  <MapPin className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-white">{t('contact.location')}</h3>
-                  <p className="text-slate-300">São Paulo, SP - Brasil</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          </motion.div>
 
           {/* Contact Form */}
-          <div className="lg:w-2/3">
+          <motion.div
+            className="lg:w-2/3"
+            initial={{ opacity: 0, x: 26 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.55, ease: 'easeOut' }}
+          >
             <div className="bg-slate-900/80 rounded-[2.5rem] p-8 lg:p-12 shadow-2xl border border-white/10 relative overflow-hidden backdrop-blur">
               <AnimatePresence mode="wait">
                 {!isSuccess ? (
@@ -163,7 +155,7 @@ export default function Contact() {
                 )}
               </AnimatePresence>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </main>

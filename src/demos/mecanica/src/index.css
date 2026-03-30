@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  .mecanica-demo {
+    @apply bg-black text-white font-sans antialiased;
+  }
+
+  /* Custom Scrollbar */
+  .mecanica-demo *::-webkit-scrollbar {
+    width: 8px;
+  }
+  .mecanica-demo *::-webkit-scrollbar-track {
+    @apply bg-black;
+  }
+  .mecanica-demo *::-webkit-scrollbar-thumb {
+    @apply bg-zinc-800 rounded-full hover:bg-zinc-700 transition-colors;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/5 backdrop-blur-md border border-white/10;
+  }
+  
+  .glow-blue {
+    @apply shadow-[0_0_30px_-5px_rgba(37,99,235,0.3)];
+  }
+}

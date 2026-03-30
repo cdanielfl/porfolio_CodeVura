@@ -1,281 +1,583 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Utensils, Clock, MapPin, Phone, Instagram, Facebook, Menu as MenuIcon, X, ChevronRight, ArrowLeft, Star, Heart } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
+import { Link, NavLink, Outlet, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import {
+  ArrowLeft,
+  ArrowRight,
+  CalendarClock,
+  CheckCircle2,
+  Clock,
+  Facebook,
+  Instagram,
+  Mail,
+  MapPin,
+  Menu as MenuIcon,
+  Phone,
+  Utensils,
+  X,
+} from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
 import { routes } from '../../routes';
+import DemoFeatureGuide from '../../components/DemoFeatureGuide';
 
-export default function RestaurantDemo() {
-  const navigate = useNavigate();
+type MenuItem = {
+  name: string;
+  price: string;
+  description: string;
+  category: 'starters' | 'mains' | 'desserts';
+};
+
+const menuItems: MenuItem[] = [
+  {
+    name: 'Bruschetta Italiana',
+    price: 'R$ 32',
+    description: 'Toasted Italian bread, fresh tomatoes, basil, and extra virgin olive oil.',
+    category: 'starters',
+  },
+  {
+    name: 'Carpaccio de File',
+    price: 'R$ 48',
+    description: 'Thin slices of filet mignon, arugula, capers, and parmesan flakes.',
+    category: 'starters',
+  },
+  {
+    name: 'Risoto de Cogumelos',
+    price: 'R$ 64',
+    description: 'Arborio rice, fresh mushroom mix, and white truffle oil.',
+    category: 'mains',
+  },
+  {
+    name: 'Salmao Grelhado',
+    price: 'R$ 78',
+    description: 'Salmon fillet, parsley root puree, and butter-sauteed vegetables.',
+    category: 'mains',
+  },
+  {
+    name: 'File ao Poivre',
+    price: 'R$ 85',
+    description: 'Filet mignon medallion with pepper sauce and rustic potatoes.',
+    category: 'mains',
+  },
+  {
+    name: 'Tiramisu Classico',
+    price: 'R$ 28',
+    description: 'Ladyfingers soaked in coffee, mascarpone cream, and cocoa.',
+    category: 'desserts',
+  },
+  {
+    name: 'Petit Gateau',
+    price: 'R$ 26',
+    description: 'Warm chocolate cake with handcrafted vanilla ice cream.',
+    category: 'desserts',
+  },
+];
+
+const locationData = {
+  address: 'Gastronomy St, 456 - Jardins, Sao Paulo - SP',
+  phone: '(11) 3344-5566',
+  email: 'reservas@bistrogourmet.com',
+  hours: ['Tue to Thu: 6pm - 11pm', 'Fri and Sat: 12pm - 12am', 'Sunday: 12pm - 5pm'],
+};
+
+const navItems = [
+  { label: 'Home', to: '/demo/restaurante' },
+  { label: 'Menu', to: '/demo/restaurante/menu' },
+  { label: 'Reservations', to: '/demo/restaurante/reservations' },
+  { label: 'About', to: '/demo/restaurante/about' },
+  { label: 'Contact', to: '/demo/restaurante/contact' },
+];
+
+function RestaurantLayout() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeCategory, setActiveCategory] = useState('entradas');
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    const handleScroll = () => setIsScrolled(window.scrollY > 16);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const menuItems = {
-    entradas: [
-      { name: 'Bruschetta Italiana', price: 'R$ 32', desc: 'Pão italiano tostado, tomates frescos, manjericão e azeite extra virgem.' },
-      { name: 'Carpaccio de Filé', price: 'R$ 48', desc: 'Lâminas de filé mignon, rúcula, alcaparras e lascas de parmesão.' },
-    ],
-    principais: [
-      { name: 'Risoto de Cogumelos', price: 'R$ 64', desc: 'Arroz arbóreo, mix de cogumelos frescos e azeite de trufas brancas.' },
-      { name: 'Salmão Grelhado', price: 'R$ 78', desc: 'Filé de salmão, purê de mandioquinha e legumes salteados na manteiga.' },
-      { name: 'Filé ao Poivre', price: 'R$ 85', desc: 'Medalhão de filé mignon com molho de pimentas e batatas rústicas.' },
-    ],
-    sobremesas: [
-      { name: 'Tiramisù Clássico', price: 'R$ 28', desc: 'Biscoito champagne embebido em café, creme de mascarpone e cacau.' },
-      { name: 'Petit Gâteau', price: 'R$ 26', desc: 'Bolinho quente de chocolate com sorvete de baunilha artesanal.' },
-    ],
-  };
+  useEffect(() => {
+    setIsMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [location.pathname]);
 
   const handleBack = () => {
-    if (window.history.length > 1) {
-      navigate(-1);
-      return;
-    }
     const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'pt';
     navigate(routes[lang].portfolio);
   };
 
   return (
     <div className="min-h-screen bg-[#faf7f2] font-serif text-[#2d2a26]">
-      {/* Demo Header Overlay */}
-      <div className="fixed top-0 left-0 w-full bg-amber-800 text-white py-1 px-4 text-center text-xs font-bold z-[100] flex justify-between items-center">
-        <span>DEMO: SITE DE RESTAURANTE</span>
+      <div className="fixed left-0 top-0 z-[100] flex w-full items-center justify-between bg-amber-800 px-4 py-1 text-center text-xs font-bold text-white">
+        <span>DEMO: RESTAURANT WEBSITE</span>
         <button onClick={handleBack} className="inline-flex items-center gap-1 underline hover:no-underline">
-          <ArrowLeft className="w-3.5 h-3.5" />
-          Voltar
+          <ArrowLeft className="h-3.5 w-3.5" />
+          Back
         </button>
       </div>
 
-      {/* Navbar */}
-      <nav className={`fixed w-full z-50 transition-all duration-500 top-6 ${isScrolled ? 'bg-white/95 shadow-sm py-3' : 'bg-transparent py-6'}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <Utensils className="text-amber-700 w-8 h-8" />
-              <span className="font-bold text-2xl tracking-widest uppercase text-amber-900">BISTRO<span className="font-light">GOURMET</span></span>
-            </div>
+      <nav
+        className={`fixed left-0 right-0 z-50 top-6 transition-all duration-500 ${
+          isScrolled ? 'bg-white/95 py-3 shadow-sm' : 'bg-transparent py-6'
+        }`}
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          <Link to="/demo/restaurante" className="flex items-center gap-2">
+            <Utensils className="h-8 w-8 text-amber-700" />
+            <span className="text-2xl font-bold uppercase tracking-widest text-amber-900">
+              BISTRO<span className="font-light">GOURMET</span>
+            </span>
+          </Link>
 
-            <div className="hidden md:flex items-center gap-10">
-              <a href="#sobre" className="text-sm font-bold uppercase tracking-widest hover:text-amber-700 transition-colors">Sobre</a>
-              <a href="#cardapio" className="text-sm font-bold uppercase tracking-widest hover:text-amber-700 transition-colors">Cardápio</a>
-              <a href="#contato" className="text-sm font-bold uppercase tracking-widest hover:text-amber-700 transition-colors">Contato</a>
-              <button
-                onClick={() => alert('Sistema de reservas em breve! Entre em contato por telefone.')}
-                className="bg-amber-800 text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-amber-900 transition-all shadow-lg active:scale-95"
+          <div className="hidden items-center gap-8 md:flex">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className={({ isActive }) =>
+                  `text-sm font-bold uppercase tracking-widest transition-colors ${
+                    isActive ? 'text-amber-700' : 'text-[#3b332d] hover:text-amber-700'
+                  }`
+                }
               >
-                Reservar Mesa
-              </button>
-            </div>
-
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden p-2 text-amber-900">
-              {isMenuOpen ? <X /> : <MenuIcon />}
-            </button>
+                {item.label}
+              </NavLink>
+            ))}
+            <Link
+              to="/demo/restaurante/reservations"
+              className="rounded-full bg-amber-800 px-8 py-3 text-xs font-bold uppercase tracking-widest text-white shadow-lg transition-all hover:bg-amber-900 active:scale-95"
+            >
+              Book Table
+            </Link>
           </div>
+
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 text-amber-900 md:hidden">
+            {isMenuOpen ? <X /> : <MenuIcon />}
+          </button>
         </div>
       </nav>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 bg-white z-[60] flex flex-col items-center justify-center gap-8 p-8"
+            className="fixed inset-0 z-[60] flex flex-col items-center justify-center gap-8 bg-white p-8"
           >
-            <button onClick={() => setIsMenuOpen(false)} className="absolute top-12 right-8"><X className="w-8 h-8" /></button>
-            <a href="#sobre" onClick={() => setIsMenuOpen(false)} className="text-3xl font-bold uppercase tracking-widest">Sobre</a>
-            <a href="#cardapio" onClick={() => setIsMenuOpen(false)} className="text-3xl font-bold uppercase tracking-widest">Cardápio</a>
-            <a href="#contato" onClick={() => setIsMenuOpen(false)} className="text-3xl font-bold uppercase tracking-widest">Contato</a>
-            <button
-              onClick={() => { setIsMenuOpen(false); alert('Sistema de reservas em breve!'); }}
-              className="bg-amber-800 text-white px-10 py-5 rounded-full text-sm font-bold uppercase tracking-widest"
-            >
-              Reservar Mesa
+            <button onClick={() => setIsMenuOpen(false)} className="absolute right-8 top-12">
+              <X className="h-8 w-8" />
             </button>
+            {navItems.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className="text-3xl font-bold uppercase tracking-widest"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {item.label}
+              </NavLink>
+            ))}
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Hero */}
-      <section className="relative h-screen flex items-center justify-center text-center overflow-hidden">
+      <Outlet />
+
+      <DemoFeatureGuide
+        content={{
+          pt: {
+            label: 'Guia da Demo',
+            title: 'Funcionalidades da Demo de Restaurante',
+            items: [
+              'Comece na Home para sentir o posicionamento visual e a copy comercial.',
+              'Clique em "Menu" e teste os filtros por categoria dos pratos.',
+              'Vá em "Reservations" e envie uma solicitação de reserva.',
+              'Use "About" e "Contact" para validar o funil completo do negócio local.',
+            ],
+          },
+          en: {
+            label: 'Demo Guide',
+            title: 'Restaurant Demo Features',
+            items: [
+              'Start on Home to experience the brand positioning and commercial copy.',
+              'Click "Menu" and test category filters for dishes.',
+              'Open "Reservations" and submit a booking request.',
+              'Use "About" and "Contact" to validate the full local-business funnel.',
+            ],
+          },
+        }}
+      />
+
+      <footer className="bg-[#1a1816] py-14 text-sm text-slate-400">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-3 lg:px-8">
+          <div>
+            <p className="mb-4 text-lg font-bold text-white">Bistro Gourmet</p>
+            <p className="max-w-sm leading-relaxed">
+              Signature cuisine with seasonal ingredients, attentive service, and a complete dining experience.
+            </p>
+          </div>
+          <div>
+            <p className="mb-4 text-sm font-bold uppercase tracking-widest text-amber-400">Contact</p>
+            <div className="space-y-2">
+              <p className="inline-flex items-center gap-2">
+                <MapPin className="h-4 w-4" />
+                {locationData.address}
+              </p>
+              <p className="inline-flex items-center gap-2">
+                <Phone className="h-4 w-4" />
+                {locationData.phone}
+              </p>
+              <p className="inline-flex items-center gap-2">
+                <Mail className="h-4 w-4" />
+                {locationData.email}
+              </p>
+            </div>
+          </div>
+          <div>
+            <p className="mb-4 text-sm font-bold uppercase tracking-widest text-amber-400">Follow Us</p>
+            <div className="mb-6 flex gap-5">
+              <a href="https://instagram.com" target="_blank" rel="noreferrer" className="hover:text-amber-400">
+                <Instagram className="h-6 w-6" />
+              </a>
+              <a href="https://facebook.com" target="_blank" rel="noreferrer" className="hover:text-amber-400">
+                <Facebook className="h-6 w-6" />
+              </a>
+            </div>
+            <p>© {new Date().getFullYear()} Bistro Gourmet. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+function RestaurantHomePage() {
+  return (
+    <>
+      <section className="relative flex min-h-[88vh] items-center justify-center overflow-hidden pt-28 text-center">
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=1920"
-            alt="Restaurante"
-            className="w-full h-full object-cover brightness-[0.4]"
+            alt="Restaurant"
+            className="h-full w-full object-cover brightness-[0.4]"
             referrerPolicy="no-referrer"
           />
         </div>
         <div className="relative z-10 max-w-4xl px-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1 }}
-          >
-            <span className="text-amber-400 font-bold uppercase tracking-[0.3em] mb-6 block">Sabor & Elegância</span>
-            <h1 className="text-6xl lg:text-8xl font-bold text-white mb-8 leading-tight">UMA EXPERIÊNCIA GASTRONÔMICA ÚNICA.</h1>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <a
-                href="#cardapio"
-                className="w-full sm:w-auto bg-amber-700 hover:bg-amber-800 text-white px-10 py-5 rounded-full font-bold uppercase tracking-widest transition-all shadow-xl"
+          <motion.div initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }}>
+            <span className="mb-6 block font-bold uppercase tracking-[0.3em] text-amber-400">Flavor and elegance</span>
+            <h1 className="mb-6 text-5xl font-bold leading-tight text-white lg:text-7xl">
+              A complete dining experience for every moment.
+            </h1>
+            <p className="mx-auto mb-10 max-w-2xl text-lg text-slate-200">
+              Contemporary cuisine with fresh ingredients, a curated wine list, and attentive service in a memorable setting.
+            </p>
+            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Link
+                to="/demo/restaurante/menu"
+                className="rounded-full bg-amber-700 px-10 py-4 font-bold uppercase tracking-widest text-white transition-all hover:bg-amber-800"
               >
-                Ver Cardápio
-              </a>
-              <button
-                onClick={() => alert('Redirecionando para o sistema de reservas...')}
-                className="w-full sm:w-auto bg-transparent border-2 border-white text-white hover:bg-white hover:text-amber-900 px-10 py-5 rounded-full font-bold uppercase tracking-widest transition-all"
+                View Menu
+              </Link>
+              <Link
+                to="/demo/restaurante/reservations"
+                className="rounded-full border-2 border-white px-10 py-4 font-bold uppercase tracking-widest text-white transition-all hover:bg-white hover:text-amber-900"
               >
-                Fazer Reserva
-              </button>
+                Make Reservation
+              </Link>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* About */}
-      <section id="sobre" className="py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row items-center gap-16">
-            <div className="lg:w-1/2 relative">
-              <img
-                src="https://images.unsplash.com/photo-1550966842-2849a2830a28?auto=format&fit=crop&q=80&w=800"
-                alt="Chef cozinhando"
-                className="rounded-2xl shadow-2xl relative z-10"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute -top-10 -left-10 w-40 h-40 bg-amber-100 rounded-full -z-10"></div>
-            </div>
-            <div className="lg:w-1/2">
-              <h2 className="text-4xl lg:text-5xl font-bold mb-8 text-amber-900">Nossa História</h2>
-              <p className="text-xl text-slate-600 mb-8 leading-relaxed">
-                Fundado em 2010, o Bistro Gourmet nasceu da paixão pela culinária clássica francesa com um toque contemporâneo brasileiro. Utilizamos apenas ingredientes frescos e sazonais de produtores locais.
-              </p>
-              <div className="grid grid-cols-2 gap-8">
-                <div>
-                  <h4 className="text-3xl font-bold text-amber-700 mb-2">15+</h4>
-                  <p className="text-slate-500 uppercase tracking-widest text-xs font-bold">Anos de Tradição</p>
-                </div>
-                <div>
-                  <h4 className="text-3xl font-bold text-amber-700 mb-2">50k+</h4>
-                  <p className="text-slate-500 uppercase tracking-widest text-xs font-bold">Clientes Felizes</p>
-                </div>
-              </div>
-            </div>
+      <section className="py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-12 text-center">
+            <h2 className="mb-3 text-4xl font-bold text-amber-900">House Highlights</h2>
+            <p className="text-slate-600">A few experiences that make every visit special.</p>
+          </div>
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            {[
+              {
+                title: 'Signature kitchen',
+                description: 'Exclusive recipes with refined technique and contemporary identity.',
+              },
+              {
+                title: 'Seasonal menu',
+                description: 'Frequent updates based on fresh seasonal ingredients.',
+              },
+              {
+                title: 'Premium ambience',
+                description: 'A space designed for gatherings, celebrations, and memorable experiences.',
+              },
+            ].map((item) => (
+              <article key={item.title} className="rounded-2xl border border-amber-100 bg-white p-8 shadow-sm">
+                <h3 className="mb-3 text-2xl font-bold text-amber-900">{item.title}</h3>
+                <p className="leading-relaxed text-slate-600">{item.description}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
+    </>
+  );
+}
 
-      {/* Menu */}
-      <section id="cardapio" className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-4 text-amber-900">Cardápio Selecionado</h2>
-            <p className="text-slate-500 uppercase tracking-widest text-sm font-bold">Descubra nossos sabores</p>
-          </div>
+function RestaurantMenuPage() {
+  const [activeCategory, setActiveCategory] = useState<'starters' | 'mains' | 'desserts'>('starters');
+  const filtered = useMemo(() => menuItems.filter((item) => item.category === activeCategory), [activeCategory]);
 
-          <div className="flex justify-center gap-4 mb-16 overflow-x-auto pb-4">
-            {['entradas', 'principais', 'sobremesas'].map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all ${activeCategory === cat ? 'bg-amber-800 text-white shadow-lg' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+  return (
+    <section className="bg-white pb-24 pt-36">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-12 text-center">
+          <h1 className="mb-3 text-5xl font-bold text-amber-900">Curated Menu</h1>
+          <p className="text-slate-600">Crafted dishes for a sophisticated dining experience.</p>
+        </div>
 
-          <motion.div
-            key={activeCategory}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto"
-          >
-            {menuItems[activeCategory as keyof typeof menuItems].map((item, i) => (
-              <div key={i} className="flex justify-between items-start gap-4 group cursor-pointer">
-                <div className="flex-grow">
-                  <div className="flex items-center gap-4 mb-2">
-                    <h3 className="text-xl font-bold group-hover:text-amber-700 transition-colors">{item.name}</h3>
-                    <div className="flex-grow border-b border-dotted border-slate-300"></div>
-                    <span className="text-xl font-bold text-amber-800">{item.price}</span>
-                  </div>
-                  <p className="text-slate-500 italic">{item.desc}</p>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-
-          <div className="text-center mt-16">
+        <div className="mb-12 flex justify-center gap-3">
+          {(['starters', 'mains', 'desserts'] as const).map((cat) => (
             <button
-              onClick={() => alert('Cardápio completo em PDF baixando...')}
-              className="inline-flex items-center gap-2 text-amber-800 font-bold uppercase tracking-widest hover:gap-4 transition-all"
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`rounded-full px-7 py-3 text-xs font-bold uppercase tracking-widest transition-all ${
+                activeCategory === cat ? 'bg-amber-800 text-white shadow-lg' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              }`}
             >
-              Ver Menu Completo <ChevronRight className="w-5 h-5" />
+              {cat}
             </button>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+          {filtered.map((item) => (
+            <article key={item.name} className="rounded-2xl border border-slate-200 bg-[#fffdf9] p-8">
+              <div className="mb-3 flex items-center justify-between gap-4">
+                <h2 className="text-2xl font-bold text-[#3a2f26]">{item.name}</h2>
+                <span className="text-xl font-bold text-amber-800">{item.price}</span>
+              </div>
+              <p className="leading-relaxed text-slate-600">{item.description}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function RestaurantReservationsPage() {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSubmitted(true);
+  };
+
+  return (
+    <section className="pb-24 pt-36">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-[0.92fr_1.08fr] lg:px-8">
+        <div className="rounded-3xl bg-amber-800 p-10 text-white">
+          <p className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-amber-100">
+            <CalendarClock className="h-4 w-4" />
+            Reservations
+          </p>
+          <h1 className="mb-5 text-4xl font-bold">Secure your table in advance</h1>
+          <p className="mb-8 leading-relaxed text-amber-100">
+            Share your details and our team will quickly confirm your reservation.
+          </p>
+          <div className="space-y-4 text-sm">
+            <p className="inline-flex items-start gap-2">
+              <Clock className="mt-0.5 h-4 w-4" />
+              {locationData.hours[0]}
+            </p>
+            <p className="inline-flex items-start gap-2">
+              <Clock className="mt-0.5 h-4 w-4" />
+              {locationData.hours[1]}
+            </p>
+            <p className="inline-flex items-start gap-2">
+              <Clock className="mt-0.5 h-4 w-4" />
+              {locationData.hours[2]}
+            </p>
           </div>
         </div>
-      </section>
 
-      {/* Contact */}
-      <section id="contato" className="py-24 bg-[#2d2a26] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
-            <div>
-              <h2 className="text-3xl font-bold mb-8 text-amber-400">Visite-nos</h2>
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <MapPin className="text-amber-400 w-6 h-6 flex-shrink-0" />
-                  <p className="text-slate-300">Rua das Gastronomia, 456 - Jardins, São Paulo - SP</p>
-                </div>
-                <div className="flex items-start gap-4">
-                  <Phone className="text-amber-400 w-6 h-6 flex-shrink-0" />
-                  <p className="text-slate-300">(11) 3344-5566</p>
-                </div>
-                <div className="flex items-start gap-4">
-                  <Clock className="text-amber-400 w-6 h-6 flex-shrink-0" />
-                  <div>
-                    <p className="text-slate-300">Terça a Quinta: 18h - 23h</p>
-                    <p className="text-slate-300">Sexta e Sábado: 12h - 00h</p>
-                    <p className="text-slate-300">Domingo: 12h - 17h</p>
-                  </div>
-                </div>
+        <div className="rounded-3xl border border-white/40 bg-white p-8 shadow-xl">
+          {!isSubmitted ? (
+            <form className="space-y-5" onSubmit={onSubmit}>
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                <input required placeholder="Full name" className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-amber-600" />
+                <input required placeholder="Phone" className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-amber-600" />
               </div>
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+                <input required type="date" className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-amber-600" />
+                <input required type="time" className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-amber-600" />
+                <select required className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-amber-600">
+                  <option value="">Guests</option>
+                  <option>2 guests</option>
+                  <option>4 guests</option>
+                  <option>6 guests</option>
+                  <option>8+ guests</option>
+                </select>
+              </div>
+              <textarea
+                rows={4}
+                placeholder="Notes (optional)"
+                className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-amber-600"
+              />
+              <button className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-amber-800 px-5 py-4 font-bold uppercase tracking-widest text-white transition-all hover:bg-amber-900">
+                Confirm reservation request
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </form>
+          ) : (
+            <div className="py-10 text-center">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+                <CheckCircle2 className="h-8 w-8" />
+              </div>
+              <h2 className="mb-2 text-3xl font-bold text-slate-900">Reservation received</h2>
+              <p className="mx-auto max-w-md text-slate-600">
+                We received your request. Our team will contact you shortly for confirmation.
+              </p>
+              <button
+                onClick={() => setIsSubmitted(false)}
+                className="mt-6 rounded-lg border border-slate-200 px-5 py-3 text-sm font-bold text-slate-700 transition-colors hover:bg-slate-50"
+              >
+                Create new request
+              </button>
             </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
 
-            <div className="lg:col-span-2">
-              <h2 className="text-3xl font-bold mb-8 text-amber-400">Newsletter</h2>
-              <p className="text-slate-300 mb-8">Receba novidades, eventos exclusivos e promoções especiais diretamente no seu e-mail.</p>
-              <form className="flex flex-col sm:flex-row gap-4" onSubmit={(e) => { e.preventDefault(); alert('Inscrito com sucesso!'); }}>
-                <input
-                  type="email"
-                  placeholder="Seu melhor e-mail"
-                  className="flex-grow bg-white/10 border border-white/20 rounded-full px-8 py-4 outline-none focus:border-amber-400 transition-all"
-                  required
-                />
-                <button className="bg-amber-700 hover:bg-amber-800 text-white px-10 py-4 rounded-full font-bold uppercase tracking-widest transition-all">
-                  Inscrever
-                </button>
-              </form>
-              <div className="flex gap-6 mt-12">
-                <a href="#" className="text-slate-400 hover:text-amber-400 transition-colors"><Instagram className="w-8 h-8" /></a>
-                <a href="#" className="text-slate-400 hover:text-amber-400 transition-colors"><Facebook className="w-8 h-8" /></a>
+function RestaurantAboutPage() {
+  return (
+    <section className="pb-24 pt-36">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+          <div className="relative">
+            <img
+              src="https://images.unsplash.com/photo-1550966842-2849a2830a28?auto=format&fit=crop&q=80&w=1000"
+              alt="Chef"
+              className="rounded-3xl shadow-2xl"
+              referrerPolicy="no-referrer"
+            />
+          </div>
+          <div>
+            <h1 className="mb-6 text-5xl font-bold text-amber-900">Our story</h1>
+            <p className="mb-6 text-lg leading-relaxed text-slate-600">
+              Bistro Gourmet was born from the combination of classic technique and a contemporary interpretation of international cuisine.
+            </p>
+            <p className="mb-8 text-lg leading-relaxed text-slate-600">
+              Our proposal is to offer a complete experience: elegant ambience, attentive service, and dishes crafted with selected ingredients from local producers.
+            </p>
+            <div className="grid grid-cols-2 gap-6">
+              <div className="rounded-xl bg-white p-5 shadow-sm">
+                <p className="text-3xl font-bold text-amber-700">15+</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-slate-500">Years in operation</p>
+              </div>
+              <div className="rounded-xl bg-white p-5 shadow-sm">
+                <p className="text-3xl font-bold text-amber-700">Core team</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-slate-500">Chef + dedicated brigade</p>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
+  );
+}
 
-      {/* Footer */}
-      <footer className="py-12 bg-[#1a1816] text-center text-slate-500 text-sm border-t border-white/5">
-        <p>© 2024 Bistro Gourmet. Todos os direitos reservados.</p>
-      </footer>
-    </div>
+function RestaurantContactPage() {
+  return (
+    <section className="bg-[#2d2a26] pb-24 pt-36 text-white">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
+          <div>
+            <h1 className="mb-6 text-4xl font-bold text-amber-400">Contact and location</h1>
+            <div className="space-y-6">
+              <p className="inline-flex items-start gap-3">
+                <MapPin className="mt-0.5 h-5 w-5 text-amber-300" />
+                {locationData.address}
+              </p>
+              <p className="inline-flex items-center gap-3">
+                <Phone className="h-5 w-5 text-amber-300" />
+                {locationData.phone}
+              </p>
+              <p className="inline-flex items-center gap-3">
+                <Mail className="h-5 w-5 text-amber-300" />
+                {locationData.email}
+              </p>
+            </div>
+          </div>
+          <form
+            className="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-8"
+            onSubmit={(event) => event.preventDefault()}
+          >
+            <h2 className="mb-2 text-2xl font-bold">Talk to our team</h2>
+            <input
+              type="text"
+              placeholder="Name"
+              className="w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 outline-none placeholder:text-slate-300 focus:border-amber-300"
+              required
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              className="w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 outline-none placeholder:text-slate-300 focus:border-amber-300"
+              required
+            />
+            <textarea
+              rows={5}
+              placeholder="Message"
+              className="w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 outline-none placeholder:text-slate-300 focus:border-amber-300"
+              required
+            />
+            <button className="w-full rounded-xl bg-amber-700 px-5 py-4 font-bold uppercase tracking-widest text-white transition-colors hover:bg-amber-800">
+              Send message
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function RestaurantNotFoundPage() {
+  return (
+    <section className="flex min-h-[60vh] items-center justify-center px-4 pt-32 text-center">
+      <div>
+        <p className="mb-4 text-sm font-bold uppercase tracking-[0.3em] text-amber-700">Page not found</p>
+        <h1 className="mb-4 text-4xl font-bold text-amber-900">Route unavailable in this demo</h1>
+        <Link to="/demo/restaurante" className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-amber-800">
+          Back to home
+          <ArrowRight className="h-4 w-4" />
+        </Link>
+      </div>
+    </section>
+  );
+}
+
+export default function RestaurantDemo() {
+  return (
+    <Routes>
+      <Route path="/" element={<RestaurantLayout />}>
+        <Route index element={<RestaurantHomePage />} />
+        <Route path="menu" element={<RestaurantMenuPage />} />
+        <Route path="cardapio" element={<RestaurantMenuPage />} />
+        <Route path="reservations" element={<RestaurantReservationsPage />} />
+        <Route path="reservas" element={<RestaurantReservationsPage />} />
+        <Route path="about" element={<RestaurantAboutPage />} />
+        <Route path="sobre" element={<RestaurantAboutPage />} />
+        <Route path="contact" element={<RestaurantContactPage />} />
+        <Route path="contato" element={<RestaurantContactPage />} />
+        <Route path="*" element={<RestaurantNotFoundPage />} />
+      </Route>
+    </Routes>
   );
 }

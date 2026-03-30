@@ -130,8 +130,8 @@
     "subtitle": "Each project below shows how we combine business direction, design, and engineering to build digital presence with more clarity and authority.",
     "stats": [
       {
-        "value": "4 segments",
-        "label": "demos designed for real service, local business, and B2B operation contexts"
+        "value": "6 segments",
+        "label": "demos designed for real service, local business, B2B operation, SaaS, and career platform contexts"
       },
       {
         "value": "End-to-end flow",
@@ -144,10 +144,16 @@
     ],
     "openDemo": "Open Demo",
     "viewDemo": "View Full Demo",
+    "viewDemoSimple": "View demo",
+    "filters": {
+      "label": "Filter by segment",
+      "all": "All"
+    },
     "caseLabels": {
       "challenge": "Core challenge",
       "focus": "Solution focus",
-      "stack": "Applied stack"
+      "stack": "Applied stack",
+      "details": "View case details"
     },
     "projects": {
       "mecanica": {
@@ -181,6 +187,22 @@
         "challenge": "Structure large SKU volumes while preserving operational clarity for high-ticket procurement.",
         "focus": "Robust navigation architecture, technical language, and acquisition + wholesale journeys.",
         "stack": ["Scalable catalog", "Product routes", "B2B cart", "Operational UX"]
+      },
+      "saas": {
+        "title": "NexusBiz SaaS",
+        "category": "SaaS Platform",
+        "description": "Operational SaaS panel with orders, inventory, customers, sales, and reports in one unified interface.",
+        "challenge": "Consolidate team indicators and workflows in a clear, fast, and reliable environment.",
+        "focus": "Module-based navigation, priority data visibility, and smooth day-to-day operator experience.",
+        "stack": ["Analytics dashboard", "Operational modules", "Scalable UI", "Cross-team flow"]
+      },
+      "curate": {
+        "title": "Curate Resume SaaS",
+        "category": "Career Platform",
+        "description": "Resume-focused SaaS with onboarding, dashboard, builder, and preview experience in one product flow.",
+        "challenge": "Present a complete product journey that balances polished UI and practical workflow depth.",
+        "focus": "Premium positioning, guided user flow, and realistic product screens for high-value demos.",
+        "stack": ["SaaS UX", "Multi-page product", "AI onboarding", "Builder + Preview"]
       }
     },
     "execution": {
@@ -212,7 +234,7 @@
   "contact": {
     "backHome": "Back to Home",
     "title": "Let’s talk?",
-    "subtitle": "We’re ready to hear your idea, scope the opportunity, and reply within 48 hours. Fill out the form or reach out through the channels below.",
+    "subtitle": "We’re ready to hear your idea, scope the opportunity, and reply within 48 hours. To move forward, please fill out the form below.",
     "email": "Email",
     "whatsapp": "WhatsApp",
     "location": "Location",
@@ -245,7 +267,9 @@
       "mechanic": "Mechanic",
       "restaurant": "Restaurant",
       "clinic": "Clinic",
-      "marketplace": "Marketplace"
+      "marketplace": "Marketplace",
+      "saas": "SaaS",
+      "curate": "Curate"
     },
     "rights": "All rights reserved.",
     "privacy": "Privacy",

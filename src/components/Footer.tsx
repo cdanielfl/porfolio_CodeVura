@@ -47,6 +47,8 @@ export default function Footer({ lang }: FooterProps) {
               <li><Link to="/demo/restaurante" className="text-slate-300 transition-colors hover:text-white">{t('footer.demoLabels.restaurant')}</Link></li>
               <li><Link to="/demo/clinica" className="text-slate-300 transition-colors hover:text-white">{t('footer.demoLabels.clinic')}</Link></li>
               <li><Link to="/demo/marketplace" className="text-slate-300 transition-colors hover:text-white">{t('footer.demoLabels.marketplace')}</Link></li>
+              <li><Link to="/demo/saas" className="text-slate-300 transition-colors hover:text-white">{t('footer.demoLabels.saas')}</Link></li>
+              <li><Link to="/demo/curate" className="text-slate-300 transition-colors hover:text-white">{t('footer.demoLabels.curate')}</Link></li>
             </ul>
           </div>
         </div>

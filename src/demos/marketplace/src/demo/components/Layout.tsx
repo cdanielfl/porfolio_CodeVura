@@ -23,7 +23,7 @@ export const Navbar = () => {
 
   return (
     <nav className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6",
+      "fixed top-6 left-0 right-0 z-50 transition-all duration-500 px-6",
       isScrolled ? "py-4" : "py-8"
     )}>
       <div className={cn(

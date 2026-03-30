@@ -14,6 +14,7 @@ import { Standards } from './src/demo/pages/Standards';
 import { Login } from './src/demo/pages/Login';
 import { Register } from './src/demo/pages/Register';
 import { routes } from '../../routes';
+import DemoFeatureGuide from '../../components/DemoFeatureGuide';
 import './src/index.css';
 
 const ScrollToTop = () => {
@@ -28,10 +29,6 @@ export default function MarketplaceDemo() {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    if (window.history.length > 1) {
-      navigate(-1);
-      return;
-    }
     const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'pt';
     navigate(routes[lang].portfolio);
   };
@@ -42,7 +39,7 @@ export default function MarketplaceDemo() {
         <span>DEMO: MARKETPLACE INDUSTRIAL</span>
         <button onClick={handleBack} className="inline-flex items-center gap-1 underline hover:no-underline">
           <ArrowLeft className="h-3.5 w-3.5" />
-          Voltar
+          Back
         </button>
       </div>
 
@@ -66,7 +63,31 @@ export default function MarketplaceDemo() {
         </main>
         <Footer />
       </div>
+
+      <DemoFeatureGuide
+        content={{
+          pt: {
+            label: 'Guia da Demo',
+            title: 'Funcionalidades da Demo de Marketplace',
+            items: [
+              'Comece em "Marketplace" para navegar no catálogo B2B.',
+              'Abra um produto para testar detalhes e adição ao carrinho.',
+              'Passe por "Wholesale" e "Standards" para validar contexto enterprise.',
+              'Use "Login/Register" para simular o início da jornada autenticada.',
+            ],
+          },
+          en: {
+            label: 'Demo Guide',
+            title: 'Marketplace Demo Features',
+            items: [
+              'Start in "Marketplace" to navigate the B2B catalog.',
+              'Open a product page to test details and cart actions.',
+              'Visit "Wholesale" and "Standards" for enterprise context.',
+              'Use "Login/Register" to simulate authenticated entry points.',
+            ],
+          },
+        }}
+      />
     </div>
   );
 }
-

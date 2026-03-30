@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Heart, Activity, Users, Calendar, Phone, MapPin, Clock, Menu, X, CheckCircle2, ArrowRight, Star, ShieldCheck } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Heart, Activity, Users, Calendar, Phone, MapPin, Clock, Menu, X, CheckCircle2, ArrowRight, ArrowLeft, Star, ShieldCheck } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { routes } from '../../routes';
 
 export default function ClinicDemo() {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showAppointmentModal, setShowAppointmentModal] = useState(false);
@@ -21,12 +23,24 @@ export default function ClinicDemo() {
     { title: 'Ginecologia', icon: <ShieldCheck className="w-8 h-8" />, desc: 'Saúde da mulher em todas as fases da vida.' },
   ];
 
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+      return;
+    }
+    const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'pt';
+    navigate(routes[lang].portfolio);
+  };
+
   return (
     <div className="min-h-screen bg-white font-sans text-slate-800">
       {/* Demo Header Overlay */}
       <div className="fixed top-0 left-0 w-full bg-cyan-600 text-white py-1 px-4 text-center text-xs font-bold z-[100] flex justify-between items-center">
         <span>DEMO: SITE DE CLÍNICA MÉDICA</span>
-        <Link to="/portfolio" className="underline hover:no-underline">Voltar ao Portfólio</Link>
+        <button onClick={handleBack} className="inline-flex items-center gap-1 underline hover:no-underline">
+          <ArrowLeft className="w-3.5 h-3.5" />
+          Voltar
+        </button>
       </div>
 
       {/* Top Bar */}

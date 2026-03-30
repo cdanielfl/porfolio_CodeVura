@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Wrench, Clock, Shield, Phone, MapPin, Menu, X, ArrowRight, CheckCircle, Star } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Wrench, Clock, Shield, Phone, MapPin, Menu, X, ArrowRight, ArrowLeft, CheckCircle, Star } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { routes } from '../../routes';
 
 export default function MechanicDemo() {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showBudgetModal, setShowBudgetModal] = useState(false);
@@ -21,12 +23,24 @@ export default function MechanicDemo() {
     { title: 'Troca de Óleo', desc: 'Manutenção preventiva essencial para a vida útil do motor.', icon: <Clock className="w-6 h-6" /> },
   ];
 
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+      return;
+    }
+    const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'pt';
+    navigate(routes[lang].portfolio);
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
       {/* Demo Header Overlay */}
       <div className="fixed top-0 left-0 w-full bg-indigo-600 text-white py-1 px-4 text-center text-xs font-bold z-[100] flex justify-between items-center">
         <span>DEMO: SITE DE MECÂNICA</span>
-        <Link to="/portfolio" className="underline hover:no-underline">Voltar ao Portfólio</Link>
+        <button onClick={handleBack} className="inline-flex items-center gap-1 underline hover:no-underline">
+          <ArrowLeft className="w-3.5 h-3.5" />
+          Voltar
+        </button>
       </div>
 
       {/* Navbar */}

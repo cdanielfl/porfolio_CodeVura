@@ -1,31 +1,47 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Portfolio from './pages/Portfolio';
 import Contact from './pages/Contact';
 import MechanicDemo from './demos/mecanica/MechanicDemo';
 import RestaurantDemo from './demos/restaurante/RestaurantDemo';
 import ClinicDemo from './demos/clinica/ClinicDemo';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import MarketplaceDemo from './demos/marketplace/MarketplaceDemo';
+import MainLayout from './components/MainLayout';
 import ScrollToTop from './components/ScrollToTop';
+import i18n from './i18n';
+
+const getDefaultLanguagePath = () => {
+  const lang = i18n.language?.startsWith('en') ? 'en' : 'pt';
+  return `/${lang}`;
+};
 
 export default function App() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="min-h-screen flex flex-col bg-white text-slate-900 font-sans">
-        <Routes>
-          {/* Main Portfolio Routes */}
-          <Route path="/" element={<><Navbar /><Home /><Footer /></>} />
-          <Route path="/portfolio" element={<><Navbar /><Portfolio /><Footer /></>} />
-          <Route path="/contato" element={<><Navbar /><Contact /><Footer /></>} />
+      <Routes>
+        <Route path="/" element={<Navigate to={getDefaultLanguagePath()} replace />} />
 
-          {/* Demo Routes - These usually have their own nav/footer */}
-          <Route path="/demo/mecanica" element={<MechanicDemo />} />
-          <Route path="/demo/restaurante" element={<RestaurantDemo />} />
-          <Route path="/demo/clinica" element={<ClinicDemo />} />
-        </Routes>
-      </div>
+        <Route path="/pt" element={<MainLayout lang="pt" />}>
+          <Route index element={<Home />} />
+          <Route path="portfolio" element={<Portfolio />} />
+          <Route path="contato" element={<Contact />} />
+        </Route>
+
+        <Route path="/en" element={<MainLayout lang="en" />}>
+          <Route index element={<Home />} />
+          <Route path="portfolio" element={<Portfolio />} />
+          <Route path="contact" element={<Contact />} />
+        </Route>
+
+        {/* Demo Routes - These usually have their own nav/footer */}
+        <Route path="/demo/mecanica" element={<MechanicDemo />} />
+        <Route path="/demo/restaurante" element={<RestaurantDemo />} />
+        <Route path="/demo/clinica" element={<ClinicDemo />} />
+        <Route path="/demo/marketplace/*" element={<MarketplaceDemo />} />
+
+        <Route path="*" element={<Navigate to={getDefaultLanguagePath()} replace />} />
+      </Routes>
     </Router>
   );
 }

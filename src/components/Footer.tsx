@@ -1,55 +1,61 @@
 import { Link } from 'react-router-dom';
-import { Code2, Github, Linkedin, Twitter, Mail } from 'lucide-react';
+import { ArrowUpRight, Github, Linkedin, Mail, Twitter } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { routes } from '../routes';
+import type { SiteLanguage } from '../routes';
+import logo from '../assets/codevura-navbar-transparent.png';
 
-export default function Footer() {
+type FooterProps = {
+  lang: SiteLanguage;
+};
+
+export default function Footer({ lang }: FooterProps) {
+  const { t } = useTranslation();
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-slate-900 text-slate-300 pt-16 pb-8">
+    <footer className="mt-24 border-t border-white/10 bg-slate-950/70 pb-8 pt-16 text-slate-200 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-          <div className="col-span-1 md:col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-6">
-              <div className="bg-indigo-600 p-2 rounded-lg">
-                <Code2 className="text-white w-6 h-6" />
-              </div>
-              <span className="font-bold text-xl tracking-tight text-white">DevPortfolio</span>
+        <div className="mb-12 grid grid-cols-1 gap-10 md:grid-cols-4">
+          <div className="md:col-span-2">
+            <Link to={routes[lang].home} className="mb-5 flex items-center gap-2.5">
+              <img src={logo} alt="Codevura" className="h-auto w-10 object-contain" />
+              <span className="text-xl font-semibold tracking-tight text-white">Codevura</span>
             </Link>
-            <p className="text-slate-400 max-w-md mb-6">
-              Transformando ideias em experiências digitais de alto impacto. Especialista em desenvolvimento fullstack moderno e focado em resultados.
-            </p>
+            <p className="mb-6 max-w-lg leading-relaxed text-slate-400">{t('footer.description')}</p>
             <div className="flex gap-4">
-              <a href="#" className="hover:text-indigo-400 transition-colors" aria-label="Github"><Github className="w-5 h-5" /></a>
-              <a href="#" className="hover:text-indigo-400 transition-colors" aria-label="Linkedin"><Linkedin className="w-5 h-5" /></a>
-              <a href="#" className="hover:text-indigo-400 transition-colors" aria-label="Twitter"><Twitter className="w-5 h-5" /></a>
-              <a href="mailto:contato@exemplo.com" className="hover:text-indigo-400 transition-colors" aria-label="Email"><Mail className="w-5 h-5" /></a>
+              <a href="#" className="rounded-lg border border-white/10 p-2.5 transition-colors hover:border-violet-300/40 hover:text-violet-300" aria-label="Github"><Github className="w-4 h-4" /></a>
+              <a href="#" className="rounded-lg border border-white/10 p-2.5 transition-colors hover:border-violet-300/40 hover:text-violet-300" aria-label="Linkedin"><Linkedin className="w-4 h-4" /></a>
+              <a href="#" className="rounded-lg border border-white/10 p-2.5 transition-colors hover:border-violet-300/40 hover:text-violet-300" aria-label="Twitter"><Twitter className="w-4 h-4" /></a>
+              <a href="mailto:contato@exemplo.com" className="rounded-lg border border-white/10 p-2.5 transition-colors hover:border-violet-300/40 hover:text-violet-300" aria-label="Email"><Mail className="w-4 h-4" /></a>
             </div>
           </div>
 
           <div>
-            <h3 className="text-white font-semibold mb-6">Navegação</h3>
-            <ul className="space-y-4">
-              <li><Link to="/" className="hover:text-indigo-400 transition-colors">Home</Link></li>
-              <li><Link to="/portfolio" className="hover:text-indigo-400 transition-colors">Portfólio</Link></li>
-              <li><Link to="/contato" className="hover:text-indigo-400 transition-colors">Contato</Link></li>
+            <h3 className="mb-5 text-sm font-semibold uppercase tracking-[0.14em] text-slate-300">{t('footer.navigation')}</h3>
+            <ul className="space-y-3 text-sm">
+              <li><Link to={routes[lang].home} className="inline-flex items-center gap-1 text-slate-300 transition-colors hover:text-white">{t('nav.home')}<ArrowUpRight className="h-3.5 w-3.5" /></Link></li>
+              <li><Link to={routes[lang].portfolio} className="inline-flex items-center gap-1 text-slate-300 transition-colors hover:text-white">{t('nav.portfolio')}<ArrowUpRight className="h-3.5 w-3.5" /></Link></li>
+              <li><Link to={routes[lang].contact} className="inline-flex items-center gap-1 text-slate-300 transition-colors hover:text-white">{t('nav.contact')}<ArrowUpRight className="h-3.5 w-3.5" /></Link></li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-white font-semibold mb-6">Demos</h3>
-            <ul className="space-y-4">
-              <li><Link to="/demo/mecanica" className="hover:text-indigo-400 transition-colors">Mecânica</Link></li>
-              <li><Link to="/demo/restaurante" className="hover:text-indigo-400 transition-colors">Restaurante</Link></li>
-              <li><Link to="/demo/clinica" className="hover:text-indigo-400 transition-colors">Clínica</Link></li>
+            <h3 className="mb-5 text-sm font-semibold uppercase tracking-[0.14em] text-slate-300">{t('footer.demos')}</h3>
+            <ul className="space-y-3 text-sm">
+              <li><Link to="/demo/mecanica" className="text-slate-300 transition-colors hover:text-white">{t('footer.demoLabels.mechanic')}</Link></li>
+              <li><Link to="/demo/restaurante" className="text-slate-300 transition-colors hover:text-white">{t('footer.demoLabels.restaurant')}</Link></li>
+              <li><Link to="/demo/clinica" className="text-slate-300 transition-colors hover:text-white">{t('footer.demoLabels.clinic')}</Link></li>
+              <li><Link to="/demo/marketplace" className="text-slate-300 transition-colors hover:text-white">{t('footer.demoLabels.marketplace')}</Link></li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
-          <p>© {currentYear} DevPortfolio. Todos os direitos reservados.</p>
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-sm text-slate-500 md:flex-row">
+          <p>© {currentYear} Codevura. {t('footer.rights')}</p>
           <div className="flex gap-8">
-            <a href="#" className="hover:text-slate-300">Privacidade</a>
-            <a href="#" className="hover:text-slate-300">Termos</a>
+            <a href="#" className="hover:text-slate-300 transition-colors">{t('footer.privacy')}</a>
+            <a href="#" className="hover:text-slate-300 transition-colors">{t('footer.terms')}</a>
           </div>
         </div>
       </div>

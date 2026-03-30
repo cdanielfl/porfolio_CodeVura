@@ -1,0 +1,254 @@
+{
+  "nav": {
+    "ariaLabel": "Navegação principal",
+    "home": "Home",
+    "portfolio": "Portfólio",
+    "contact": "Contato",
+    "cta": "Solicitar Diagnóstico",
+    "languageLabel": "Idioma",
+    "languagePt": "Português",
+    "languageEn": "English"
+  },
+  "home": {
+    "hero": {
+      "badge": "Estúdio digital focado em crescimento",
+      "titlePrefix": "Sites e sistemas que elevam",
+      "titleHighlight": "percepção de marca",
+      "titleSuffix": "e melhoram resultados comerciais.",
+      "subtitle": "Planejamento, design e desenvolvimento em um fluxo enxuto para empresas que precisam crescer com consistência digital.",
+      "primaryCta": "Quero um diagnóstico estratégico",
+      "secondaryCta": "Ver como trabalhamos",
+      "microProof": "Escopo claro em até 5 dias úteis • Entregas semanais • Base técnica escalável",
+      "kpis": [
+        {
+          "value": "Kickoff rápido",
+          "label": "início de projeto com briefing e plano de execução"
+        },
+        {
+          "value": "Sprints semanais",
+          "label": "entregas curtas para validar e evoluir sem retrabalho"
+        },
+        {
+          "value": "Stack moderna",
+          "label": "base técnica pronta para crescimento da operação"
+        }
+      ],
+      "mockup": {
+        "pipeline": "Pipeline comercial em tempo real",
+        "signal": "Operação ativa",
+        "panelTitle": "Leads gerados (30 dias)",
+        "panelValue": "1.274",
+        "roiTitle": "ROI estimado",
+        "roiValue": "4.7x",
+        "roiDescription": "Baseado em tráfego pago + orgânico + taxa de fechamento atual.",
+        "stackTitle": "Stack de execução",
+        "stackItems": ["UI Premium", "Copy de Conversão", "Automação CRM", "SEO Técnico"]
+      }
+    },
+    "results": {
+      "items": [
+        {
+          "value": "Escopo claro",
+          "label": "definição objetiva de metas, páginas e funcionalidades"
+        },
+        {
+          "value": "Execução próxima",
+          "label": "acompanhamento contínuo com checkpoints semanais"
+        },
+        {
+          "value": "Evolução contínua",
+          "label": "otimizações após lançamento para melhorar conversão"
+        }
+      ]
+    },
+    "services": {
+      "eyebrow": "Soluções de alto impacto",
+      "title": "Serviços desenhados para crescimento previsível",
+      "subtitle": "Cada entrega combina posicionamento, tecnologia e conversão para transformar presença digital em ativo comercial.",
+      "items": [
+        {
+          "title": "Sites de aquisição premium",
+          "description": "Landing pages e websites institucionais com narrativa estratégica, prova social e arquitetura orientada a geração de demanda.",
+          "outcome": "Objetivo: mais reuniões comerciais com tráfego atual"
+        },
+        {
+          "title": "Sistemas web sob medida",
+          "description": "Plataformas internas e externas que reduzem gargalos operacionais, conectam áreas e aumentam produtividade do time.",
+          "outcome": "Objetivo: operação mais enxuta e escalável"
+        },
+        {
+          "title": "Experiências SaaS e apps",
+          "description": "Interfaces de produto com foco em retenção, onboarding e clareza de valor para produtos digitais e startups em tração.",
+          "outcome": "Objetivo: ativação rápida e retenção maior"
+        },
+        {
+          "title": "Performance, SEO e CRO",
+          "description": "Aprimoramento técnico contínuo para velocidade, visibilidade orgânica e otimização de funis com testes orientados a dados.",
+          "outcome": "Objetivo: crescimento sustentável com menor dependência de mídia"
+        }
+      ]
+    },
+    "process": {
+      "eyebrow": "Método de execução",
+      "title": "Estratégia, design e engenharia na mesma direção",
+      "subtitle": "Sem achismo e sem retrabalho: conduzimos o projeto com metas claras de negócio e checkpoints semanais.",
+      "steps": [
+        {
+          "title": "Diagnóstico e oportunidade",
+          "description": "Mapeamos gargalos de conversão, posicionamento e experiência para definir as alavancas de maior impacto.",
+          "metric": "Semana 1"
+        },
+        {
+          "title": "Arquitetura de conversão",
+          "description": "Estruturamos copy, fluxos, ofertas e hierarquia visual para apoiar decisão de compra e reduzir objeções.",
+          "metric": "Semana 2"
+        },
+        {
+          "title": "Build e validação",
+          "description": "Desenvolvimento com performance e governança técnica, com validação de usabilidade e refinamento contínuo.",
+          "metric": "Semanas 3-4"
+        },
+        {
+          "title": "Lançamento e otimização",
+          "description": "Entramos em produção com monitoramento de métricas e ciclos de melhoria para escalar resultados.",
+          "metric": "Contínuo"
+        }
+      ]
+    },
+    "finalCta": {
+      "badge": "Projetos selecionados por fit",
+      "title": "Se a sua meta é crescer com posicionamento premium e presença digital forte, vamos estruturar isso juntos.",
+      "subtitle": "Agende um diagnóstico estratégico e receba um plano inicial com prioridades, riscos e oportunidades de crescimento.",
+      "button": "Agendar conversa estratégica",
+      "secondary": "Ver portfólio completo",
+      "commitment": "Retorno em até 1 dia útil com próximos passos claros."
+    }
+  },
+  "portfolio": {
+    "eyebrow": "Cases e demos estratégicas",
+    "title": "Portfólio orientado a percepção de valor e execução sólida.",
+    "subtitle": "Cada projeto abaixo demonstra como combinamos direção de negócio, design e engenharia para construir presença digital com mais clareza e autoridade.",
+    "stats": [
+      {
+        "value": "4 segmentos",
+        "label": "demos para contextos reais de serviços, negócios locais e operação B2B"
+      },
+      {
+        "value": "Fluxo completo",
+        "label": "posicionamento, UX, conteúdo e implementação técnica"
+      },
+      {
+        "value": "Base escalável",
+        "label": "estrutura pronta para evoluir com seu roadmap"
+      }
+    ],
+    "openDemo": "Abrir Demo",
+    "viewDemo": "Ver Demo Completa",
+    "caseLabels": {
+      "challenge": "Desafio principal",
+      "focus": "Foco da solução",
+      "stack": "Stack aplicada"
+    },
+    "projects": {
+      "mecanica": {
+        "title": "AutoExpert Mecânica",
+        "category": "Site Institucional",
+        "description": "Plataforma para oficina premium com foco em autoridade local, confiança e captação de contatos qualificados.",
+        "challenge": "Diferenciar a oficina de concorrentes por preço e gerar mais pedidos de orçamento com clareza.",
+        "focus": "Estrutura comercial direta, serviços bem organizados e jornada com baixa fricção para contato.",
+        "stack": ["Landing estratégica", "Copy comercial", "Formulário rápido", "SEO local"]
+      },
+      "restaurante": {
+        "title": "Bistro Gourmet",
+        "category": "Gastronomia",
+        "description": "Experiência digital para restaurante com estética premium e foco em reserva, cardápio e percepção de marca.",
+        "challenge": "Transformar visitas em reservas e reforçar posicionamento sem depender só de redes sociais.",
+        "focus": "Design editorial, organização de cardápio e CTA de reserva em pontos críticos da navegação.",
+        "stack": ["UI premium", "Navegação mobile", "Cardápio digital", "CTA de reserva"]
+      },
+      "clinica": {
+        "title": "Vitality Clínica",
+        "category": "Saúde & Bem-estar",
+        "description": "Site para clínica com foco em credibilidade, especialidades e agendamento com linguagem clara para pacientes.",
+        "challenge": "Passar segurança no primeiro contato e facilitar agendamento sem sobrecarregar atendimento interno.",
+        "focus": "Hierarquia de informação médica, reforço de confiança e fluxos objetivos de contato.",
+        "stack": ["Arquitetura de conteúdo", "UX de agendamento", "Design confiável", "Performance"]
+      },
+      "marketplace": {
+        "title": "Vantage Marketplace",
+        "category": "E-commerce B2B",
+        "description": "Marketplace industrial completo com catálogo, detalhe de produto, carrinho e fluxo de acesso para compradores.",
+        "challenge": "Organizar grande volume de SKU e manter clareza operacional para compras de alto ticket.",
+        "focus": "Arquitetura robusta de navegação, linguagem técnica e jornadas para aquisição e atacado.",
+        "stack": ["Catálogo escalável", "Rotas de produto", "Carrinho B2B", "UX de operação"]
+      }
+    },
+    "execution": {
+      "eyebrow": "Como executamos",
+      "title": "Projetos com visão de negócio desde o primeiro sprint.",
+      "subtitle": "Não entregamos só tela bonita: construímos ativos digitais com direção estratégica, clareza de prioridade e base técnica sustentável.",
+      "items": [
+        {
+          "title": "Direção estratégica",
+          "description": "Definição de escopo e posicionamento antes de abrir qualquer tela."
+        },
+        {
+          "title": "Decisão orientada a objetivo",
+          "description": "Cada bloco da interface responde a uma meta real do negócio."
+        },
+        {
+          "title": "Entrega pronta para evoluir",
+          "description": "Código organizado para crescimento sem retrabalho desnecessário."
+        }
+      ]
+    },
+    "customCta": {
+      "title": "Precisa de um projeto sob medida para o seu contexto?",
+      "subtitle": "Montamos um plano inicial com prioridades, escopo e próximos passos para você decidir com segurança antes de investir.",
+      "button": "Solicitar diagnóstico do projeto",
+      "commitment": "Retorno em até 1 dia útil com direcionamento inicial."
+    }
+  },
+  "contact": {
+    "backHome": "Voltar para Home",
+    "title": "Vamos conversar?",
+    "subtitle": "Estamos prontos para ouvir sua ideia, montar um escopo e responder em até 48 horas. Preencha o formulário ou entre em contato pelos canais abaixo.",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "location": "Localização",
+    "form": {
+      "nameLabel": "Nome Completo",
+      "namePlaceholder": "Seu nome",
+      "emailLabel": "E-mail Profissional",
+      "emailPlaceholder": "seu@email.com",
+      "subjectLabel": "Assunto",
+      "subjectOptions": {
+        "newProject": "Novo Projeto",
+        "support": "Manutenção / Suporte",
+        "consulting": "Consultoria",
+        "other": "Outros"
+      },
+      "messageLabel": "Mensagem",
+      "messagePlaceholder": "Conte um pouco sobre o seu projeto...",
+      "submit": "Enviar Mensagem",
+      "sending": "Enviando",
+      "successTitle": "Mensagem Enviada!",
+      "successSubtitle": "Obrigado pelo contato. Recebemos sua mensagem e retornaremos em até dois dias úteis.",
+      "sendAnother": "Enviar outra mensagem"
+    }
+  },
+  "footer": {
+    "description": "Design estratégico, engenharia sólida e foco total em geração de receita para marcas que querem crescer com posicionamento premium.",
+    "navigation": "Navegação",
+    "demos": "Demos",
+    "demoLabels": {
+      "mechanic": "Mecânica",
+      "restaurant": "Restaurante",
+      "clinic": "Clínica",
+      "marketplace": "Marketplace"
+    },
+    "rights": "Todos os direitos reservados.",
+    "privacy": "Privacidade",
+    "terms": "Termos"
+  }
+}

@@ -1,0 +1,254 @@
+{
+  "nav": {
+    "ariaLabel": "Primary navigation",
+    "home": "Home",
+    "portfolio": "Portfolio",
+    "contact": "Contact",
+    "cta": "Request Strategy Call",
+    "languageLabel": "Language",
+    "languagePt": "Português",
+    "languageEn": "English"
+  },
+  "home": {
+    "hero": {
+      "badge": "Digital studio built for growth",
+      "titlePrefix": "Websites and systems that elevate",
+      "titleHighlight": "brand perception",
+      "titleSuffix": "and improve business outcomes.",
+      "subtitle": "Strategy, design, and development in a lean execution flow for companies that need consistent digital growth.",
+      "primaryCta": "Book a strategy diagnosis",
+      "secondaryCta": "See how we work",
+      "microProof": "Clear scope in up to 5 business days • Weekly deliveries • Scalable technical foundation",
+      "kpis": [
+        {
+          "value": "Fast kickoff",
+          "label": "project start with clear briefing and execution plan"
+        },
+        {
+          "value": "Weekly sprints",
+          "label": "short cycles to validate and evolve without rework"
+        },
+        {
+          "value": "Modern stack",
+          "label": "technical foundation ready to support growth"
+        }
+      ],
+      "mockup": {
+        "pipeline": "Real-time commercial pipeline",
+        "signal": "Operation live",
+        "panelTitle": "Leads generated (30 days)",
+        "panelValue": "1,274",
+        "roiTitle": "Estimated ROI",
+        "roiValue": "4.7x",
+        "roiDescription": "Based on paid + organic traffic and your current close rate.",
+        "stackTitle": "Execution stack",
+        "stackItems": ["Premium UI", "Conversion Copy", "CRM Automation", "Technical SEO"]
+      }
+    },
+    "results": {
+      "items": [
+        {
+          "value": "Clear scope",
+          "label": "objective definition of goals, pages, and features"
+        },
+        {
+          "value": "Close execution",
+          "label": "continuous follow-up with weekly checkpoints"
+        },
+        {
+          "value": "Continuous improvement",
+          "label": "post-launch optimization to improve conversion over time"
+        }
+      ]
+    },
+    "services": {
+      "eyebrow": "High-impact solutions",
+      "title": "Services engineered for predictable growth",
+      "subtitle": "Every delivery combines positioning, technology, and conversion strategy to turn digital presence into a sales asset.",
+      "items": [
+        {
+          "title": "Premium acquisition websites",
+          "description": "Landing pages and institutional websites with strategic narrative, social proof, and demand generation architecture.",
+          "outcome": "Goal: more sales meetings from existing traffic"
+        },
+        {
+          "title": "Custom web systems",
+          "description": "Internal and client-facing platforms that remove bottlenecks, connect teams, and increase operational productivity.",
+          "outcome": "Goal: leaner and scalable operations"
+        },
+        {
+          "title": "SaaS and app experiences",
+          "description": "Product interfaces focused on retention, onboarding, and value clarity for digital products and growing startups.",
+          "outcome": "Goal: faster activation and stronger retention"
+        },
+        {
+          "title": "Performance, SEO and CRO",
+          "description": "Continuous technical improvement for speed, organic discoverability, and funnel optimization with data-backed tests.",
+          "outcome": "Goal: sustainable growth with less media dependency"
+        }
+      ]
+    },
+    "process": {
+      "eyebrow": "Execution method",
+      "title": "Strategy, design, and engineering aligned to business goals",
+      "subtitle": "No guesswork and no wasted cycles: we run each project with clear growth targets and weekly checkpoints.",
+      "steps": [
+        {
+          "title": "Diagnosis and opportunity mapping",
+          "description": "We identify conversion, positioning, and UX bottlenecks to prioritize the highest-impact levers.",
+          "metric": "Week 1"
+        },
+        {
+          "title": "Conversion architecture",
+          "description": "We structure copy, flows, offers, and visual hierarchy to support purchase decisions and reduce friction.",
+          "metric": "Week 2"
+        },
+        {
+          "title": "Build and validation",
+          "description": "Development with performance and technical governance, plus usability checks and iterative refinement.",
+          "metric": "Weeks 3-4"
+        },
+        {
+          "title": "Launch and optimization",
+          "description": "We launch with metric tracking and continuous optimization cycles to keep growth compounding.",
+          "metric": "Ongoing"
+        }
+      ]
+    },
+    "finalCta": {
+      "badge": "Fit-based project selection",
+      "title": "If your goal is to grow with premium positioning and a stronger digital presence, let's structure it properly.",
+      "subtitle": "Book a strategic diagnosis and get an initial action plan with priorities, risks, and growth opportunities.",
+      "button": "Schedule strategy call",
+      "secondary": "See full portfolio",
+      "commitment": "Reply within 1 business day with clear next steps."
+    }
+  },
+  "portfolio": {
+    "eyebrow": "Strategic demos and cases",
+    "title": "Portfolio built for stronger positioning and solid execution.",
+    "subtitle": "Each project below shows how we combine business direction, design, and engineering to build digital presence with more clarity and authority.",
+    "stats": [
+      {
+        "value": "4 segments",
+        "label": "demos designed for real service, local business, and B2B operation contexts"
+      },
+      {
+        "value": "End-to-end flow",
+        "label": "positioning, UX, content, and technical implementation"
+      },
+      {
+        "value": "Scalable base",
+        "label": "structure ready to evolve with your roadmap"
+      }
+    ],
+    "openDemo": "Open Demo",
+    "viewDemo": "View Full Demo",
+    "caseLabels": {
+      "challenge": "Core challenge",
+      "focus": "Solution focus",
+      "stack": "Applied stack"
+    },
+    "projects": {
+      "mecanica": {
+        "title": "AutoExpert Garage",
+        "category": "Institutional Website",
+        "description": "Platform for a premium repair shop focused on local authority, trust, and qualified contact generation.",
+        "challenge": "Stand out beyond price competition and generate more clear quote requests.",
+        "focus": "Direct commercial structure, organized services, and low-friction contact journey.",
+        "stack": ["Strategic landing", "Commercial copy", "Fast lead form", "Local SEO"]
+      },
+      "restaurante": {
+        "title": "Bistro Gourmet",
+        "category": "Gastronomy",
+        "description": "Digital experience for a restaurant with premium aesthetics and strong focus on bookings and brand perception.",
+        "challenge": "Turn visits into reservations and strengthen positioning beyond social media channels.",
+        "focus": "Editorial visual language, better menu structure, and booking CTAs in critical navigation points.",
+        "stack": ["Premium UI", "Mobile navigation", "Digital menu", "Booking CTA"]
+      },
+      "clinica": {
+        "title": "Vitality Clinic",
+        "category": "Health & Wellness",
+        "description": "Clinic website focused on credibility, specialties, and clear appointment flow for patients.",
+        "challenge": "Build trust on first contact while making scheduling easier without overloading the team.",
+        "focus": "Medical information hierarchy, trust signals, and objective contact flows.",
+        "stack": ["Content architecture", "Scheduling UX", "Trust-driven UI", "Performance"]
+      },
+      "marketplace": {
+        "title": "Vantage Marketplace",
+        "category": "B2B E-commerce",
+        "description": "Complete industrial marketplace with catalog, product details, cart, and access flow for procurement teams.",
+        "challenge": "Structure large SKU volumes while preserving operational clarity for high-ticket procurement.",
+        "focus": "Robust navigation architecture, technical language, and acquisition + wholesale journeys.",
+        "stack": ["Scalable catalog", "Product routes", "B2B cart", "Operational UX"]
+      }
+    },
+    "execution": {
+      "eyebrow": "How we execute",
+      "title": "Projects guided by business goals from the first sprint.",
+      "subtitle": "We do not deliver only beautiful interfaces: we build digital assets with strategic direction, clear priorities, and sustainable technical foundations.",
+      "items": [
+        {
+          "title": "Strategic direction",
+          "description": "Scope and positioning are defined before opening any screen."
+        },
+        {
+          "title": "Goal-driven decisions",
+          "description": "Each interface block supports a real business objective."
+        },
+        {
+          "title": "Ready-to-scale delivery",
+          "description": "Clean implementation prepared to grow without unnecessary rework."
+        }
+      ]
+    },
+    "customCta": {
+      "title": "Need a custom project for your specific context?",
+      "subtitle": "We prepare an initial plan with priorities, scope, and next steps so you can make confident decisions before investing.",
+      "button": "Request project diagnosis",
+      "commitment": "Reply within 1 business day with initial direction."
+    }
+  },
+  "contact": {
+    "backHome": "Back to Home",
+    "title": "Let’s talk?",
+    "subtitle": "We’re ready to hear your idea, scope the opportunity, and reply within 48 hours. Fill out the form or reach out through the channels below.",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "location": "Location",
+    "form": {
+      "nameLabel": "Full Name",
+      "namePlaceholder": "Your name",
+      "emailLabel": "Professional Email",
+      "emailPlaceholder": "you@email.com",
+      "subjectLabel": "Subject",
+      "subjectOptions": {
+        "newProject": "New Project",
+        "support": "Maintenance / Support",
+        "consulting": "Consulting",
+        "other": "Other"
+      },
+      "messageLabel": "Message",
+      "messagePlaceholder": "Tell me a bit about your project...",
+      "submit": "Send Message",
+      "sending": "Sending",
+      "successTitle": "Message Sent!",
+      "successSubtitle": "Thanks for reaching out. We received your message and will respond within two business days.",
+      "sendAnother": "Send another message"
+    }
+  },
+  "footer": {
+    "description": "Strategic design, strong engineering, and revenue-first execution for brands that want premium growth.",
+    "navigation": "Navigation",
+    "demos": "Demos",
+    "demoLabels": {
+      "mechanic": "Mechanic",
+      "restaurant": "Restaurant",
+      "clinic": "Clinic",
+      "marketplace": "Marketplace"
+    },
+    "rights": "All rights reserved.",
+    "privacy": "Privacy",
+    "terms": "Terms"
+  }
+}

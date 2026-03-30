@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Utensils, Clock, MapPin, Phone, Instagram, Facebook, Menu as MenuIcon, X, ChevronRight, Star, Heart } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Utensils, Clock, MapPin, Phone, Instagram, Facebook, Menu as MenuIcon, X, ChevronRight, ArrowLeft, Star, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { routes } from '../../routes';
 
 export default function RestaurantDemo() {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeCategory, setActiveCategory] = useState('entradas');
@@ -30,12 +32,24 @@ export default function RestaurantDemo() {
     ],
   };
 
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+      return;
+    }
+    const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'pt';
+    navigate(routes[lang].portfolio);
+  };
+
   return (
     <div className="min-h-screen bg-[#faf7f2] font-serif text-[#2d2a26]">
       {/* Demo Header Overlay */}
       <div className="fixed top-0 left-0 w-full bg-amber-800 text-white py-1 px-4 text-center text-xs font-bold z-[100] flex justify-between items-center">
         <span>DEMO: SITE DE RESTAURANTE</span>
-        <Link to="/portfolio" className="underline hover:no-underline">Voltar ao Portfólio</Link>
+        <button onClick={handleBack} className="inline-flex items-center gap-1 underline hover:no-underline">
+          <ArrowLeft className="w-3.5 h-3.5" />
+          Voltar
+        </button>
       </div>
 
       {/* Navbar */}

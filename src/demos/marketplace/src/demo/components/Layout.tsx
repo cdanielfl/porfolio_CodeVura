@@ -1,18 +1,23 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, Search, User, ChevronDown } from 'lucide-react';
+import { ShoppingCart, Menu, User, X } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { mp } from '../lib/paths';
 
 export const Navbar = () => {
   const location = useLocation();
   const [isScrolled, setIsScrolled] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   React.useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  React.useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
 
   const navLinks = [
     { name: 'Catalog', path: mp('marketplace') },
@@ -23,17 +28,17 @@ export const Navbar = () => {
 
   return (
     <nav className={cn(
-      "fixed top-6 left-0 right-0 z-50 transition-all duration-500 px-6",
+      "fixed top-6 left-0 right-0 z-50 transition-all duration-500 px-4 md:px-6",
       isScrolled ? "py-4" : "py-8"
     )}>
       <div className={cn(
-        "max-w-7xl mx-auto flex items-center justify-between px-10 py-5 transition-all duration-500",
+        "max-w-7xl mx-auto flex items-center justify-between px-4 py-4 md:px-10 md:py-5 transition-all duration-500",
         isScrolled ? "glass-nav rounded-full shadow-lg" : "bg-transparent"
       )}>
         <Link to={mp()} className="flex items-center gap-4">
           <div className="w-10 h-10 bg-oxblood flex items-center justify-center text-white font-serif text-2xl font-bold">V</div>
           <div className="flex flex-col leading-none">
-            <span className="text-xl font-serif font-bold tracking-tight text-charcoal uppercase">VANTAGE_PROTEIN_NODE</span>
+            <span className="text-sm font-serif font-bold tracking-tight text-charcoal uppercase md:text-xl">VANTAGE_PROTEIN_NODE</span>
             <span className="text-[9px] tracking-[0.3em] font-sans font-semibold uppercase text-oxblood/60">Industrial Excellence</span>
           </div>
         </Link>
@@ -66,11 +71,47 @@ export const Navbar = () => {
             <ShoppingCart size={20} strokeWidth={1.5} />
             <span className="absolute -top-1 -right-1 w-4 h-4 bg-oxblood text-white text-[9px] flex items-center justify-center font-sans font-bold rounded-full">2</span>
           </Link>
-          <button className="p-2 text-charcoal/60 hover:text-oxblood transition-colors md:hidden">
+          <button
+            className="p-2 text-charcoal/60 hover:text-oxblood transition-colors md:hidden"
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+            aria-label="Toggle navigation menu"
+          >
             <Menu size={24} strokeWidth={1.5} />
           </button>
         </div>
       </div>
+
+      {isMenuOpen && (
+        <div className="mx-auto mt-3 max-w-7xl rounded-2xl border border-border bg-white p-4 shadow-xl md:hidden">
+          <div className="mb-3 flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-[0.18em] text-charcoal/50">Navigation</span>
+            <button
+              onClick={() => setIsMenuOpen(false)}
+              className="rounded-lg p-1.5 text-charcoal/60 hover:bg-charcoal/5"
+              aria-label="Close navigation menu"
+            >
+              <X size={18} />
+            </button>
+          </div>
+          <div className="space-y-2">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={cn(
+                  "block rounded-lg px-3 py-2 text-sm font-semibold",
+                  location.pathname === link.path ? "bg-oxblood/10 text-oxblood" : "text-charcoal/70"
+                )}
+              >
+                {link.name}
+              </Link>
+            ))}
+            <Link to={mp('login')} className="mt-2 block rounded-lg px-3 py-2 text-sm font-semibold text-charcoal/70">
+              Login
+            </Link>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

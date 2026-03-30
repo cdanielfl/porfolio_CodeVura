@@ -32,7 +32,7 @@ const footerItems = [
 
 export const Sidebar = () => {
   return (
-    <aside className="w-64 border-r border-slate-200 bg-white flex flex-col h-[calc(100vh-1.5rem)] sticky top-6">
+    <aside className="hidden h-[calc(100vh-1.5rem)] w-64 flex-col border-r border-slate-200 bg-white lg:sticky lg:top-6 lg:flex">
       <div className="p-6 flex items-center gap-3">
         <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-indigo-200">
           <Briefcase size={18} fill="currentColor" />

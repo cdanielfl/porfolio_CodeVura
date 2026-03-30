@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Sparkles, Send, ArrowRight, Bot, User, Loader2 } from 'lucide-react';
-import { GoogleGenAI } from "@google/genai";
 import { Button } from '../components/ui/Button';
 import { Card, CardContent } from '../components/ui/Card';
 import { cn } from '../lib/utils';
@@ -13,6 +12,14 @@ interface Message {
   content: string;
 }
 
+const assistantFollowUps = [
+  "Great start. Now write a short professional summary with your core strengths and career objective.",
+  "Perfect. Tell me about your most recent experience: company, role, and key responsibilities.",
+  "Nice. Now share your education background and any certifications worth highlighting.",
+  "Great progress. List your top 5 technical or professional skills.",
+  "Awesome. We already have enough information for a strong first draft. Click 'Generate Resume' to continue.",
+];
+
 export function AIOnboarding() {
   const navigate = useNavigate();
   const [messages, setMessages] = React.useState<Message[]>([
@@ -22,8 +29,6 @@ export function AIOnboarding() {
   const [isTyping, setIsTyping] = React.useState(false);
   const [step, setStep] = React.useState(0);
   const scrollRef = React.useRef<HTMLDivElement>(null);
-
-  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
   React.useEffect(() => {
     if (scrollRef.current) {
@@ -39,36 +44,14 @@ export function AIOnboarding() {
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
     setIsTyping(true);
 
-    try {
-      const prompt = `
-        You are a professional resume builder assistant. 
-        Context: We are in a step-by-step interview to build a resume.
-        Current Step: ${step}
-        User said: "${userMessage}"
-        Previous conversation: ${JSON.stringify(messages)}
+    const nextStep = Math.min(step + 1, assistantFollowUps.length);
+    const response = assistantFollowUps[Math.min(step, assistantFollowUps.length - 1)];
 
-        Instructions:
-        - If step is 0 (Name/Title), ask about their professional summary or key goals.
-        - If step is 1 (Summary), ask about their most recent work experience (Company, Role, Dates).
-        - If step is 2 (Experience), ask about their education.
-        - If step is 3 (Education), ask about their top 5 technical skills.
-        - If step is 4 (Skills), tell them you have enough info to generate the first draft and ask them to click the "Generate Resume" button.
-        - Keep responses concise and encouraging.
-      `;
-
-      const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: prompt,
-      });
-
-      setMessages(prev => [...prev, { role: 'assistant', content: response.text || "That's great! Let's move to the next part." }]);
-      setStep(prev => prev + 1);
-    } catch (error) {
-      console.error("AI Error:", error);
-      setMessages(prev => [...prev, { role: 'assistant', content: "I'm having a little trouble connecting, but tell me more about your experience!" }]);
-    } finally {
+    setTimeout(() => {
+      setMessages(prev => [...prev, { role: 'assistant', content: response }]);
+      setStep(nextStep);
       setIsTyping(false);
-    }
+    }, 650);
   };
 
   const handleGenerate = () => {

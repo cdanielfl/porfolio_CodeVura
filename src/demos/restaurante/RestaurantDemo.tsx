@@ -239,10 +239,10 @@ function RestaurantLayout() {
           <div>
             <p className="mb-4 text-sm font-bold uppercase tracking-widest text-amber-400">Follow Us</p>
             <div className="mb-6 flex gap-5">
-              <a href="https://instagram.com" target="_blank" rel="noreferrer" className="hover:text-amber-400">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400">
                 <Instagram className="h-6 w-6" />
               </a>
-              <a href="https://facebook.com" target="_blank" rel="noreferrer" className="hover:text-amber-400">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400">
                 <Facebook className="h-6 w-6" />
               </a>
             </div>

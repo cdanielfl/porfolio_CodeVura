@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { routes } from '../../routes';
+import i18n from '../../i18n';
 import DemoFeatureGuide from '../../components/DemoFeatureGuide';
 
 type MenuItem = {
@@ -104,12 +105,12 @@ function RestaurantLayout() {
   }, [location.pathname]);
 
   const handleBack = () => {
-    const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'pt';
+    const lang = i18n.resolvedLanguage?.startsWith('en') ? 'en' : 'pt';
     navigate(routes[lang].portfolio);
   };
 
   return (
-    <div className="min-h-screen bg-[#faf7f2] font-serif text-[#2d2a26]">
+    <div className="restaurant-demo demo-mobile-root min-h-screen bg-[#faf7f2] font-serif text-[#2d2a26]">
       <div className="fixed left-0 top-0 z-[100] flex w-full items-center justify-between bg-amber-800 px-4 py-1 text-center text-xs font-bold text-white">
         <span>DEMO: RESTAURANT WEBSITE</span>
         <button onClick={handleBack} className="inline-flex items-center gap-1 underline hover:no-underline">

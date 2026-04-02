@@ -18,6 +18,7 @@ import { AdminServices } from "./src/pages/admin/AdminServices";
 import { AdminCustomers } from "./src/pages/admin/AdminCustomers";
 import { AdminAppointments } from "./src/pages/admin/AdminAppointments";
 import { routes } from "../../routes";
+import i18n from "../../i18n";
 import DemoFeatureGuide from "../../components/DemoFeatureGuide";
 import "./src/index.css";
 
@@ -33,12 +34,12 @@ export default function MechanicDemo() {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    const lang = document.documentElement.lang.startsWith("en") ? "en" : "pt";
+    const lang = i18n.resolvedLanguage?.startsWith("en") ? "en" : "pt";
     navigate(routes[lang].portfolio);
   };
 
   return (
-    <div className="mecanica-demo min-h-screen">
+    <div className="mecanica-demo demo-mobile-root min-h-screen">
       <div className="fixed left-0 top-0 z-[100] flex w-full items-center justify-between bg-blue-700 px-4 py-1 text-center text-xs font-bold text-white">
         <span>DEMO: AUTO REPAIR WEBSITE</span>
         <button onClick={handleBack} className="inline-flex items-center gap-1 underline hover:no-underline">

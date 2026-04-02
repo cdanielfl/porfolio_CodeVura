@@ -96,4 +96,60 @@
       scroll-behavior: auto !important;
     }
   }
+
+  /* Global mobile compaction for demo experiences only. */
+  @media (max-width: 767px) {
+    .demo-mobile-root {
+      font-size: 0.94rem;
+    }
+
+    .demo-mobile-root [class*="text-8xl"] {
+      font-size: 2.7rem !important;
+      line-height: 1.04 !important;
+    }
+
+    .demo-mobile-root [class*="text-7xl"] {
+      font-size: 2.35rem !important;
+      line-height: 1.06 !important;
+    }
+
+    .demo-mobile-root [class*="text-6xl"] {
+      font-size: 2.1rem !important;
+      line-height: 1.08 !important;
+    }
+
+    .demo-mobile-root [class*="text-5xl"] {
+      font-size: 1.85rem !important;
+      line-height: 1.1 !important;
+    }
+
+    .demo-mobile-root [class*="text-4xl"] {
+      font-size: 1.6rem !important;
+      line-height: 1.12 !important;
+    }
+
+    .demo-mobile-root [class*="pt-40"] {
+      padding-top: 6.75rem !important;
+    }
+
+    .demo-mobile-root [class*="pt-32"] {
+      padding-top: 5.75rem !important;
+    }
+
+    .demo-mobile-root [class*="pb-32"] {
+      padding-bottom: 3.25rem !important;
+    }
+
+    .demo-mobile-root [class*="gap-24"] {
+      gap: 1.75rem !important;
+    }
+
+    .demo-mobile-root [class*="gap-20"] {
+      gap: 1.5rem !important;
+    }
+
+    .demo-mobile-root [class*="gap-16"] {
+      gap: 1.25rem !important;
+    }
+  }
 }

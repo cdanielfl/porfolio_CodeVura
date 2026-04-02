@@ -2,7 +2,6 @@ import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from './components/MainLayout';
 import ScrollToTop from './components/ScrollToTop';
-import DemoWatermark from './components/DemoWatermark';
 import i18n from './i18n';
 
 const Home = lazy(() => import('./pages/Home'));
@@ -24,7 +23,6 @@ export default function App() {
   return (
     <Router>
       <ScrollToTop />
-      <DemoWatermark />
       <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-[#05031a] text-sm text-slate-300">Loading...</div>}>
         <Routes>
           <Route path="/" element={<Navigate to={getDefaultLanguagePath()} replace />} />

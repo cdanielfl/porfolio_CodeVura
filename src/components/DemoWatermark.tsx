@@ -8,10 +8,10 @@ export default function DemoWatermark() {
   if (!isDemoRoute) return null;
 
   return (
-    <div className="pointer-events-none fixed right-3 top-10 z-[60] md:bottom-4 md:right-4 md:top-auto">
-      <div className="flex items-center gap-2 rounded-full border border-white/20 bg-slate-950/70 px-3 py-2 backdrop-blur-md">
-        <img src={logo} alt="Codevura" className="h-5 w-auto opacity-90" />
-        <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-100/90">
+    <div className="pointer-events-none fixed left-3 top-[52px] z-[60] md:bottom-4 md:left-auto md:right-4 md:top-auto">
+      <div className="flex items-center gap-1.5 rounded-full border border-white/20 bg-slate-950/60 px-2.5 py-1.5 backdrop-blur-md md:gap-2 md:px-3 md:py-2">
+        <img src={logo} alt="Codevura" className="h-4 w-auto opacity-85 md:h-5" />
+        <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-100/85 md:text-[11px] md:tracking-[0.14em]">
           Codevura
         </span>
       </div>

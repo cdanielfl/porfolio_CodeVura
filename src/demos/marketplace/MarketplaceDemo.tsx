@@ -14,6 +14,7 @@ import { Standards } from './src/demo/pages/Standards';
 import { Login } from './src/demo/pages/Login';
 import { Register } from './src/demo/pages/Register';
 import { routes } from '../../routes';
+import i18n from '../../i18n';
 import DemoFeatureGuide from '../../components/DemoFeatureGuide';
 import './src/index.css';
 
@@ -29,12 +30,12 @@ export default function MarketplaceDemo() {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'pt';
+    const lang = i18n.resolvedLanguage?.startsWith('en') ? 'en' : 'pt';
     navigate(routes[lang].portfolio);
   };
 
   return (
-    <div className="marketplace-demo min-h-screen">
+    <div className="marketplace-demo demo-mobile-root min-h-screen">
       <div className="fixed top-0 left-0 z-[100] flex w-full items-center justify-between bg-rose-900 px-4 py-1 text-center text-xs font-bold text-white">
         <span>DEMO: MARKETPLACE INDUSTRIAL</span>
         <button onClick={handleBack} className="inline-flex items-center gap-1 underline hover:no-underline">

@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { routes } from '../../routes';
+import i18n from '../../i18n';
 import DemoFeatureGuide from '../../components/DemoFeatureGuide';
 
 type Specialty = {
@@ -66,12 +67,12 @@ function ClinicLayout() {
   }, [location.pathname]);
 
   const handleBack = () => {
-    const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'pt';
+    const lang = i18n.resolvedLanguage?.startsWith('en') ? 'en' : 'pt';
     navigate(routes[lang].portfolio);
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-800">
+    <div className="clinic-demo demo-mobile-root min-h-screen bg-white font-sans text-slate-800">
       <div className="fixed top-0 left-0 z-[100] flex w-full items-center justify-between bg-cyan-600 px-4 py-1 text-xs font-bold text-white">
         <span>DEMO: MEDICAL CLINIC WEBSITE</span>
         <button onClick={handleBack} className="inline-flex items-center gap-1 underline hover:no-underline">

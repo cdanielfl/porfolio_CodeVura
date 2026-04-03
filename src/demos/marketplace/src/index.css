@@ -6,16 +6,37 @@
   --font-sans: "Inter", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
   
-  --color-oxblood: #8B0000;
-  --color-gold: #C5A059;
-  --color-surface: #F9F7F2;
-  --color-charcoal: #1A1A1A;
-  --color-border: rgba(0, 0, 0, 0.08);
+  --color-oxblood: #cc3f33;
+  --color-gold: #f0b24a;
+  --color-surface: #ebe2d5;
+  --color-surface-2: #dfcfbb;
+  --color-charcoal: #1f1a17;
+  --color-border: rgba(31, 26, 23, 0.12);
 }
 
 @layer base {
   .marketplace-demo {
     @apply bg-surface text-charcoal font-sans antialiased;
+  }
+
+  .marketplace-demo a,
+  .marketplace-demo button,
+  .marketplace-demo input,
+  .marketplace-demo select,
+  .marketplace-demo textarea {
+    @apply min-h-11;
+  }
+
+  .marketplace-demo input,
+  .marketplace-demo select,
+  .marketplace-demo textarea {
+    @apply bg-white border border-border rounded-xl;
+  }
+
+  .marketplace-demo input:focus,
+  .marketplace-demo select:focus,
+  .marketplace-demo textarea:focus {
+    @apply outline-none border-oxblood ring-2 ring-oxblood/10;
   }
   
   .marketplace-demo *::selection {
@@ -34,7 +55,7 @@
 
 @layer utilities {
   .premium-card {
-    @apply bg-white border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-all duration-500;
+    @apply bg-surface-2 border border-charcoal/20 shadow-[0_8px_26px_rgba(31,26,23,0.09)] hover:shadow-[0_14px_34px_rgba(31,26,23,0.16)] transition-all duration-500 rounded-2xl;
   }
 
   .serif-italic {
@@ -50,6 +71,19 @@
   }
 
   .glass-nav {
-    @apply bg-surface/80 backdrop-blur-md border-b border-border;
+    @apply bg-surface/90 backdrop-blur-md border-b border-border;
+  }
+
+  .surface-panel {
+    background: linear-gradient(165deg, #f2e7d8 0%, #e7d8c4 100%);
+  }
+
+  .surface-deep {
+    background: linear-gradient(160deg, #2a2220 0%, #171311 100%);
+  }
+
+  .promo-chip {
+    @apply inline-flex items-center rounded-full border border-oxblood/20 bg-oxblood/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-oxblood;
   }
 }
+

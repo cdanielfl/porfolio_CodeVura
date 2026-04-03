@@ -3,6 +3,7 @@ import { ArrowUpRight, Github, Linkedin, Mail, Twitter } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { routes } from '../routes';
 import type { SiteLanguage } from '../routes';
+import { withDemoLanguage } from '../utils/demoLanguage';
 import logo from '../assets/codevura-navbar-transparent.png';
 
 type FooterProps = {
@@ -43,12 +44,12 @@ export default function Footer({ lang }: FooterProps) {
           <div>
             <h3 className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-slate-300 sm:mb-5 sm:text-sm">{t('footer.demos')}</h3>
             <ul className="grid grid-cols-2 gap-x-3 gap-y-2 text-xs sm:block sm:space-y-3 sm:text-sm">
-              <li><Link to="/demo/mecanica" className="text-slate-300 transition-colors hover:text-white">{t('footer.demoLabels.mechanic')}</Link></li>
-              <li><Link to="/demo/restaurante" className="text-slate-300 transition-colors hover:text-white">{t('footer.demoLabels.restaurant')}</Link></li>
-              <li><Link to="/demo/clinica" className="text-slate-300 transition-colors hover:text-white">{t('footer.demoLabels.clinic')}</Link></li>
-              <li><Link to="/demo/marketplace" className="text-slate-300 transition-colors hover:text-white">{t('footer.demoLabels.marketplace')}</Link></li>
-              <li><Link to="/demo/saas" className="text-slate-300 transition-colors hover:text-white">{t('footer.demoLabels.saas')}</Link></li>
-              <li><Link to="/demo/curate" className="text-slate-300 transition-colors hover:text-white">{t('footer.demoLabels.curate')}</Link></li>
+              <li><Link to={withDemoLanguage('/demo/mecanica', lang)} className="text-slate-300 transition-colors hover:text-white">{t('footer.demoLabels.mechanic')}</Link></li>
+              <li><Link to={withDemoLanguage('/demo/restaurante', lang)} className="text-slate-300 transition-colors hover:text-white">{t('footer.demoLabels.restaurant')}</Link></li>
+              <li><Link to={withDemoLanguage('/demo/clinica', lang)} className="text-slate-300 transition-colors hover:text-white">{t('footer.demoLabels.clinic')}</Link></li>
+              <li><Link to={withDemoLanguage('/demo/marketplace', lang)} className="text-slate-300 transition-colors hover:text-white">{t('footer.demoLabels.marketplace')}</Link></li>
+              <li><Link to={withDemoLanguage('/demo/saas', lang)} className="text-slate-300 transition-colors hover:text-white">{t('footer.demoLabels.saas')}</Link></li>
+              <li><Link to={withDemoLanguage('/demo/curate', lang)} className="text-slate-300 transition-colors hover:text-white">{t('footer.demoLabels.curate')}</Link></li>
             </ul>
           </div>
         </div>

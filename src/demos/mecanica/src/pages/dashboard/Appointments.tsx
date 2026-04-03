@@ -2,27 +2,64 @@ import React from "react";
 import { motion } from "motion/react";
 import { Calendar, Clock, MapPin, MoreVertical, ChevronRight } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
-import { MOCK_APPOINTMENTS, SERVICES } from "../../data/mockData";
+import { MOCK_APPOINTMENTS, SERVICES, localizeServices } from "../../data/mockData";
+import { useLocation } from "react-router-dom";
+import { resolveDemoLanguage } from "../../../../../utils/demoLanguage";
 
 export const Appointments: React.FC = () => {
   const { user } = useAuth();
+  const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
+  const services = localizeServices(SERVICES, lang);
+  const text =
+    lang === "pt"
+      ? {
+          title: "Meus atendimentos",
+          subtitle: "Gerencie e acompanhe seu historico de servicos.",
+          newAppointment: "Novo agendamento",
+          at: "as",
+          center: "Unidade principal",
+          noAppointments: "Nenhum atendimento ainda",
+          noAppointmentsSub: "Agende seu primeiro servico para ver o historico aqui.",
+          statusPending: "pendente",
+          statusCompleted: "concluido",
+          statusCanceled: "cancelado",
+        }
+      : {
+          title: "My Appointments",
+          subtitle: "Manage and track your vehicle service history.",
+          newAppointment: "New Appointment",
+          at: "at",
+          center: "Main Service Center",
+          noAppointments: "No appointments yet",
+          noAppointmentsSub: "Schedule your first service to see it here.",
+          statusPending: "pending",
+          statusCompleted: "completed",
+          statusCanceled: "canceled",
+        };
+
+  const getStatusLabel = (status: "pending" | "completed" | "canceled") => {
+    if (status === "pending") return text.statusPending;
+    if (status === "completed") return text.statusCompleted;
+    return text.statusCanceled;
+  };
   const userAppointments = MOCK_APPOINTMENTS.filter(a => a.userId === user?.id);
 
   return (
     <div className="space-y-8">
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black tracking-tighter mb-2 uppercase">My Appointments</h1>
-          <p className="text-gray-500 font-medium">Manage and track your vehicle service history.</p>
+          <h1 className="text-3xl font-black tracking-tighter mb-2 uppercase">{text.title}</h1>
+          <p className="text-gray-500 font-medium">{text.subtitle}</p>
         </div>
         <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all">
-          New Appointment
+          {text.newAppointment}
         </button>
       </header>
 
       <div className="space-y-4">
         {userAppointments.map((app, i) => {
-          const service = SERVICES.find(s => s.id === app.serviceId);
+          const service = services.find((s) => s.id === app.serviceId);
           return (
             <motion.div
               key={app.id}
@@ -40,11 +77,11 @@ export const Appointments: React.FC = () => {
                   <div className="flex flex-wrap gap-4 text-xs text-gray-500 font-medium">
                     <div className="flex items-center space-x-1">
                       <Clock className="w-3 h-3" />
-                      <span>{app.date} at {app.time}</span>
+                      <span>{app.date} {text.at} {app.time}</span>
                     </div>
                     <div className="flex items-center space-x-1">
                       <MapPin className="w-3 h-3" />
-                      <span>Main Service Center</span>
+                      <span>{text.center}</span>
                     </div>
                   </div>
                 </div>
@@ -58,7 +95,7 @@ export const Appointments: React.FC = () => {
                     ? "bg-blue-500/10 text-blue-500 border border-blue-500/20"
                     : "bg-red-500/10 text-red-500 border border-red-500/20"
                 }`}>
-                  {app.status}
+                  {getStatusLabel(app.status)}
                 </div>
                 <div className="flex items-center space-x-2">
                   <button className="p-2 text-gray-500 hover:text-white hover:bg-white/5 rounded-lg transition-all">
@@ -76,8 +113,8 @@ export const Appointments: React.FC = () => {
         {userAppointments.length === 0 && (
           <div className="text-center py-20 bg-zinc-900/50 border border-dashed border-white/10 rounded-[3rem]">
             <Calendar className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-            <h3 className="text-lg font-bold text-gray-400">No appointments yet</h3>
-            <p className="text-sm text-gray-600 mt-2">Schedule your first service to see it here.</p>
+            <h3 className="text-lg font-bold text-gray-400">{text.noAppointments}</h3>
+            <p className="text-sm text-gray-600 mt-2">{text.noAppointmentsSub}</p>
           </div>
         )}
       </div>

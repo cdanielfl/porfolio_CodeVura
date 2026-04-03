@@ -15,6 +15,8 @@ import { Card, Button, Badge } from '../components/UI';
 import { MOCK_METRICS, SALES_CHART_DATA, MOCK_ORDERS, MOCK_TASKS } from '../data/mock';
 import { motion } from 'motion/react';
 import { cn } from '../lib/utils';
+import { useLocation } from 'react-router-dom';
+import { resolveDemoLanguage } from '../../../../../utils/demoLanguage';
 
 const container = {
   hidden: { opacity: 0 },
@@ -32,6 +34,57 @@ const item = {
 };
 
 export const Dashboard = () => {
+  const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
+  const text = lang === 'pt'
+    ? {
+        title: 'Comando do negocio',
+        subtitle: 'Metricas em tempo real para sua operacao.',
+        dailyReport: 'Relatorio diario',
+        newOrder: 'Novo pedido',
+        salesPerf: 'Desempenho de vendas',
+        salesPerfSub: 'Receita diaria da semana atual',
+        urgentTasks: 'Tarefas urgentes',
+        urgentTasksSub: 'Operacoes que exigem atencao imediata',
+        due: 'Vence',
+        allOps: 'Todas operacoes',
+        pendingOrders: 'Pedidos pendentes',
+        pendingOrdersSub: 'Pedidos aguardando execucao',
+        order: 'Pedido',
+        customer: 'Cliente',
+        total: 'Total',
+        status: 'Status',
+        inventoryHealth: 'Saude do estoque',
+        inventoryHealthSub: 'Distribuicao de niveis de estoque',
+        stockAvail: 'Disponibilidade de estoque',
+        healthy: 'Saudavel',
+        low: 'Baixo',
+        out: 'Sem estoque',
+      }
+    : {
+        title: 'Business Command',
+        subtitle: 'Real-time performance metrics for your enterprise operations.',
+        dailyReport: 'Daily Report',
+        newOrder: 'New Order',
+        salesPerf: 'Sales Performance',
+        salesPerfSub: 'Daily revenue generation for the current week',
+        urgentTasks: 'Urgent Tasks',
+        urgentTasksSub: 'Operations requiring immediate attention',
+        due: 'Due',
+        allOps: 'All Operations',
+        pendingOrders: 'Pending Orders',
+        pendingOrdersSub: 'Orders awaiting fulfillment',
+        order: 'Order',
+        customer: 'Customer',
+        total: 'Total',
+        status: 'Status',
+        inventoryHealth: 'Inventory Health',
+        inventoryHealthSub: 'Stock level distribution',
+        stockAvail: 'Stock Availability',
+        healthy: 'Healthy',
+        low: 'Low',
+        out: 'Out',
+      };
   return (
     <motion.div 
       variants={container}
@@ -39,16 +92,16 @@ export const Dashboard = () => {
       animate="show"
       className="space-y-8"
     >
-      <div className="flex items-end justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Business Command</h1>
-          <p className="text-slate-500 mt-1">Real-time performance metrics for your enterprise operations.</p>
+          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">{text.title}</h1>
+          <p className="text-slate-500 mt-1">{text.subtitle}</p>
         </div>
-        <div className="flex gap-3">
-          <Button variant="outline">Daily Report</Button>
+        <div className="flex flex-wrap gap-3">
+          <Button variant="outline">{text.dailyReport}</Button>
           <Button className="gap-2">
             <Plus size={16} />
-            New Order
+            {text.newOrder}
           </Button>
         </div>
       </div>
@@ -89,7 +142,7 @@ export const Dashboard = () => {
       {/* Main Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <motion.div variants={item} className="lg:col-span-2">
-          <Card title="Sales Performance" subtitle="Daily revenue generation for the current week">
+          <Card title={text.salesPerf} subtitle={text.salesPerfSub}>
             <div className="h-[350px] w-full mt-4">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={SALES_CHART_DATA}>
@@ -131,7 +184,7 @@ export const Dashboard = () => {
         </motion.div>
 
         <motion.div variants={item}>
-          <Card title="Urgent Tasks" subtitle="Operations requiring immediate attention">
+          <Card title={text.urgentTasks} subtitle={text.urgentTasksSub}>
             <div className="space-y-6 mt-4">
               {MOCK_TASKS.map((task) => (
                 <div key={task.id} className="flex items-start gap-4 p-3 rounded-xl hover:bg-slate-50 transition-colors cursor-pointer group">
@@ -147,12 +200,12 @@ export const Dashboard = () => {
                       </Badge>
                     </div>
                     <div className="flex items-center gap-3 mt-2">
-                      <p className="text-[10px] text-slate-500 font-medium uppercase tracking-wider">Due {task.dueDate}</p>
+                      <p className="text-[10px] text-slate-500 font-medium uppercase tracking-wider">{text.due} {task.dueDate}</p>
                     </div>
                   </div>
                 </div>
               ))}
-              <Button variant="outline" className="w-full mt-2">All Operations</Button>
+              <Button variant="outline" className="w-full mt-2">{text.allOps}</Button>
             </div>
           </Card>
         </motion.div>
@@ -161,15 +214,15 @@ export const Dashboard = () => {
       {/* Bottom Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <motion.div variants={item} className="lg:col-span-2">
-          <Card title="Pending Orders" subtitle="Orders awaiting fulfillment" noPadding>
+          <Card title={text.pendingOrders} subtitle={text.pendingOrdersSub} noPadding>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
                   <tr className="bg-slate-50/50 border-y border-slate-100">
-                    <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Order</th>
-                    <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Customer</th>
-                    <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total</th>
-                    <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Status</th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.order}</th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.customer}</th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.total}</th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.status}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -195,13 +248,13 @@ export const Dashboard = () => {
         </motion.div>
 
         <motion.div variants={item}>
-          <Card title="Inventory Health" subtitle="Stock level distribution">
+          <Card title={text.inventoryHealth} subtitle={text.inventoryHealthSub}>
             <div className="h-[250px] w-full mt-4">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={[
-                  { name: 'Healthy', value: 85 },
-                  { name: 'Low', value: 12 },
-                  { name: 'Out', value: 3 },
+                  { name: text.healthy, value: 85 },
+                  { name: text.low, value: 12 },
+                  { name: text.out, value: 3 },
                 ]}>
                   <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fontSize: 12, fill: '#94a3b8'}} />
                   <Tooltip cursor={{fill: 'transparent'}} contentStyle={{borderRadius: '12px', border: 'none'}} />
@@ -215,7 +268,7 @@ export const Dashboard = () => {
             </div>
             <div className="mt-4 space-y-3">
               <div className="flex justify-between items-center text-xs">
-                <span className="text-slate-500">Stock Availability</span>
+                <span className="text-slate-500">{text.stockAvail}</span>
                 <span className="font-bold text-slate-900">85%</span>
               </div>
               <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">

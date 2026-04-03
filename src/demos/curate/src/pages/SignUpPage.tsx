@@ -1,12 +1,41 @@
 import * as React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Card, CardContent } from '../components/ui/Card';
 import { curate } from '../lib/paths';
+import { resolveDemoLanguage } from '../../../../utils/demoLanguage';
 
 export function SignUpPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
+
+  const text = lang === 'pt'
+    ? {
+        create: 'Criar conta',
+        hasAccount: 'Ja possui conta?',
+        signIn: 'Entrar',
+        firstName: 'Nome',
+        lastName: 'Sobrenome',
+        email: 'Email',
+        password: 'Senha',
+        terms: 'Ao se cadastrar, voce concorda com nossos Termos de Servico e Politica de Privacidade.',
+        createBtn: 'Criar Conta',
+        orContinue: 'Ou continue com',
+      }
+    : {
+        create: 'Create an account',
+        hasAccount: 'Already have an account?',
+        signIn: 'Sign in',
+        firstName: 'First Name',
+        lastName: 'Last Name',
+        email: 'Email address',
+        password: 'Password',
+        terms: 'By signing up, you agree to our Terms of Service and Privacy Policy.',
+        createBtn: 'Create Account',
+        orContinue: 'Or continue with',
+      };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,11 +52,11 @@ export function SignUpPage() {
             </div>
             <span className="text-2xl font-bold tracking-tight">Curate</span>
           </Link>
-          <h2 className="mt-6 text-3xl font-bold tracking-tight text-zinc-900">Create an account</h2>
+          <h2 className="mt-6 text-3xl font-bold tracking-tight text-zinc-900">{text.create}</h2>
           <p className="mt-2 text-sm text-zinc-600">
-            Already have an account?{' '}
+            {text.hasAccount}{' '}
             <Link to={curate('signin')} className="font-medium text-zinc-900 hover:underline">
-              Sign in
+              {text.signIn}
             </Link>
           </p>
         </div>
@@ -36,16 +65,14 @@ export function SignUpPage() {
           <CardContent className="pt-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
-                <Input label="First Name" placeholder="Alex" required />
-                <Input label="Last Name" placeholder="Rivera" required />
+                <Input label={text.firstName} placeholder="Alex" required />
+                <Input label={text.lastName} placeholder="Rivera" required />
               </div>
-              <Input label="Email address" type="email" placeholder="name@example.com" required />
-              <Input label="Password" type="password" placeholder="••••••••" required />
-              <p className="text-xs text-zinc-500">
-                By signing up, you agree to our Terms of Service and Privacy Policy.
-              </p>
+              <Input label={text.email} type="email" placeholder="name@example.com" required />
+              <Input label={text.password} type="password" placeholder="********" required />
+              <p className="text-xs text-zinc-500">{text.terms}</p>
               <Button type="submit" className="w-full">
-                Create Account
+                {text.createBtn}
               </Button>
             </form>
 
@@ -54,7 +81,7 @@ export function SignUpPage() {
                 <div className="w-full border-t border-zinc-200"></div>
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-zinc-500">Or continue with</span>
+                <span className="bg-white px-2 text-zinc-500">{text.orContinue}</span>
               </div>
             </div>
 

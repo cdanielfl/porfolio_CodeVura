@@ -2,57 +2,98 @@ import { Card, Button, Badge } from '../components/UI';
 import { MOCK_ORDERS } from '../data/mock';
 import { ShoppingCart, Search, Filter, Download, Eye, MoreHorizontal } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useLocation } from 'react-router-dom';
+import { resolveDemoLanguage } from '../../../../../utils/demoLanguage';
+import { cn } from '../lib/utils';
 
 export const Orders = () => {
+  const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
+  const text = lang === 'pt'
+    ? {
+        title: 'Gestao de pedidos',
+        subtitle: 'Acompanhe e processe pedidos em tempo real.',
+        exportOrders: 'Exportar pedidos',
+        createManual: 'Criar pedido manual',
+        search: 'Buscar pedido ou cliente...',
+        filters: 'Filtros',
+        showing: 'Exibindo',
+        orders: 'pedidos',
+        orderId: 'ID do pedido',
+        customer: 'Cliente',
+        items: 'Itens',
+        total: 'Total',
+        status: 'Status',
+        payment: 'Pagamento',
+        actions: 'Acoes',
+      }
+    : {
+        title: 'Order Management',
+        subtitle: 'Track and process customer orders in real-time.',
+        exportOrders: 'Export Orders',
+        createManual: 'Create Manual Order',
+        search: 'Search order ID or customer...',
+        filters: 'Filters',
+        showing: 'Showing',
+        orders: 'orders',
+        orderId: 'Order ID',
+        customer: 'Customer',
+        items: 'Items',
+        total: 'Total',
+        status: 'Status',
+        payment: 'Payment',
+        actions: 'Actions',
+      };
+
   return (
     <div className="space-y-8">
-      <div className="flex items-end justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Order Management</h1>
-          <p className="text-slate-500 mt-1">Track and process customer orders in real-time.</p>
+          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">{text.title}</h1>
+          <p className="text-slate-500 mt-1">{text.subtitle}</p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           <Button variant="outline" className="gap-2">
             <Download size={16} />
-            Export Orders
+            {text.exportOrders}
           </Button>
           <Button className="gap-2">
             <ShoppingCart size={16} />
-            Create Manual Order
+            {text.createManual}
           </Button>
         </div>
       </div>
 
       <Card noPadding>
-        <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/30">
-          <div className="flex items-center gap-4">
-            <div className="relative">
+        <div className="p-4 border-b border-slate-100 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between bg-slate-50/30">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+            <div className="relative w-full sm:w-auto">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
               <input 
                 type="text" 
-                placeholder="Search order ID or customer..." 
-                className="pl-9 pr-4 py-1.5 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20 w-64"
+                placeholder={text.search}
+                className="w-full sm:w-64 pl-9 pr-4 py-1.5 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
               />
             </div>
             <Button variant="outline" size="sm" className="gap-2">
               <Filter size={14} />
-              Filters
+              {text.filters}
             </Button>
           </div>
-          <p className="text-xs text-slate-500 font-medium">Showing {MOCK_ORDERS.length} orders</p>
+          <p className="text-xs text-slate-500 font-medium sm:text-right">{text.showing} {MOCK_ORDERS.length} {text.orders}</p>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-slate-100">
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Order ID</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Customer</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Items</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Status</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Payment</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">Actions</th>
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.orderId}</th>
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.customer}</th>
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.items}</th>
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.total}</th>
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.status}</th>
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.payment}</th>
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">{text.actions}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -63,7 +104,7 @@ export const Orders = () => {
                     <p className="text-[10px] text-slate-500 font-medium">{order.date}</p>
                   </td>
                   <td className="px-6 py-4 text-sm text-slate-600 font-medium">{order.customerName}</td>
-                  <td className="px-6 py-4 text-sm text-slate-500">{order.items} items</td>
+                  <td className="px-6 py-4 text-sm text-slate-500">{order.items} {lang === 'pt' ? 'itens' : 'items'}</td>
                   <td className="px-6 py-4 text-sm font-bold text-slate-900">${order.total.toFixed(2)}</td>
                   <td className="px-6 py-4">
                     <Badge variant={
@@ -99,5 +140,3 @@ export const Orders = () => {
     </div>
   );
 };
-
-import { cn } from '../lib/utils';

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { routes } from '../../routes';
-import i18n from '../../i18n';
+import { resolveDemoLanguage, syncDemoLanguage } from '../../utils/demoLanguage';
 import DemoFeatureGuide from '../../components/DemoFeatureGuide';
 import CurateApp from './src/App';
 import './src/index.css';
@@ -17,19 +17,24 @@ const ScrollToTop = () => {
 
 export default function CurateDemo() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
+
+  useEffect(() => {
+    void syncDemoLanguage(location.search);
+  }, [location.search]);
 
   const handleBack = () => {
-    const lang = i18n.resolvedLanguage?.startsWith('en') ? 'en' : 'pt';
     navigate(routes[lang].portfolio);
   };
 
   return (
     <div className="curate-demo demo-mobile-root min-h-screen bg-zinc-50">
       <div className="fixed top-0 left-0 z-[100] flex w-full items-center justify-between bg-zinc-900 px-4 py-1 text-center text-xs font-bold text-white">
-        <span>DEMO: RESUME SAAS PLATFORM</span>
+        <span>{lang === 'pt' ? 'DEMO: PLATAFORMA DE CURRICULOS' : 'DEMO: RESUME SAAS PLATFORM'}</span>
         <button onClick={handleBack} className="inline-flex items-center gap-1 underline hover:no-underline">
           <ArrowLeft className="h-3.5 w-3.5" />
-          Back
+          {lang === 'pt' ? 'Voltar' : 'Back'}
         </button>
       </div>
 

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { motion } from "motion/react";
 import { Car, Mail, Phone, ArrowRight, ArrowLeft } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { mech } from "../lib/paths";
+import { resolveDemoLanguage } from "../../../../utils/demoLanguage";
 
 export const Login: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -11,11 +12,50 @@ export const Login: React.FC = () => {
   const [role, setRole] = useState<"customer" | "admin">("customer");
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
+  const text = lang === "pt"
+    ? {
+        back: "Voltar para a home",
+        welcome: "BEM-VINDO DE VOLTA",
+        create: "CRIAR CONTA",
+        welcomeSubtitle: "Acesse seu painel automotivo",
+        createSubtitle: "Entre para a comunidade Apex Auto",
+        fullName: "Nome completo",
+        email: "Email",
+        phone: "Telefone",
+        accessRole: "Perfil de acesso",
+        customer: "Cliente",
+        admin: "Admin",
+        signIn: "Entrar",
+        createAccount: "Criar conta",
+        noAccount: "Nao tem conta? Cadastre-se",
+        hasAccount: "Ja tem conta? Entrar",
+        credentials: "Credenciais demo: use qualquer email e escolha o perfil.",
+      }
+    : {
+        back: "Back to demo home",
+        welcome: "WELCOME BACK",
+        create: "CREATE ACCOUNT",
+        welcomeSubtitle: "Access your automotive dashboard",
+        createSubtitle: "Join the Apex Auto community",
+        fullName: "Full Name",
+        email: "Email Address",
+        phone: "Phone Number",
+        accessRole: "Access Role",
+        customer: "Customer",
+        admin: "Admin",
+        signIn: "Sign In",
+        createAccount: "Create Account",
+        noAccount: "Don't have an account? Sign Up",
+        hasAccount: "Already have an account? Sign In",
+        credentials: "Demo Credentials: Use any email. Select role to switch views.",
+      };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     login(email || "john@example.com", role);
-    navigate(role === "admin" ? "/admin" : "/dashboard");
+    navigate(role === "admin" ? mech("admin") : mech("dashboard"));
   };
 
   return (
@@ -30,7 +70,7 @@ export const Login: React.FC = () => {
         className="absolute left-4 top-10 z-20 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white/10"
       >
         <ArrowLeft className="h-4 w-4" />
-        Back to demo home
+        {text.back}
       </Link>
 
       <motion.div
@@ -43,17 +83,17 @@ export const Login: React.FC = () => {
             <Car className="w-8 h-8 text-blue-500" />
           </div>
           <h2 className="text-3xl font-black tracking-tighter mb-2">
-            {isLogin ? "WELCOME BACK" : "CREATE ACCOUNT"}
+            {isLogin ? text.welcome : text.create}
           </h2>
           <p className="text-gray-500 text-sm">
-            {isLogin ? "Access your automotive dashboard" : "Join the Apex Auto community"}
+            {isLogin ? text.welcomeSubtitle : text.createSubtitle}
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {!isLogin && (
             <div className="space-y-2">
-              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Full Name</label>
+              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">{text.fullName}</label>
               <div className="relative">
                 <input
                   type="text"
@@ -66,7 +106,7 @@ export const Login: React.FC = () => {
           )}
 
           <div className="space-y-2">
-            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Email Address</label>
+            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">{text.email}</label>
             <div className="relative">
               <input
                 type="email"
@@ -82,7 +122,7 @@ export const Login: React.FC = () => {
 
           {!isLogin && (
             <div className="space-y-2">
-              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Phone Number</label>
+              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">{text.phone}</label>
               <div className="relative">
                 <input
                   type="tel"
@@ -95,7 +135,7 @@ export const Login: React.FC = () => {
           )}
 
           <div className="space-y-2">
-            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Access Role</label>
+            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">{text.accessRole}</label>
             <div className="grid grid-cols-2 gap-4">
               <button
                 type="button"
@@ -106,7 +146,7 @@ export const Login: React.FC = () => {
                     : "bg-white/5 border-white/10 text-gray-500 hover:border-white/20"
                 }`}
               >
-                Customer
+                {text.customer}
               </button>
               <button
                 type="button"
@@ -117,7 +157,7 @@ export const Login: React.FC = () => {
                     : "bg-white/5 border-white/10 text-gray-500 hover:border-white/20"
                 }`}
               >
-                Admin
+                {text.admin}
               </button>
             </div>
           </div>
@@ -126,7 +166,7 @@ export const Login: React.FC = () => {
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center space-x-2"
           >
-            <span>{isLogin ? "Sign In" : "Create Account"}</span>
+            <span>{isLogin ? text.signIn : text.createAccount}</span>
             <ArrowRight className="w-5 h-5" />
           </button>
         </form>
@@ -136,13 +176,13 @@ export const Login: React.FC = () => {
             onClick={() => setIsLogin(!isLogin)}
             className="text-sm text-gray-500 hover:text-blue-500 transition-colors"
           >
-            {isLogin ? "Don't have an account? Sign Up" : "Already have an account? Sign In"}
+            {isLogin ? text.noAccount : text.hasAccount}
           </button>
         </div>
 
         <div className="mt-8 pt-8 border-t border-white/5">
           <p className="text-[10px] text-gray-600 uppercase tracking-widest text-center">
-            Demo Credentials: Use any email. Select role to switch views.
+            {text.credentials}
           </p>
         </div>
       </motion.div>

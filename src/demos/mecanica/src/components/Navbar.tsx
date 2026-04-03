@@ -2,43 +2,52 @@ import React from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Car, Menu, X, User, LogOut, Phone } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import { cn } from "../lib/utils";
 import { motion, AnimatePresence } from "motion/react";
 import { mech } from "../lib/paths";
+import { resolveDemoLanguage } from "../../../../utils/demoLanguage";
 
 export const Navbar: React.FC = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const [isOpen, setIsOpen] = React.useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
+  const text = lang === "pt"
+    ? {
+        home: "Inicio",
+        services: "Servicos",
+        about: "Sobre",
+        contact: "Contato",
+        callMechanic: "Ligar para oficina",
+        callNow: "Ligar agora",
+        dashboard: "Painel",
+        signIn: "Entrar",
+        logout: "Sair",
+      }
+    : {
+        home: "Home",
+        services: "Services",
+        about: "About",
+        contact: "Contact",
+        callMechanic: "Call Mechanic",
+        callNow: "Call Mechanic Now",
+        dashboard: "Dashboard",
+        signIn: "Sign In",
+        logout: "Logout",
+      };
 
   const isDashboard =
     location.pathname.startsWith(mech("dashboard")) || location.pathname.startsWith(mech("admin"));
 
   const navLinks = [
-    { name: "Home", path: mech(), sectionId: "hero" },
-    { name: "Services", path: mech("services"), sectionId: "services" },
-    { name: "About", path: mech("about"), sectionId: "about" },
-    { name: "Contact", path: mech("contact"), sectionId: "services" },
+    { name: text.home, path: mech() },
+    { name: text.services, path: mech("services") },
+    { name: text.about, path: mech("about") },
+    { name: text.contact, path: mech("contact") },
   ];
 
-  const handleNavClick = (e: React.MouseEvent, path: string, sectionId?: string) => {
-    // Se estiver na Home ou em uma rota que renderiza a Home
-    const isHomePath =
-      location.pathname === mech() ||
-      [mech("services"), mech("about"), mech("contact")].includes(location.pathname);
-
-    if (sectionId && isHomePath) {
-      e.preventDefault();
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-        // Se for mobile, fecha o menu
-        setIsOpen(false);
-        // Atualiza a URL sem recarregar
-        window.history.pushState({}, "", path);
-      }
-    }
+  const handleNavClick = () => {
+    setIsOpen(false);
   };
 
   const handleLogout = () => {
@@ -61,7 +70,7 @@ export const Navbar: React.FC = () => {
               <Link
                 key={link.name}
                 to={link.path}
-                onClick={(e) => handleNavClick(e, link.path, link.sectionId)}
+                onClick={handleNavClick}
                 className="text-sm font-medium text-gray-300 hover:text-blue-500 transition-colors"
               >
                 {link.name}
@@ -73,7 +82,7 @@ export const Navbar: React.FC = () => {
               className="flex items-center space-x-2 text-sm font-bold text-red-500 bg-red-500/10 hover:bg-red-500/20 px-4 py-2 rounded-full transition-all border border-red-500/20"
             >
               <Phone className="w-4 h-4" />
-              <span>Call Mechanic</span>
+              <span>{text.callMechanic}</span>
             </a>
             
             {isAuthenticated ? (
@@ -83,7 +92,7 @@ export const Navbar: React.FC = () => {
                   className="flex items-center space-x-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-full transition-all"
                 >
                   <User className="w-4 h-4" />
-                  <span>Dashboard</span>
+                  <span>{text.dashboard}</span>
                 </Link>
                 <button
                   onClick={handleLogout}
@@ -97,7 +106,7 @@ export const Navbar: React.FC = () => {
                 to={mech("login")}
                 className="text-sm font-medium text-white bg-white/10 hover:bg-white/20 px-6 py-2 rounded-full transition-all border border-white/10"
               >
-                Sign In
+                {text.signIn}
               </Link>
             )}
           </div>
@@ -109,7 +118,7 @@ export const Navbar: React.FC = () => {
                 to={mech("login")}
                 className="px-3 py-1.5 bg-white text-black rounded-full text-xs font-bold"
               >
-                Sign In
+                {text.signIn}
               </Link>
             )}
             <button
@@ -136,7 +145,7 @@ export const Navbar: React.FC = () => {
                 <Link
                   key={link.name}
                   to={link.path}
-                  onClick={(e) => handleNavClick(e, link.path, link.sectionId)}
+                  onClick={handleNavClick}
                   className="block px-3 py-4 text-base font-medium text-gray-300 hover:text-blue-500 hover:bg-white/5 rounded-lg"
                 >
                   {link.name}
@@ -148,7 +157,7 @@ export const Navbar: React.FC = () => {
                 className="flex items-center justify-center space-x-3 px-3 py-4 text-base font-bold text-red-500 bg-red-500/10 rounded-lg border border-red-500/20 mb-4"
               >
                 <Phone className="w-5 h-5" />
-                <span>Call Mechanic Now</span>
+                <span>{text.callNow}</span>
               </a>
 
               <div className="pt-4 border-t border-white/10">
@@ -159,7 +168,7 @@ export const Navbar: React.FC = () => {
                       onClick={() => setIsOpen(false)}
                       className="block px-3 py-4 text-base font-medium text-white bg-blue-600 rounded-lg text-center"
                     >
-                      Dashboard
+                      {text.dashboard}
                     </Link>
                     <button
                       onClick={() => {
@@ -168,7 +177,7 @@ export const Navbar: React.FC = () => {
                       }}
                       className="w-full mt-2 px-3 py-4 text-base font-medium text-gray-400 hover:text-white text-center"
                     >
-                      Logout
+                      {text.logout}
                     </button>
                   </>
                 ) : (
@@ -177,7 +186,7 @@ export const Navbar: React.FC = () => {
                     onClick={() => setIsOpen(false)}
                     className="block px-3 py-4 text-base font-medium text-white bg-white/10 rounded-lg text-center"
                   >
-                    Sign In
+                    {text.signIn}
                   </Link>
                 )}
               </div>

@@ -2,6 +2,8 @@ import { Card, Button, Badge } from '../components/UI';
 import { MOCK_TRANSACTIONS } from '../data/mock';
 import { TrendingUp, DollarSign, ArrowUpRight, Calendar, Filter, Download } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { useLocation } from 'react-router-dom';
+import { resolveDemoLanguage } from '../../../../../utils/demoLanguage';
 
 const REVENUE_DATA = [
   { day: 'Mon', amount: 4500 },
@@ -14,27 +16,63 @@ const REVENUE_DATA = [
 ];
 
 export const Sales = () => {
+  const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
+  const text = lang === 'pt'
+    ? {
+        title: 'Vendas e receita',
+        subtitle: 'Acompanhe pagamentos, faturas e desempenho financeiro.',
+        last30: 'Ultimos 30 dias',
+        export: 'Exportar razao',
+        revenue: 'Fluxo de receita',
+        revenueSub: 'Volume diario de transacoes da semana',
+        totalBalance: 'Saldo total',
+        quickStats: 'Resumo rapido',
+        avgOrder: 'Ticket medio',
+        refundRate: 'Taxa de reembolso',
+        failed: 'Pagamentos falhos',
+        transactions: 'Transacoes recentes',
+        showing: 'Exibindo 5 de 842 transacoes',
+        filter: 'Filtrar',
+      }
+    : {
+        title: 'Sales & Revenue',
+        subtitle: 'Track payments, invoices, and financial performance.',
+        last30: 'Last 30 Days',
+        export: 'Export Ledger',
+        revenue: 'Revenue Stream',
+        revenueSub: 'Daily transaction volume for the current week',
+        totalBalance: 'Total Balance',
+        quickStats: 'Quick Stats',
+        avgOrder: 'Avg. Order Value',
+        refundRate: 'Refund Rate',
+        failed: 'Failed Payments',
+        transactions: 'Recent Transactions',
+        showing: 'Showing 5 of 842 transactions',
+        filter: 'Filter',
+      };
+
   return (
     <div className="space-y-8">
-      <div className="flex items-end justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Sales & Revenue</h1>
-          <p className="text-slate-500 mt-1">Track payments, invoices, and financial performance.</p>
+          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">{text.title}</h1>
+          <p className="text-slate-500 mt-1">{text.subtitle}</p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           <Button variant="outline" className="gap-2">
             <Calendar size={16} />
-            Last 30 Days
+            {text.last30}
           </Button>
           <Button className="gap-2">
             <Download size={16} />
-            Export Ledger
+            {text.export}
           </Button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2" title="Revenue Stream" subtitle="Daily transaction volume for the current week">
+        <Card className="lg:col-span-2" title={text.revenue} subtitle={text.revenueSub}>
           <div className="h-[300px] w-full mt-6">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={REVENUE_DATA}>
@@ -54,7 +92,7 @@ export const Sales = () => {
 
         <div className="space-y-6">
           <Card className="bg-slate-900 text-white border-none">
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Total Balance</p>
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{text.totalBalance}</p>
             <h2 className="text-3xl font-bold mt-2">$428,500.00</h2>
             <div className="flex items-center gap-2 mt-4 text-emerald-400 text-sm font-bold">
               <ArrowUpRight size={16} />
@@ -75,20 +113,20 @@ export const Sales = () => {
 
           <Card>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-bold text-slate-900">Quick Stats</h3>
+              <h3 className="text-sm font-bold text-slate-900">{text.quickStats}</h3>
               <TrendingUp size={16} className="text-slate-400" />
             </div>
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <span className="text-xs text-slate-500">Avg. Order Value</span>
+                <span className="text-xs text-slate-500">{text.avgOrder}</span>
                 <span className="text-sm font-bold">$1,240</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-xs text-slate-500">Refund Rate</span>
+                <span className="text-xs text-slate-500">{text.refundRate}</span>
                 <span className="text-sm font-bold text-emerald-600">0.4%</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-xs text-slate-500">Failed Payments</span>
+                <span className="text-xs text-slate-500">{text.failed}</span>
                 <span className="text-sm font-bold text-red-600">12</span>
               </div>
             </div>
@@ -96,15 +134,15 @@ export const Sales = () => {
         </div>
       </div>
 
-      <Card title="Recent Transactions" noPadding>
-        <div className="p-4 border-b border-slate-100 flex items-center justify-between">
+      <Card title={text.transactions} noPadding>
+        <div className="p-4 border-b border-slate-100 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" className="gap-2">
               <Filter size={14} />
-              Filter
+              {text.filter}
             </Button>
           </div>
-          <p className="text-xs text-slate-500">Showing 5 of 842 transactions</p>
+          <p className="text-xs text-slate-500 sm:text-right">{text.showing}</p>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left">

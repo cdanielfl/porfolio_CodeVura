@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { routes } from '../../routes';
-import i18n from '../../i18n';
+import { resolveDemoLanguage, syncDemoLanguage } from '../../utils/demoLanguage';
 import DemoFeatureGuide from '../../components/DemoFeatureGuide';
 
 type MenuItem = {
@@ -79,19 +79,31 @@ const locationData = {
   hours: ['Tue to Thu: 6pm - 11pm', 'Fri and Sat: 12pm - 12am', 'Sunday: 12pm - 5pm'],
 };
 
-const navItems = [
-  { label: 'Home', to: '/demo/restaurante' },
-  { label: 'Menu', to: '/demo/restaurante/menu' },
-  { label: 'Reservations', to: '/demo/restaurante/reservations' },
-  { label: 'About', to: '/demo/restaurante/about' },
-  { label: 'Contact', to: '/demo/restaurante/contact' },
-];
-
 function RestaurantLayout() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const lang = resolveDemoLanguage(location.search);
+  const navItems = lang === 'pt'
+    ? [
+        { label: 'Inicio', to: '/demo/restaurante' },
+        { label: 'Cardapio', to: '/demo/restaurante/cardapio' },
+        { label: 'Reservas', to: '/demo/restaurante/reservas' },
+        { label: 'Sobre', to: '/demo/restaurante/sobre' },
+        { label: 'Contato', to: '/demo/restaurante/contato' },
+      ]
+    : [
+        { label: 'Home', to: '/demo/restaurante' },
+        { label: 'Menu', to: '/demo/restaurante/menu' },
+        { label: 'Reservations', to: '/demo/restaurante/reservations' },
+        { label: 'About', to: '/demo/restaurante/about' },
+        { label: 'Contact', to: '/demo/restaurante/contact' },
+      ];
+
+  useEffect(() => {
+    void syncDemoLanguage(location.search);
+  }, [location.search]);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 16);
@@ -104,18 +116,27 @@ function RestaurantLayout() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [location.pathname]);
 
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = '';
+      };
+    }
+    document.body.style.overflow = '';
+  }, [isMenuOpen]);
+
   const handleBack = () => {
-    const lang = i18n.resolvedLanguage?.startsWith('en') ? 'en' : 'pt';
     navigate(routes[lang].portfolio);
   };
 
   return (
     <div className="restaurant-demo demo-mobile-root min-h-screen bg-[#faf7f2] font-serif text-[#2d2a26]">
       <div className="fixed left-0 top-0 z-[100] flex w-full items-center justify-between bg-amber-800 px-4 py-1 text-center text-xs font-bold text-white">
-        <span>DEMO: RESTAURANT WEBSITE</span>
+        <span>{lang === 'pt' ? 'DEMO: SITE DE RESTAURANTE' : 'DEMO: RESTAURANT WEBSITE'}</span>
         <button onClick={handleBack} className="inline-flex items-center gap-1 underline hover:no-underline">
           <ArrowLeft className="h-3.5 w-3.5" />
-          Back
+          {lang === 'pt' ? 'Voltar' : 'Back'}
         </button>
       </div>
 
@@ -147,14 +168,18 @@ function RestaurantLayout() {
               </NavLink>
             ))}
             <Link
-              to="/demo/restaurante/reservations"
+              to={lang === 'pt' ? '/demo/restaurante/reservas' : '/demo/restaurante/reservations'}
               className="rounded-full bg-amber-800 px-8 py-3 text-xs font-bold uppercase tracking-widest text-white shadow-lg transition-all hover:bg-amber-900 active:scale-95"
             >
-              Book Table
+              {lang === 'pt' ? 'Reservar Mesa' : 'Book Table'}
             </Link>
           </div>
 
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 text-amber-900 md:hidden">
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="min-h-11 min-w-11 p-2 text-amber-900 md:hidden"
+            aria-label={lang === 'pt' ? 'Abrir menu' : 'Open menu'}
+          >
             {isMenuOpen ? <X /> : <MenuIcon />}
           </button>
         </div>
@@ -166,16 +191,20 @@ function RestaurantLayout() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-[60] flex flex-col items-center justify-center gap-8 bg-white p-8"
+            className="fixed inset-0 z-[120] flex flex-col items-center justify-start gap-4 overflow-y-auto bg-white px-6 pb-10 pt-24"
           >
-            <button onClick={() => setIsMenuOpen(false)} className="absolute right-8 top-12">
+            <button
+              onClick={() => setIsMenuOpen(false)}
+              className="absolute right-5 top-10 inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-slate-200 bg-white"
+              aria-label={lang === 'pt' ? 'Fechar menu' : 'Close menu'}
+            >
               <X className="h-8 w-8" />
             </button>
             {navItems.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
-                className="text-3xl font-bold uppercase tracking-widest"
+                className="inline-flex w-full max-w-xs items-center justify-center rounded-2xl border border-slate-200 px-5 py-4 text-center text-2xl font-bold uppercase tracking-wide"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {item.label}
@@ -195,8 +224,8 @@ function RestaurantLayout() {
             items: [
               'Comece na Home para sentir o posicionamento visual e a copy comercial.',
               'Clique em "Menu" e teste os filtros por categoria dos pratos.',
-              'Vá em "Reservations" e envie uma solicitação de reserva.',
-              'Use "About" e "Contact" para validar o funil completo do negócio local.',
+              'Vá em "Reservas" e envie uma solicitação de reserva.',
+              'Use "Sobre" e "Contato" para validar o funil completo do negócio local.',
             ],
           },
           en: {
@@ -217,11 +246,13 @@ function RestaurantLayout() {
           <div>
             <p className="mb-4 text-lg font-bold text-white">Bistro Gourmet</p>
             <p className="max-w-sm leading-relaxed">
-              Signature cuisine with seasonal ingredients, attentive service, and a complete dining experience.
+              {lang === 'pt'
+                ? 'Cozinha autoral com ingredientes sazonais, atendimento acolhedor e uma experiencia completa.'
+                : 'Signature cuisine with seasonal ingredients, attentive service, and a complete dining experience.'}
             </p>
           </div>
           <div>
-            <p className="mb-4 text-sm font-bold uppercase tracking-widest text-amber-400">Contact</p>
+            <p className="mb-4 text-sm font-bold uppercase tracking-widest text-amber-400">{lang === 'pt' ? 'Contato' : 'Contact'}</p>
             <div className="space-y-2">
               <p className="inline-flex items-center gap-2">
                 <MapPin className="h-4 w-4" />
@@ -238,12 +269,24 @@ function RestaurantLayout() {
             </div>
           </div>
           <div>
-            <p className="mb-4 text-sm font-bold uppercase tracking-widest text-amber-400">Follow Us</p>
-            <div className="mb-6 flex gap-5">
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400">
+            <p className="mb-4 text-sm font-bold uppercase tracking-widest text-amber-400">{lang === 'pt' ? 'Siga-nos' : 'Follow Us'}</p>
+            <div className="mb-6 flex gap-3">
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-white/15 hover:text-amber-400"
+                aria-label="Instagram"
+              >
                 <Instagram className="h-6 w-6" />
               </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400">
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-white/15 hover:text-amber-400"
+                aria-label="Facebook"
+              >
                 <Facebook className="h-6 w-6" />
               </a>
             </div>
@@ -256,9 +299,11 @@ function RestaurantLayout() {
 }
 
 function RestaurantHomePage() {
+  const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
   return (
     <>
-      <section className="relative flex min-h-[88vh] items-center justify-center overflow-hidden pt-28 text-center">
+      <section className="relative flex min-h-[88vh] items-center justify-center overflow-hidden pt-32 text-center sm:pt-28">
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=1920"
@@ -269,25 +314,29 @@ function RestaurantHomePage() {
         </div>
         <div className="relative z-10 max-w-4xl px-4">
           <motion.div initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }}>
-            <span className="mb-6 block font-bold uppercase tracking-[0.3em] text-amber-400">Flavor and elegance</span>
-            <h1 className="mb-6 text-5xl font-bold leading-tight text-white lg:text-7xl">
-              A complete dining experience for every moment.
+            <span className="mb-5 block text-xs font-bold uppercase tracking-[0.22em] text-amber-400 sm:text-sm sm:tracking-[0.3em]">
+              {lang === 'pt' ? 'Sabor e elegancia' : 'Flavor and elegance'}
+            </span>
+            <h1 className="mb-5 text-[2rem] font-bold leading-tight text-white sm:text-5xl lg:text-7xl">
+              {lang === 'pt' ? 'Uma experiencia gastronomica completa para cada momento.' : 'A complete dining experience for every moment.'}
             </h1>
-            <p className="mx-auto mb-10 max-w-2xl text-lg text-slate-200">
-              Contemporary cuisine with fresh ingredients, a curated wine list, and attentive service in a memorable setting.
+            <p className="mx-auto mb-8 max-w-2xl px-1 text-base text-slate-200 sm:text-lg">
+              {lang === 'pt'
+                ? 'Cozinha contemporanea com ingredientes frescos, carta de vinhos selecionada e atendimento acolhedor.'
+                : 'Contemporary cuisine with fresh ingredients, a curated wine list, and attentive service in a memorable setting.'}
             </p>
             <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
-                to="/demo/restaurante/menu"
-                className="rounded-full bg-amber-700 px-10 py-4 font-bold uppercase tracking-widest text-white transition-all hover:bg-amber-800"
+                to={lang === 'pt' ? '/demo/restaurante/cardapio' : '/demo/restaurante/menu'}
+                className="w-full rounded-full bg-amber-700 px-8 py-4 text-center text-sm font-bold uppercase tracking-[0.18em] text-white transition-all hover:bg-amber-800 sm:w-auto sm:px-10 sm:text-base sm:tracking-widest"
               >
-                View Menu
+                {lang === 'pt' ? 'Ver cardapio' : 'View Menu'}
               </Link>
               <Link
-                to="/demo/restaurante/reservations"
-                className="rounded-full border-2 border-white px-10 py-4 font-bold uppercase tracking-widest text-white transition-all hover:bg-white hover:text-amber-900"
+                to={lang === 'pt' ? '/demo/restaurante/reservas' : '/demo/restaurante/reservations'}
+                className="w-full rounded-full border-2 border-white px-8 py-4 text-center text-sm font-bold uppercase tracking-[0.18em] text-white transition-all hover:bg-white hover:text-amber-900 sm:w-auto sm:px-10 sm:text-base sm:tracking-widest"
               >
-                Make Reservation
+                {lang === 'pt' ? 'Fazer reserva' : 'Make Reservation'}
               </Link>
             </div>
           </motion.div>
@@ -297,22 +346,30 @@ function RestaurantHomePage() {
       <section className="py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-12 text-center">
-            <h2 className="mb-3 text-4xl font-bold text-amber-900">House Highlights</h2>
-            <p className="text-slate-600">A few experiences that make every visit special.</p>
+            <h2 className="mb-3 text-4xl font-bold text-amber-900">{lang === 'pt' ? 'Destaques da casa' : 'House Highlights'}</h2>
+            <p className="text-slate-600">
+              {lang === 'pt' ? 'Algumas experiencias que tornam cada visita especial.' : 'A few experiences that make every visit special.'}
+            </p>
           </div>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {[
               {
-                title: 'Signature kitchen',
-                description: 'Exclusive recipes with refined technique and contemporary identity.',
+                title: lang === 'pt' ? 'Cozinha autoral' : 'Signature kitchen',
+                description: lang === 'pt'
+                  ? 'Receitas exclusivas com tecnica refinada e identidade contemporanea.'
+                  : 'Exclusive recipes with refined technique and contemporary identity.',
               },
               {
-                title: 'Seasonal menu',
-                description: 'Frequent updates based on fresh seasonal ingredients.',
+                title: lang === 'pt' ? 'Menu sazonal' : 'Seasonal menu',
+                description: lang === 'pt'
+                  ? 'Atualizacoes frequentes com ingredientes frescos da estacao.'
+                  : 'Frequent updates based on fresh seasonal ingredients.',
               },
               {
-                title: 'Premium ambience',
-                description: 'A space designed for gatherings, celebrations, and memorable experiences.',
+                title: lang === 'pt' ? 'Ambiente premium' : 'Premium ambience',
+                description: lang === 'pt'
+                  ? 'Um espaco pensado para encontros, celebracoes e experiencias memoraveis.'
+                  : 'A space designed for gatherings, celebrations, and memorable experiences.',
               },
             ].map((item) => (
               <article key={item.title} className="rounded-2xl border border-amber-100 bg-white p-8 shadow-sm">
@@ -328,6 +385,8 @@ function RestaurantHomePage() {
 }
 
 function RestaurantMenuPage() {
+  const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
   const [activeCategory, setActiveCategory] = useState<'starters' | 'mains' | 'desserts'>('starters');
   const filtered = useMemo(() => menuItems.filter((item) => item.category === activeCategory), [activeCategory]);
 
@@ -335,25 +394,43 @@ function RestaurantMenuPage() {
     <section className="bg-white pb-24 pt-36">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
-          <h1 className="mb-3 text-5xl font-bold text-amber-900">Curated Menu</h1>
-          <p className="text-slate-600">Crafted dishes for a sophisticated dining experience.</p>
+          <h1 className="mb-3 text-5xl font-bold text-amber-900">{lang === 'pt' ? 'Cardapio selecionado' : 'Curated Menu'}</h1>
+          <p className="text-slate-600">
+            {lang === 'pt' ? 'Pratos elaborados para uma experiencia gastronomica sofisticada.' : 'Crafted dishes for a sophisticated dining experience.'}
+          </p>
         </div>
 
-        <div className="mb-12 flex justify-center gap-3">
+        <div className="mb-12 flex flex-wrap justify-center gap-3">
           {(['starters', 'mains', 'desserts'] as const).map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`rounded-full px-7 py-3 text-xs font-bold uppercase tracking-widest transition-all ${
+              className={`rounded-full px-5 sm:px-7 py-3 text-xs font-bold uppercase tracking-widest transition-all ${
                 activeCategory === cat ? 'bg-amber-800 text-white shadow-lg' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
               }`}
             >
-              {cat}
+              {lang === 'pt'
+                ? (cat === 'starters' ? 'entradas' : cat === 'mains' ? 'principais' : 'sobremesas')
+                : cat}
             </button>
           ))}
         </div>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        <div className="-mx-4 overflow-x-auto px-4 pb-2 md:hidden">
+          <div className="flex snap-x snap-mandatory gap-3">
+            {filtered.map((item) => (
+              <article key={item.name} className="w-[86%] shrink-0 snap-start rounded-2xl border border-slate-200 bg-[#fffdf9] p-5">
+                <div className="mb-2 flex items-start justify-between gap-3">
+                  <h2 className="text-xl font-bold leading-tight text-[#3a2f26]">{item.name}</h2>
+                  <span className="whitespace-nowrap text-base font-bold text-amber-800">{item.price}</span>
+                </div>
+                <p className="text-sm leading-relaxed text-slate-600">{item.description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <div className="hidden grid-cols-1 gap-8 md:grid md:grid-cols-2">
           {filtered.map((item) => (
             <article key={item.name} className="rounded-2xl border border-slate-200 bg-[#fffdf9] p-8">
               <div className="mb-3 flex items-center justify-between gap-4">
@@ -370,7 +447,20 @@ function RestaurantMenuPage() {
 }
 
 function RestaurantReservationsPage() {
+  const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const quickHighlights = lang === 'pt'
+    ? [
+        { label: 'Confirmacao media', value: 'ate 15 min' },
+        { label: 'Capacidade por reserva', value: '2 a 10 pessoas' },
+        { label: 'Melhor horario', value: '19h as 21h' },
+      ]
+    : [
+        { label: 'Average confirmation', value: 'within 15 min' },
+        { label: 'Capacity per booking', value: '2 to 10 guests' },
+        { label: 'Best time window', value: '7pm to 9pm' },
+      ];
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -379,15 +469,27 @@ function RestaurantReservationsPage() {
 
   return (
     <section className="pb-24 pt-36">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-[0.92fr_1.08fr] lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
+          {quickHighlights.map((item) => (
+            <div key={item.label} className="rounded-xl border border-amber-100 bg-white px-4 py-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-amber-700">{item.label}</p>
+              <p className="mt-1 text-sm font-semibold text-slate-700">{item.value}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.92fr_1.08fr]">
         <div className="rounded-3xl bg-amber-800 p-10 text-white">
           <p className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-amber-100">
             <CalendarClock className="h-4 w-4" />
-            Reservations
+            {lang === 'pt' ? 'Reservas' : 'Reservations'}
           </p>
-          <h1 className="mb-5 text-4xl font-bold">Secure your table in advance</h1>
+          <h1 className="mb-5 text-4xl font-bold">{lang === 'pt' ? 'Garanta sua mesa com antecedencia' : 'Secure your table in advance'}</h1>
           <p className="mb-8 leading-relaxed text-amber-100">
-            Share your details and our team will quickly confirm your reservation.
+            {lang === 'pt'
+              ? 'Compartilhe seus dados e nossa equipe confirmara sua reserva rapidamente.'
+              : 'Share your details and our team will quickly confirm your reservation.'}
           </p>
           <div className="space-y-4 text-sm">
             <p className="inline-flex items-start gap-2">
@@ -407,29 +509,39 @@ function RestaurantReservationsPage() {
 
         <div className="rounded-3xl border border-white/40 bg-white p-8 shadow-xl">
           {!isSubmitted ? (
-            <form className="space-y-5" onSubmit={onSubmit}>
+            <form className="space-y-4" onSubmit={onSubmit}>
+              <div className="rounded-xl border border-amber-100 bg-amber-50/60 px-4 py-3">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-800">
+                  {lang === 'pt' ? 'Preencha em 3 passos' : 'Complete in 3 quick steps'}
+                </p>
+                <p className="mt-1 text-sm text-amber-900/90">
+                  {lang === 'pt'
+                    ? 'Contato, data/horario e tamanho da mesa.'
+                    : 'Contact, date/time, and party size.'}
+                </p>
+              </div>
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                <input required placeholder="Full name" className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-amber-600" />
-                <input required placeholder="Phone" className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-amber-600" />
+                <input required placeholder={lang === 'pt' ? 'Nome completo' : 'Full name'} autoComplete="name" className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-amber-600" />
+                <input required placeholder={lang === 'pt' ? 'Telefone' : 'Phone'} inputMode="tel" autoComplete="tel" className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-amber-600" />
               </div>
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
                 <input required type="date" className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-amber-600" />
                 <input required type="time" className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-amber-600" />
                 <select required className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-amber-600">
-                  <option value="">Guests</option>
-                  <option>2 guests</option>
-                  <option>4 guests</option>
-                  <option>6 guests</option>
-                  <option>8+ guests</option>
+                  <option value="">{lang === 'pt' ? 'Pessoas' : 'Guests'}</option>
+                  <option>{lang === 'pt' ? '2 pessoas' : '2 guests'}</option>
+                  <option>{lang === 'pt' ? '4 pessoas' : '4 guests'}</option>
+                  <option>{lang === 'pt' ? '6 pessoas' : '6 guests'}</option>
+                  <option>{lang === 'pt' ? '8+ pessoas' : '8+ guests'}</option>
                 </select>
               </div>
               <textarea
                 rows={4}
-                placeholder="Notes (optional)"
+                placeholder={lang === 'pt' ? 'Observacoes (opcional)' : 'Notes (optional)'}
                 className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-amber-600"
               />
               <button className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-amber-800 px-5 py-4 font-bold uppercase tracking-widest text-white transition-all hover:bg-amber-900">
-                Confirm reservation request
+                {lang === 'pt' ? 'Confirmar solicitacao de reserva' : 'Confirm reservation request'}
                 <ArrowRight className="h-4 w-4" />
               </button>
             </form>
@@ -438,25 +550,30 @@ function RestaurantReservationsPage() {
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
                 <CheckCircle2 className="h-8 w-8" />
               </div>
-              <h2 className="mb-2 text-3xl font-bold text-slate-900">Reservation received</h2>
+              <h2 className="mb-2 text-3xl font-bold text-slate-900">{lang === 'pt' ? 'Reserva recebida' : 'Reservation received'}</h2>
               <p className="mx-auto max-w-md text-slate-600">
-                We received your request. Our team will contact you shortly for confirmation.
+                {lang === 'pt'
+                  ? 'Recebemos sua solicitacao. Nossa equipe entrara em contato em breve para confirmar.'
+                  : 'We received your request. Our team will contact you shortly for confirmation.'}
               </p>
               <button
                 onClick={() => setIsSubmitted(false)}
                 className="mt-6 rounded-lg border border-slate-200 px-5 py-3 text-sm font-bold text-slate-700 transition-colors hover:bg-slate-50"
               >
-                Create new request
+                {lang === 'pt' ? 'Criar nova solicitacao' : 'Create new request'}
               </button>
             </div>
           )}
         </div>
+      </div>
       </div>
     </section>
   );
 }
 
 function RestaurantAboutPage() {
+  const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
   return (
     <section className="pb-24 pt-36">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -470,21 +587,25 @@ function RestaurantAboutPage() {
             />
           </div>
           <div>
-            <h1 className="mb-6 text-5xl font-bold text-amber-900">Our story</h1>
+            <h1 className="mb-6 text-5xl font-bold text-amber-900">{lang === 'pt' ? 'Nossa historia' : 'Our story'}</h1>
             <p className="mb-6 text-lg leading-relaxed text-slate-600">
-              Bistro Gourmet was born from the combination of classic technique and a contemporary interpretation of international cuisine.
+              {lang === 'pt'
+                ? 'O Bistro Gourmet nasceu da combinacao entre tecnica classica e leitura contemporanea da cozinha internacional.'
+                : 'Bistro Gourmet was born from the combination of classic technique and a contemporary interpretation of international cuisine.'}
             </p>
             <p className="mb-8 text-lg leading-relaxed text-slate-600">
-              Our proposal is to offer a complete experience: elegant ambience, attentive service, and dishes crafted with selected ingredients from local producers.
+              {lang === 'pt'
+                ? 'Nossa proposta e oferecer uma experiencia completa: ambiente elegante, atendimento acolhedor e pratos com ingredientes selecionados.'
+                : 'Our proposal is to offer a complete experience: elegant ambience, attentive service, and dishes crafted with selected ingredients from local producers.'}
             </p>
             <div className="grid grid-cols-2 gap-6">
               <div className="rounded-xl bg-white p-5 shadow-sm">
                 <p className="text-3xl font-bold text-amber-700">15+</p>
-                <p className="text-xs font-bold uppercase tracking-widest text-slate-500">Years in operation</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-slate-500">{lang === 'pt' ? 'Anos de operacao' : 'Years in operation'}</p>
               </div>
               <div className="rounded-xl bg-white p-5 shadow-sm">
                 <p className="text-3xl font-bold text-amber-700">Core team</p>
-                <p className="text-xs font-bold uppercase tracking-widest text-slate-500">Chef + dedicated brigade</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-slate-500">{lang === 'pt' ? 'Chef + brigada dedicada' : 'Chef + dedicated brigade'}</p>
               </div>
             </div>
           </div>
@@ -495,12 +616,33 @@ function RestaurantAboutPage() {
 }
 
 function RestaurantContactPage() {
+  const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
+  const quickContact = lang === 'pt'
+    ? [
+        { label: 'Resposta media', value: 'ate 20 min' },
+        { label: 'Telefone', value: locationData.phone },
+        { label: 'Email reservas', value: locationData.email },
+      ]
+    : [
+        { label: 'Average response', value: 'within 20 min' },
+        { label: 'Phone', value: locationData.phone },
+        { label: 'Reservation email', value: locationData.email },
+      ];
   return (
     <section className="bg-[#2d2a26] pb-24 pt-36 text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
+          {quickContact.map((item) => (
+            <div key={item.label} className="rounded-xl border border-white/15 bg-white/5 px-4 py-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-amber-300">{item.label}</p>
+              <p className="mt-1 text-sm font-semibold text-slate-100">{item.value}</p>
+            </div>
+          ))}
+        </div>
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
           <div>
-            <h1 className="mb-6 text-4xl font-bold text-amber-400">Contact and location</h1>
+            <h1 className="mb-6 text-4xl font-bold text-amber-400">{lang === 'pt' ? 'Contato e localizacao' : 'Contact and location'}</h1>
             <div className="space-y-6">
               <p className="inline-flex items-start gap-3">
                 <MapPin className="mt-0.5 h-5 w-5 text-amber-300" />
@@ -520,27 +662,39 @@ function RestaurantContactPage() {
             className="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-8"
             onSubmit={(event) => event.preventDefault()}
           >
-            <h2 className="mb-2 text-2xl font-bold">Talk to our team</h2>
+            <h2 className="mb-2 text-2xl font-bold">{lang === 'pt' ? 'Fale com nossa equipe' : 'Talk to our team'}</h2>
+            <div className="rounded-xl border border-white/15 bg-white/5 px-4 py-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-300">
+                {lang === 'pt' ? 'Envio rapido' : 'Quick request'}
+              </p>
+              <p className="mt-1 text-sm text-slate-200">
+                {lang === 'pt'
+                  ? 'Nome, email e mensagem com o que voce precisa.'
+                  : 'Name, email, and a short message with your request.'}
+              </p>
+            </div>
             <input
               type="text"
-              placeholder="Name"
+              placeholder={lang === 'pt' ? 'Nome' : 'Name'}
+              autoComplete="name"
               className="w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 outline-none placeholder:text-slate-300 focus:border-amber-300"
               required
             />
             <input
               type="email"
               placeholder="Email"
+              autoComplete="email"
               className="w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 outline-none placeholder:text-slate-300 focus:border-amber-300"
               required
             />
             <textarea
               rows={5}
-              placeholder="Message"
+              placeholder={lang === 'pt' ? 'Mensagem' : 'Message'}
               className="w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 outline-none placeholder:text-slate-300 focus:border-amber-300"
               required
             />
             <button className="w-full rounded-xl bg-amber-700 px-5 py-4 font-bold uppercase tracking-widest text-white transition-colors hover:bg-amber-800">
-              Send message
+              {lang === 'pt' ? 'Enviar mensagem' : 'Send message'}
             </button>
           </form>
         </div>
@@ -550,13 +704,15 @@ function RestaurantContactPage() {
 }
 
 function RestaurantNotFoundPage() {
+  const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
   return (
     <section className="flex min-h-[60vh] items-center justify-center px-4 pt-32 text-center">
       <div>
-        <p className="mb-4 text-sm font-bold uppercase tracking-[0.3em] text-amber-700">Page not found</p>
-        <h1 className="mb-4 text-4xl font-bold text-amber-900">Route unavailable in this demo</h1>
+        <p className="mb-4 text-sm font-bold uppercase tracking-[0.3em] text-amber-700">{lang === 'pt' ? 'Pagina nao encontrada' : 'Page not found'}</p>
+        <h1 className="mb-4 text-4xl font-bold text-amber-900">{lang === 'pt' ? 'Rota indisponivel nesta demo' : 'Route unavailable in this demo'}</h1>
         <Link to="/demo/restaurante" className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-amber-800">
-          Back to home
+          {lang === 'pt' ? 'Voltar para inicio' : 'Back to home'}
           <ArrowRight className="h-4 w-4" />
         </Link>
       </div>

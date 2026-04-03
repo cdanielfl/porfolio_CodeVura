@@ -1,12 +1,37 @@
 import * as React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Card, CardContent } from '../components/ui/Card';
 import { curate } from '../lib/paths';
+import { resolveDemoLanguage } from '../../../../utils/demoLanguage';
 
 export function SignInPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
+
+  const text = lang === 'pt'
+    ? {
+        welcome: 'Bem-vindo de volta',
+        noAccount: 'Nao tem conta?',
+        signUp: 'Criar conta gratis',
+        email: 'Email',
+        password: 'Senha',
+        forgot: 'Esqueceu a senha?',
+        signIn: 'Entrar',
+        orContinue: 'Ou continue com',
+      }
+    : {
+        welcome: 'Welcome back',
+        noAccount: "Don't have an account?",
+        signUp: 'Sign up for free',
+        email: 'Email address',
+        password: 'Password',
+        forgot: 'Forgot password?',
+        signIn: 'Sign In',
+        orContinue: 'Or continue with',
+      };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,11 +48,11 @@ export function SignInPage() {
             </div>
             <span className="text-2xl font-bold tracking-tight">Curate</span>
           </Link>
-          <h2 className="mt-6 text-3xl font-bold tracking-tight text-zinc-900">Welcome back</h2>
+          <h2 className="mt-6 text-3xl font-bold tracking-tight text-zinc-900">{text.welcome}</h2>
           <p className="mt-2 text-sm text-zinc-600">
-            Don't have an account?{' '}
+            {text.noAccount}{' '}
             <Link to={curate('signup')} className="font-medium text-zinc-900 hover:underline">
-              Sign up for free
+              {text.signUp}
             </Link>
           </p>
         </div>
@@ -35,17 +60,17 @@ export function SignInPage() {
         <Card>
           <CardContent className="pt-6">
             <form onSubmit={handleSubmit} className="space-y-6">
-              <Input label="Email address" type="email" placeholder="name@example.com" required />
+              <Input label={text.email} type="email" placeholder="name@example.com" required />
               <div className="space-y-1">
-                <Input label="Password" type="password" placeholder="••••••••" required />
+                <Input label={text.password} type="password" placeholder="********" required />
                 <div className="flex justify-end">
                   <button type="button" className="text-xs font-medium text-zinc-500 hover:text-zinc-900">
-                    Forgot password?
+                    {text.forgot}
                   </button>
                 </div>
               </div>
               <Button type="submit" className="w-full">
-                Sign In
+                {text.signIn}
               </Button>
             </form>
 
@@ -54,7 +79,7 @@ export function SignInPage() {
                 <div className="w-full border-t border-zinc-200"></div>
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-zinc-500">Or continue with</span>
+                <span className="bg-white px-2 text-zinc-500">{text.orContinue}</span>
               </div>
             </div>
 

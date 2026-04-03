@@ -1,21 +1,72 @@
 import React from "react";
 import { motion } from "motion/react";
 import { Users, Calendar, PhoneCall, TrendingUp, DollarSign, Activity } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import { MOCK_USERS, MOCK_APPOINTMENTS } from "../../data/mockData";
+import { resolveDemoLanguage } from "../../../../../utils/demoLanguage";
 
 export const AdminHome: React.FC = () => {
+  const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
+  const text =
+    lang === "pt"
+      ? {
+          title: "Painel administrativo",
+          subtitle: "Visao em tempo real das operacoes da Apex Auto.",
+          totalCustomers: "Total de clientes",
+          activeAppointments: "Agendamentos ativos",
+          revenue: "Receita (mes)",
+          emergencyCalls: "Chamadas de emergencia",
+          revenuePerformance: "Desempenho de receita",
+          last30: "Ultimos 30 dias",
+          last6: "Ultimos 6 meses",
+          systemHealth: "Saude do sistema",
+          server: "Status do servidor",
+          database: "Banco de dados",
+          latency: "Latencia da API",
+          sessions: "Sessoes ativas",
+          operational: "Operacional",
+          healthy: "Saudavel",
+          recentLogs: "Logs recentes",
+          log1: "Novo usuario cadastrado: sarah@example.com",
+          log2: "Agendamento #425 confirmado",
+          log3: "Unidade de emergencia #4 despachada",
+        }
+      : {
+          title: "Admin Dashboard",
+          subtitle: "Real-time overview of Apex Auto operations.",
+          totalCustomers: "Total Customers",
+          activeAppointments: "Active Appointments",
+          revenue: "Revenue (MTD)",
+          emergencyCalls: "Emergency Calls",
+          revenuePerformance: "Revenue Performance",
+          last30: "Last 30 Days",
+          last6: "Last 6 Months",
+          systemHealth: "System Health",
+          server: "Server Status",
+          database: "Database",
+          latency: "API Latency",
+          sessions: "Active Sessions",
+          operational: "Operational",
+          healthy: "Healthy",
+          recentLogs: "Recent Logs",
+          log1: "New user registered: sarah@example.com",
+          log2: "Appointment #425 confirmed",
+          log3: "Emergency unit #4 dispatched",
+        };
+
   const stats = [
-    { label: "Total Customers", value: MOCK_USERS.length, icon: Users, color: "text-blue-500", bg: "bg-blue-500/10" },
-    { label: "Active Appointments", value: MOCK_APPOINTMENTS.filter(a => a.status === "pending").length, icon: Calendar, color: "text-green-500", bg: "bg-green-500/10" },
-    { label: "Revenue (MTD)", value: "$42,500", icon: DollarSign, color: "text-purple-500", bg: "bg-purple-500/10" },
-    { label: "Emergency Calls", value: "12", icon: PhoneCall, color: "text-red-500", bg: "bg-red-500/10" },
+    { label: text.totalCustomers, value: MOCK_USERS.length, icon: Users, color: "text-blue-500", bg: "bg-blue-500/10" },
+    { label: text.activeAppointments, value: MOCK_APPOINTMENTS.filter(a => a.status === "pending").length, icon: Calendar, color: "text-green-500", bg: "bg-green-500/10" },
+    { label: text.revenue, value: "$42,500", icon: DollarSign, color: "text-purple-500", bg: "bg-purple-500/10" },
+    { label: text.emergencyCalls, value: "12", icon: PhoneCall, color: "text-red-500", bg: "bg-red-500/10" },
   ];
 
   return (
     <div className="space-y-8">
       <header>
-        <h1 className="text-3xl font-black tracking-tighter mb-2 uppercase">Admin Dashboard</h1>
-        <p className="text-gray-500 font-medium">Real-time overview of Apex Auto operations.</p>
+        <h1 className="text-3xl font-black tracking-tighter mb-2 uppercase">{text.title}</h1>
+        <p className="text-gray-500 font-medium">{text.subtitle}</p>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -42,11 +93,11 @@ export const AdminHome: React.FC = () => {
           <div className="flex items-center justify-between">
             <h2 className="text-lg md:text-xl font-bold flex items-center space-x-2">
               <TrendingUp className="w-5 h-5 text-blue-500" />
-              <span>Revenue Performance</span>
+              <span>{text.revenuePerformance}</span>
             </h2>
             <select className="bg-white/5 border border-white/10 rounded-lg px-2 py-1 text-[10px] text-gray-400">
-              <option>Last 30 Days</option>
-              <option>Last 6 Months</option>
+              <option>{text.last30}</option>
+              <option>{text.last6}</option>
             </select>
           </div>
           <div className="h-48 md:h-64 flex items-end justify-between gap-1 md:gap-2 pt-4 overflow-x-auto pb-2 scrollbar-hide">
@@ -75,14 +126,14 @@ export const AdminHome: React.FC = () => {
         <div className="p-8 bg-zinc-900 border border-white/5 rounded-[2.5rem] space-y-6">
           <h2 className="text-xl font-bold flex items-center space-x-2">
             <Activity className="w-5 h-5 text-green-500" />
-            <span>System Health</span>
+            <span>{text.systemHealth}</span>
           </h2>
           <div className="space-y-6">
             {[
-              { label: "Server Status", status: "Operational", color: "text-green-500" },
-              { label: "Database", status: "Healthy", color: "text-green-500" },
-              { label: "API Latency", status: "24ms", color: "text-blue-500" },
-              { label: "Active Sessions", status: "142", color: "text-white" },
+              { label: text.server, status: text.operational, color: "text-green-500" },
+              { label: text.database, status: text.healthy, color: "text-green-500" },
+              { label: text.latency, status: "24ms", color: "text-blue-500" },
+              { label: text.sessions, status: "142", color: "text-white" },
             ].map((item, i) => (
               <div key={i} className="flex items-center justify-between">
                 <span className="text-sm text-gray-500">{item.label}</span>
@@ -91,12 +142,12 @@ export const AdminHome: React.FC = () => {
             ))}
           </div>
           <div className="pt-6 border-t border-white/5">
-            <div className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Recent Logs</div>
+            <div className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">{text.recentLogs}</div>
             <div className="space-y-3">
               {[
-                "New user registered: sarah@example.com",
-                "Appointment #425 confirmed",
-                "Emergency unit #4 dispatched",
+                text.log1,
+                text.log2,
+                text.log3,
               ].map((log, i) => (
                 <div key={i} className="text-[10px] text-gray-600 font-mono flex items-center space-x-2">
                   <span className="text-blue-500">•</span>

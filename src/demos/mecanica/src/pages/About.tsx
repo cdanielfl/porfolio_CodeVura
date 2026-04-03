@@ -1,8 +1,48 @@
 import React from "react";
 import { motion } from "motion/react";
 import { ShieldCheck, Clock, Award, Users } from "lucide-react";
+import { useLocation } from "react-router-dom";
+import { resolveDemoLanguage } from "../../../../utils/demoLanguage";
 
 export const About: React.FC = () => {
+  const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
+  const text = lang === "pt"
+    ? {
+        story: "Nossa historia",
+        titleA: "SOMOS A",
+        titleB: "APEX AUTO",
+        intro:
+          "Fundada em 2010, a Apex Auto cresceu de uma oficina local para um centro automotivo de referencia.",
+        years: "Anos de experiencia",
+        customers: "Clientes satisfeitos",
+        excellence: "Excelencia certificada",
+        serviceCenter: "Centro de servico premiado",
+        quality: "Qualidade garantida",
+        qualityDesc: "Usamos pecas de alta qualidade com garantia completa.",
+        speed: "Atendimento rapido",
+        speedDesc: "Sabemos que seu tempo vale muito. Grande parte dos servicos sai no mesmo dia.",
+        team: "Equipe especialista",
+        teamDesc: "Mecanicos certificados com treinamento continuo em novas tecnologias.",
+      }
+    : {
+        story: "Our Story",
+        titleA: "WE ARE",
+        titleB: "APEX AUTO",
+        intro:
+          "Founded in 2010, Apex Auto has grown from a small local garage to Detroit's most trusted automotive service center. Our mission is to provide premium vehicle diagnostics and maintenance services with precision and speed.",
+        years: "Years Experience",
+        customers: "Happy Customers",
+        excellence: "Certified Excellence",
+        serviceCenter: "Top Rated Service Center",
+        quality: "Quality Guaranteed",
+        qualityDesc: "We use only the highest quality parts and our work is backed by a comprehensive warranty.",
+        speed: "Fast Turnaround",
+        speedDesc: "We understand your time is valuable. Most services are completed within the same day.",
+        team: "Expert Team",
+        teamDesc: "Our certified mechanics undergo continuous training to stay ahead of automotive technology.",
+      };
+
   return (
     <div className="py-20 px-4">
       <div className="max-w-7xl mx-auto">
@@ -13,22 +53,22 @@ export const About: React.FC = () => {
             className="flex-1"
           >
             <span className="inline-block px-4 py-1.5 mb-6 text-xs font-semibold tracking-widest text-blue-400 uppercase bg-blue-400/10 border border-blue-400/20 rounded-full">
-              Our Story
+              {text.story}
             </span>
             <h1 className="text-4xl md:text-7xl font-black tracking-tighter mb-8 leading-none">
-              WE ARE <span className="text-blue-500">APEX AUTO</span>
+              {text.titleA} <span className="text-blue-500">{text.titleB}</span>
             </h1>
             <p className="text-lg text-gray-400 mb-8 leading-relaxed max-w-xl">
-              Founded in 2010, Apex Auto has grown from a small local garage to Detroit's most trusted automotive service center. Our mission is to provide premium vehicle diagnostics and maintenance services with precision and speed.
+              {text.intro}
             </p>
             <div className="grid grid-cols-2 gap-8">
               <div>
                 <div className="text-3xl font-black text-white mb-1">15+</div>
-                <div className="text-xs uppercase tracking-widest text-gray-500 font-bold">Years Experience</div>
+                <div className="text-xs uppercase tracking-widest text-gray-500 font-bold">{text.years}</div>
               </div>
               <div>
                 <div className="text-3xl font-black text-white mb-1">10k+</div>
-                <div className="text-xs uppercase tracking-widest text-gray-500 font-bold">Happy Customers</div>
+                <div className="text-xs uppercase tracking-widest text-gray-500 font-bold">{text.customers}</div>
               </div>
             </div>
           </motion.div>
@@ -47,8 +87,8 @@ export const About: React.FC = () => {
             </div>
             <div className="absolute -bottom-8 -left-8 bg-blue-600 p-8 rounded-3xl shadow-2xl hidden md:block">
               <Award className="w-12 h-12 text-white mb-4" />
-              <div className="text-xl font-bold text-white">Certified Excellence</div>
-              <div className="text-sm text-blue-100">Top Rated Service Center</div>
+              <div className="text-xl font-bold text-white">{text.excellence}</div>
+              <div className="text-sm text-blue-100">{text.serviceCenter}</div>
             </div>
           </motion.div>
         </div>
@@ -57,18 +97,18 @@ export const About: React.FC = () => {
           {[
             {
               icon: ShieldCheck,
-              title: "Quality Guaranteed",
-              description: "We use only the highest quality parts and our work is backed by a comprehensive warranty."
+              title: text.quality,
+              description: text.qualityDesc
             },
             {
               icon: Clock,
-              title: "Fast Turnaround",
-              description: "We understand your time is valuable. Most services are completed within the same day."
+              title: text.speed,
+              description: text.speedDesc
             },
             {
               icon: Users,
-              title: "Expert Team",
-              description: "Our certified mechanics undergo continuous training to stay ahead of automotive technology."
+              title: text.team,
+              description: text.teamDesc
             }
           ].map((item, i) => (
             <motion.div

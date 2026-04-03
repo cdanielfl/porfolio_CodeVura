@@ -3,39 +3,65 @@ import { MOCK_TASKS } from '../data/mock';
 import { Plus, Search, MoreVertical, Calendar, User } from 'lucide-react';
 import { motion } from 'motion/react';
 import { cn } from '../lib/utils';
-
-const COLUMNS = [
-  { id: 'Todo', label: 'To Do', color: 'bg-slate-100' },
-  { id: 'In Progress', label: 'In Progress', color: 'bg-indigo-100' },
-  { id: 'Done', label: 'Completed', color: 'bg-emerald-100' },
-];
+import { useLocation } from 'react-router-dom';
+import { resolveDemoLanguage } from '../../../../../utils/demoLanguage';
 
 export const Workflow = () => {
+  const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
+  const text = lang === 'pt'
+    ? {
+        todo: 'A Fazer',
+        inProgress: 'Em andamento',
+        completed: 'Concluido',
+        title: 'Fluxo de projetos',
+        subtitle: 'Acompanhe e gerencie iniciativas estrategicas.',
+        search: 'Buscar tarefas...',
+        newTask: 'Nova tarefa',
+        noTasks: 'Nenhuma tarefa nesta etapa',
+      }
+    : {
+        todo: 'To Do',
+        inProgress: 'In Progress',
+        completed: 'Completed',
+        title: 'Project Workflow',
+        subtitle: 'Track and manage strategic initiatives across teams.',
+        search: 'Search tasks...',
+        newTask: 'New Task',
+        noTasks: 'No tasks in this stage',
+      };
+
+  const columns = [
+    { id: 'Todo', label: text.todo, color: 'bg-slate-100' },
+    { id: 'In Progress', label: text.inProgress, color: 'bg-indigo-100' },
+    { id: 'Done', label: text.completed, color: 'bg-emerald-100' },
+  ];
+
   return (
     <div className="space-y-8 h-full flex flex-col">
-      <div className="flex items-end justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Project Workflow</h1>
-          <p className="text-slate-500 mt-1">Track and manage strategic initiatives across teams.</p>
+          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">{text.title}</h1>
+          <p className="text-slate-500 mt-1">{text.subtitle}</p>
         </div>
-        <div className="flex gap-3">
-          <div className="relative">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="relative w-full sm:w-auto">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
             <input 
               type="text" 
-              placeholder="Search tasks..." 
-              className="pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+              placeholder={text.search}
+              className="w-full sm:w-auto pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
             />
           </div>
-          <Button className="gap-2">
+          <Button className="w-full sm:w-auto gap-2">
             <Plus size={16} />
-            New Task
+            {text.newTask}
           </Button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1">
-        {COLUMNS.map((col) => (
+        {columns.map((col) => (
           <div key={col.id} className="flex flex-col gap-4">
             <div className="flex items-center justify-between px-2">
               <div className="flex items-center gap-2">
@@ -82,7 +108,7 @@ export const Workflow = () => {
               ))}
               {MOCK_TASKS.filter(t => t.status === col.id).length === 0 && (
                 <div className="h-32 border-2 border-dashed border-slate-200 rounded-xl flex items-center justify-center text-slate-400 text-xs italic">
-                  No tasks in this stage
+                  {text.noTasks}
                 </div>
               )}
             </div>

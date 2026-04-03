@@ -2,9 +2,44 @@ import * as React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { curate } from '../lib/paths';
+import { resolveDemoLanguage } from '../../../../utils/demoLanguage';
 
 export function PublicLayout() {
   const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
+  const text = lang === 'pt'
+    ? {
+        features: 'Recursos',
+        templates: 'Modelos',
+        pricing: 'Precos',
+        signIn: 'Entrar',
+        getStarted: 'Comecar',
+        description: 'A plataforma profissional para criar curriculos de alta qualidade.',
+        product: 'Produto',
+        builder: 'Editor',
+        examples: 'Exemplos',
+        company: 'Empresa',
+        about: 'Sobre',
+        privacy: 'Privacidade',
+        terms: 'Termos',
+        rights: 'Todos os direitos reservados.',
+      }
+    : {
+        features: 'Features',
+        templates: 'Templates',
+        pricing: 'Pricing',
+        signIn: 'Sign In',
+        getStarted: 'Get Started',
+        description: 'The professional platform for crafting high-fidelity resumes that get you hired.',
+        product: 'Product',
+        builder: 'Builder',
+        examples: 'Examples',
+        company: 'Company',
+        about: 'About',
+        privacy: 'Privacy',
+        terms: 'Terms',
+        rights: 'All rights reserved.',
+      };
   const isAuthPage = [curate('signin'), curate('signup')].includes(location.pathname);
 
   return (
@@ -19,18 +54,25 @@ export function PublicLayout() {
               <span className="text-xl font-bold tracking-tight">Curate</span>
             </Link>
             <nav className="hidden md:flex items-center space-x-8 text-sm font-medium text-zinc-600">
-              <a href={`${curate()}#features`} className="hover:text-zinc-900 transition-colors">Features</a>
-              <a href={`${curate()}#templates`} className="hover:text-zinc-900 transition-colors">Templates</a>
-              <a href={`${curate()}#pricing`} className="hover:text-zinc-900 transition-colors">Pricing</a>
+              <a href={`${curate()}#features`} className="hover:text-zinc-900 transition-colors">{text.features}</a>
+              <a href={`${curate()}#templates`} className="hover:text-zinc-900 transition-colors">{text.templates}</a>
+              <a href={`${curate()}#pricing`} className="hover:text-zinc-900 transition-colors">{text.pricing}</a>
             </nav>
             <div className="flex items-center space-x-4">
               <Link to={curate('signin')}>
-                <Button variant="ghost" size="sm">Sign In</Button>
+                <Button variant="ghost" size="sm">{text.signIn}</Button>
               </Link>
               <Link to={curate('signup')}>
-                <Button size="sm">Get Started</Button>
+                <Button size="sm">{text.getStarted}</Button>
               </Link>
             </div>
+          </div>
+          <div className="border-t border-zinc-100 px-4 py-2 md:hidden">
+            <nav className="mx-auto flex max-w-md items-center justify-between text-xs font-semibold text-zinc-600">
+              <a href={`${curate()}#features`} className="hover:text-zinc-900 transition-colors">{text.features}</a>
+              <a href={`${curate()}#templates`} className="hover:text-zinc-900 transition-colors">{text.templates}</a>
+              <a href={`${curate()}#pricing`} className="hover:text-zinc-900 transition-colors">{text.pricing}</a>
+            </nav>
           </div>
         </header>
       )}
@@ -48,29 +90,27 @@ export function PublicLayout() {
                   </div>
                   <span className="text-lg font-bold tracking-tight">Curate</span>
                 </Link>
-                <p className="text-sm text-zinc-500 max-w-xs">
-                  The professional platform for crafting high-fidelity resumes that get you hired.
-                </p>
+                <p className="text-sm text-zinc-500 max-w-xs">{text.description}</p>
               </div>
               <div>
-                <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-4">Product</h4>
+                <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-4">{text.product}</h4>
                 <ul className="space-y-2 text-sm text-zinc-600">
-                  <li><Link to={curate()} className="hover:text-zinc-900">Templates</Link></li>
-                  <li><Link to={curate()} className="hover:text-zinc-900">Builder</Link></li>
-                  <li><Link to={curate()} className="hover:text-zinc-900">Examples</Link></li>
+                  <li><Link to={curate()} className="hover:text-zinc-900">{text.templates}</Link></li>
+                  <li><Link to={curate()} className="hover:text-zinc-900">{text.builder}</Link></li>
+                  <li><Link to={curate()} className="hover:text-zinc-900">{text.examples}</Link></li>
                 </ul>
               </div>
               <div>
-                <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-4">Company</h4>
+                <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-4">{text.company}</h4>
                 <ul className="space-y-2 text-sm text-zinc-600">
-                  <li><Link to={curate()} className="hover:text-zinc-900">About</Link></li>
-                  <li><Link to={curate()} className="hover:text-zinc-900">Privacy</Link></li>
-                  <li><Link to={curate()} className="hover:text-zinc-900">Terms</Link></li>
+                  <li><Link to={curate()} className="hover:text-zinc-900">{text.about}</Link></li>
+                  <li><Link to={curate()} className="hover:text-zinc-900">{text.privacy}</Link></li>
+                  <li><Link to={curate()} className="hover:text-zinc-900">{text.terms}</Link></li>
                 </ul>
               </div>
             </div>
             <div className="mt-12 pt-8 border-t border-zinc-200 text-center text-xs text-zinc-400">
-              © 2024 Curate Inc. All rights reserved.
+              © 2024 Curate Inc. {text.rights}
             </div>
           </div>
         </footer>

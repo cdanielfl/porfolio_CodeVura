@@ -1,12 +1,33 @@
 import React, { useState } from "react";
 import { motion } from "motion/react";
 import { Plus, Edit2, Trash2, Search, Wrench, MoreVertical } from "lucide-react";
-import { SERVICES } from "../../data/mockData";
+import { SERVICES, localizeServices } from "../../data/mockData";
+import { useLocation } from "react-router-dom";
+import { resolveDemoLanguage } from "../../../../../utils/demoLanguage";
 
 export const AdminServices: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
+  const services = localizeServices(SERVICES, lang);
+  const text =
+    lang === "pt"
+      ? {
+          title: "Gestao de servicos",
+          subtitle: "Adicione, edite ou remova servicos da oficina.",
+          add: "Adicionar servico",
+          search: "Buscar servicos...",
+          price: "Preco",
+        }
+      : {
+          title: "Manage Services",
+          subtitle: "Add, edit, or remove automotive service offerings.",
+          add: "Add Service",
+          search: "Search services...",
+          price: "Price",
+        };
 
-  const filteredServices = SERVICES.filter(s => 
+  const filteredServices = services.filter(s => 
     s.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -14,19 +35,19 @@ export const AdminServices: React.FC = () => {
     <div className="space-y-8">
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black tracking-tighter mb-2 uppercase">Manage Services</h1>
-          <p className="text-gray-500 font-medium">Add, edit, or remove automotive service offerings.</p>
+          <h1 className="text-3xl font-black tracking-tighter mb-2 uppercase">{text.title}</h1>
+          <p className="text-gray-500 font-medium">{text.subtitle}</p>
         </div>
         <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all flex items-center space-x-2">
           <Plus className="w-5 h-5" />
-          <span>Add Service</span>
+          <span>{text.add}</span>
         </button>
       </header>
 
       <div className="relative">
         <input
           type="text"
-          placeholder="Search services..."
+          placeholder={text.search}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full bg-zinc-900 border border-white/5 rounded-2xl px-12 py-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-blue-500 transition-colors"
@@ -55,7 +76,7 @@ export const AdminServices: React.FC = () => {
 
             <div className="flex items-center justify-between md:justify-end gap-8">
               <div className="text-right">
-                <div className="text-xs text-gray-500 uppercase font-bold tracking-widest mb-1">Price</div>
+                <div className="text-xs text-gray-500 uppercase font-bold tracking-widest mb-1">{text.price}</div>
                 <div className="text-sm font-black text-blue-500">{service.price}</div>
               </div>
               <div className="flex items-center space-x-2">

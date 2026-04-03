@@ -6,6 +6,7 @@ import { useAuth } from "../context/AuthContext";
 import { LayoutDashboard, Calendar, PhoneCall, History, Users, Wrench } from "lucide-react";
 import { cn } from "../lib/utils";
 import { mech } from "../lib/paths";
+import { resolveDemoLanguage } from "../../../../utils/demoLanguage";
 
 interface DashboardLayoutProps {
   role: "customer" | "admin";
@@ -14,6 +15,29 @@ interface DashboardLayoutProps {
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ role }) => {
   const { user, isAuthenticated } = useAuth();
   const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
+  const text =
+    lang === "pt"
+      ? {
+          customerHome: "Inicio",
+          customerBook: "Agendar",
+          customerSos: "SOS",
+          customerHistory: "Historico",
+          adminHome: "Inicio",
+          adminServices: "Servicos",
+          adminUsers: "Usuarios",
+          adminApps: "Agenda",
+        }
+      : {
+          customerHome: "Home",
+          customerBook: "Book",
+          customerSos: "SOS",
+          customerHistory: "History",
+          adminHome: "Home",
+          adminServices: "Services",
+          adminUsers: "Users",
+          adminApps: "Apps",
+        };
 
   if (!isAuthenticated) {
     return <Navigate to={mech("login")} replace />;
@@ -24,17 +48,17 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ role }) => {
   }
 
   const customerLinks = [
-    { name: "Home", path: mech("dashboard"), icon: LayoutDashboard },
-    { name: "Book", path: mech("dashboard/schedule"), icon: Calendar },
-    { name: "SOS", path: mech("dashboard/emergency"), icon: PhoneCall },
-    { name: "History", path: mech("dashboard/appointments"), icon: History },
+    { name: text.customerHome, path: mech("dashboard"), icon: LayoutDashboard },
+    { name: text.customerBook, path: mech("dashboard/schedule"), icon: Calendar },
+    { name: text.customerSos, path: mech("dashboard/emergency"), icon: PhoneCall },
+    { name: text.customerHistory, path: mech("dashboard/appointments"), icon: History },
   ];
 
   const adminLinks = [
-    { name: "Home", path: mech("admin"), icon: LayoutDashboard },
-    { name: "Services", path: mech("admin/services"), icon: Wrench },
-    { name: "Users", path: mech("admin/customers"), icon: Users },
-    { name: "Apps", path: mech("admin/appointments"), icon: Calendar },
+    { name: text.adminHome, path: mech("admin"), icon: LayoutDashboard },
+    { name: text.adminServices, path: mech("admin/services"), icon: Wrench },
+    { name: text.adminUsers, path: mech("admin/customers"), icon: Users },
+    { name: text.adminApps, path: mech("admin/appointments"), icon: Calendar },
   ];
 
   const mobileLinks = role === "admin" ? adminLinks : customerLinks;

@@ -14,6 +14,7 @@ import {
 import { useAuth } from "../context/AuthContext";
 import { cn } from "../lib/utils";
 import { mech } from "../lib/paths";
+import { resolveDemoLanguage } from "../../../../utils/demoLanguage";
 
 interface SidebarProps {
   type: "customer" | "admin";
@@ -22,19 +23,44 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({ type }) => {
   const location = useLocation();
   const { logout } = useAuth();
+  const lang = resolveDemoLanguage(location.search);
+  const text =
+    lang === "pt"
+      ? {
+          overview: "Visao geral",
+          schedule: "Agendar",
+          emergency: "Emergencia",
+          appointments: "Atendimentos",
+          adminHome: "Painel admin",
+          services: "Servicos",
+          customers: "Clientes",
+          allAppointments: "Todos atendimentos",
+          logout: "Sair",
+        }
+      : {
+          overview: "Overview",
+          schedule: "Schedule",
+          emergency: "Emergency",
+          appointments: "Appointments",
+          adminHome: "Admin Home",
+          services: "Services",
+          customers: "Customers",
+          allAppointments: "All Appointments",
+          logout: "Logout",
+        };
 
   const customerLinks = [
-    { name: "Overview", path: mech("dashboard"), icon: LayoutDashboard },
-    { name: "Schedule", path: mech("dashboard/schedule"), icon: Calendar },
-    { name: "Emergency", path: mech("dashboard/emergency"), icon: PhoneCall },
-    { name: "Appointments", path: mech("dashboard/appointments"), icon: History },
+    { name: text.overview, path: mech("dashboard"), icon: LayoutDashboard },
+    { name: text.schedule, path: mech("dashboard/schedule"), icon: Calendar },
+    { name: text.emergency, path: mech("dashboard/emergency"), icon: PhoneCall },
+    { name: text.appointments, path: mech("dashboard/appointments"), icon: History },
   ];
 
   const adminLinks = [
-    { name: "Admin Home", path: mech("admin"), icon: LayoutDashboard },
-    { name: "Services", path: mech("admin/services"), icon: Wrench },
-    { name: "Customers", path: mech("admin/customers"), icon: Users },
-    { name: "All Appointments", path: mech("admin/appointments"), icon: Calendar },
+    { name: text.adminHome, path: mech("admin"), icon: LayoutDashboard },
+    { name: text.services, path: mech("admin/services"), icon: Wrench },
+    { name: text.customers, path: mech("admin/customers"), icon: Users },
+    { name: text.allAppointments, path: mech("admin/appointments"), icon: Calendar },
   ];
 
   const links = type === "admin" ? adminLinks : customerLinks;
@@ -71,7 +97,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ type }) => {
           className="flex items-center space-x-3 w-full px-4 py-3 text-gray-400 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all"
         >
           <LogOut className="w-5 h-5" />
-          <span className="text-sm font-medium">Logout</span>
+          <span className="text-sm font-medium">{text.logout}</span>
         </button>
       </div>
     </aside>

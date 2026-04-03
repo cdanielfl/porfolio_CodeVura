@@ -2,33 +2,76 @@ import { Card, Button, Badge } from '../components/UI';
 import { MOCK_PRODUCTS } from '../data/mock';
 import { Package, Plus, Search, Filter, MoreVertical, Edit3, Trash2 } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useLocation } from 'react-router-dom';
+import { resolveDemoLanguage } from '../../../../../utils/demoLanguage';
+import { cn } from '../lib/utils';
 
 export const Inventory = () => {
+  const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
+  const text = lang === 'pt'
+    ? {
+        title: 'Estoque e catalogo',
+        subtitle: 'Gerencie produtos, servicos e niveis de estoque.',
+        categories: 'Categorias',
+        addItem: 'Adicionar produto / servico',
+        totalItems: 'Total de itens',
+        lowStock: 'Estoque baixo',
+        outOfStock: 'Sem estoque',
+        services: 'Servicos',
+        search: 'Buscar no estoque...',
+        filter: 'Filtrar',
+        item: 'Item',
+        category: 'Categoria',
+        price: 'Preco',
+        stock: 'Estoque',
+        status: 'Status',
+        actions: 'Acoes',
+      }
+    : {
+        title: 'Inventory & Catalog',
+        subtitle: 'Manage your products, services, and stock levels.',
+        categories: 'Categories',
+        addItem: 'Add Product / Service',
+        totalItems: 'Total Items',
+        lowStock: 'Low Stock',
+        outOfStock: 'Out of Stock',
+        services: 'Services',
+        search: 'Search inventory...',
+        filter: 'Filter',
+        item: 'Item',
+        category: 'Category',
+        price: 'Price',
+        stock: 'Stock',
+        status: 'Status',
+        actions: 'Actions',
+      };
+
   return (
     <div className="space-y-8">
-      <div className="flex items-end justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Inventory & Catalog</h1>
-          <p className="text-slate-500 mt-1">Manage your products, services, and stock levels.</p>
+          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">{text.title}</h1>
+          <p className="text-slate-500 mt-1">{text.subtitle}</p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           <Button variant="outline" className="gap-2">
             <Package size={16} />
-            Categories
+            {text.categories}
           </Button>
           <Button className="gap-2">
             <Plus size={16} />
-            Add Product / Service
+            {text.addItem}
           </Button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
-          { label: 'Total Items', value: '142', sub: 'Across 12 categories' },
-          { label: 'Low Stock', value: '8', sub: 'Requires attention', color: 'text-amber-600' },
-          { label: 'Out of Stock', value: '3', sub: 'Restock immediately', color: 'text-red-600' },
-          { label: 'Services', value: '15', sub: 'Active offerings' },
+          { label: text.totalItems, value: '142', sub: lang === 'pt' ? 'Em 12 categorias' : 'Across 12 categories' },
+          { label: text.lowStock, value: '8', sub: lang === 'pt' ? 'Requer atencao' : 'Requires attention', color: 'text-amber-600' },
+          { label: text.outOfStock, value: '3', sub: lang === 'pt' ? 'Repor imediatamente' : 'Restock immediately', color: 'text-red-600' },
+          { label: text.services, value: '15', sub: lang === 'pt' ? 'Ofertas ativas' : 'Active offerings' },
         ].map((stat, i) => (
           <Card key={i}>
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{stat.label}</p>
@@ -39,19 +82,19 @@ export const Inventory = () => {
       </div>
 
       <Card noPadding>
-        <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/30">
-          <div className="flex items-center gap-4">
-            <div className="relative">
+        <div className="p-4 border-b border-slate-100 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between bg-slate-50/30">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+            <div className="relative w-full sm:w-auto">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
               <input 
                 type="text" 
-                placeholder="Search inventory..." 
-                className="pl-9 pr-4 py-1.5 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20 w-64"
+                placeholder={text.search}
+                className="w-full sm:w-64 pl-9 pr-4 py-1.5 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
               />
             </div>
             <Button variant="outline" size="sm" className="gap-2">
               <Filter size={14} />
-              Filter
+              {text.filter}
             </Button>
           </div>
         </div>
@@ -60,12 +103,12 @@ export const Inventory = () => {
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-slate-100">
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Item</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Category</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Price</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Stock</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Status</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">Actions</th>
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.item}</th>
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.category}</th>
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.price}</th>
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.stock}</th>
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.status}</th>
+                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">{text.actions}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -92,7 +135,7 @@ export const Inventory = () => {
                   </td>
                   <td className="px-6 py-4 text-sm font-bold text-slate-900">${product.price.toFixed(2)}</td>
                   <td className="px-6 py-4 text-sm text-slate-600">
-                    {product.category === 'Service' ? '—' : `${product.stock} units`}
+                    {product.category === 'Service' ? '—' : `${product.stock} ${lang === 'pt' ? 'unidades' : 'units'}`}
                   </td>
                   <td className="px-6 py-4">
                     <Badge variant={
@@ -121,5 +164,3 @@ export const Inventory = () => {
     </div>
   );
 };
-
-import { cn } from '../lib/utils';

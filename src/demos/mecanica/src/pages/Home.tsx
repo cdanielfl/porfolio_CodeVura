@@ -1,8 +1,9 @@
 import React from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight, Phone, ShieldCheck, Clock, Settings, Wrench, Activity, Droplets, Disc, Battery, CircleDot, Wind, ArrowUpCircle, X } from "lucide-react";
-import { Link } from "react-router-dom";
-import { SERVICES } from "../data/mockData";
+import { Link, useLocation } from "react-router-dom";
+import { SERVICES, localizeServices } from "../data/mockData";
+import { resolveDemoLanguage } from "../../../../utils/demoLanguage";
 
 const iconMap: Record<string, any> = {
   Droplets,
@@ -16,6 +17,46 @@ const iconMap: Record<string, any> = {
 };
 
 export const Home: React.FC = () => {
+  const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
+  const text =
+    lang === "pt"
+      ? {
+          badge: "Especialistas em cuidado automotivo",
+          heroTitle1: "REPARO AUTOMOTIVO",
+          heroTitle2: "RAPIDO E CONFIAVEL",
+          heroSubtitle:
+            "Servicos premium de diagnostico e manutencao automotiva para manter voce em movimento com seguranca.",
+          callNow: "LIGUE AGORA",
+          emergency: "Atendimento de emergencia 24/7",
+          aboutTitle1: "SOBRE A",
+          aboutTitle2: "EMPRESA",
+          aboutText:
+            "A Apex Auto e referencia em servicos automotivos de alta performance, com mais de 15 anos de experiencia.",
+          years: "Anos de experiencia",
+          customers: "Clientes satisfeitos",
+          servicesTitle: "O QUE FAZEMOS",
+          servicesSubtitle: "Solucoes completas para manter seu carro seguro e eficiente.",
+        }
+      : {
+          badge: "Expert Automotive Care",
+          heroTitle1: "FAST & RELIABLE",
+          heroTitle2: "AUTO REPAIR",
+          heroSubtitle:
+            "Experience premium vehicle diagnostics and maintenance services in Detroit. We keep you moving with precision and speed.",
+          callNow: "CALL NOW",
+          emergency: "24/7 Emergency Service",
+          aboutTitle1: "ABOUT OUR",
+          aboutTitle2: "COMPANY",
+          aboutText:
+            "Apex Auto is a leader in high-performance automotive services. With over 15 years of experience, our team of certified technicians uses cutting-edge technology to ensure your vehicle receives the best possible care.",
+          years: "Years of Experience",
+          customers: "Happy Customers",
+          servicesTitle: "WHAT WE CAN DO",
+          servicesSubtitle: "We offer a full range of automotive solutions to keep you on the road safely.",
+      };
+  const services = localizeServices(SERVICES, lang);
+
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
@@ -37,14 +78,14 @@ export const Home: React.FC = () => {
             transition={{ duration: 0.8 }}
           >
             <span className="inline-block px-4 py-1.5 mb-6 text-xs font-semibold tracking-widest text-blue-400 uppercase bg-blue-400/10 border border-blue-400/20 rounded-full">
-              Expert Automotive Care
+              {text.badge}
             </span>
             <h1 className="text-5xl md:text-8xl font-black tracking-tighter mb-6 leading-none">
-              FAST & RELIABLE <br />
-              <span className="text-blue-500">AUTO REPAIR</span>
+              {text.heroTitle1} <br />
+              <span className="text-blue-500">{text.heroTitle2}</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12 font-medium">
-              Experience premium vehicle diagnostics and maintenance services in Detroit. We keep you moving with precision and speed.
+              {text.heroSubtitle}
             </p>
             
             {/* Call Button */}
@@ -56,8 +97,8 @@ export const Home: React.FC = () => {
                 <Phone className="w-10 h-10 md:w-14 md:h-14 group-hover:scale-110 transition-transform" />
               </a>
               <div className="text-center">
-                <h3 className="text-xl font-bold uppercase tracking-tighter">CALL NOW</h3>
-                <p className="text-sm text-gray-500 font-medium">24/7 Emergency Service</p>
+                <h3 className="text-xl font-bold uppercase tracking-tighter">{text.callNow}</h3>
+                <p className="text-sm text-gray-500 font-medium">{text.emergency}</p>
               </div>
             </div>
           </motion.div>
@@ -73,19 +114,19 @@ export const Home: React.FC = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl md:text-6xl font-black tracking-tighter mb-8 leading-none">
-              ABOUT OUR <span className="text-blue-500">COMPANY</span>
+              {text.aboutTitle1} <span className="text-blue-500">{text.aboutTitle2}</span>
             </h2>
             <p className="text-lg text-gray-400 mb-8 leading-relaxed">
-              Apex Auto is a leader in high-performance automotive services. With over 15 years of experience, our team of certified technicians uses cutting-edge technology to ensure your vehicle receives the best possible care.
+              {text.aboutText}
             </p>
             <div className="grid grid-cols-2 gap-8">
               <div>
                 <div className="text-3xl font-black text-white mb-1">15+</div>
-                <div className="text-xs uppercase tracking-widest text-gray-500 font-bold">Years of Experience</div>
+                <div className="text-xs uppercase tracking-widest text-gray-500 font-bold">{text.years}</div>
               </div>
               <div>
                 <div className="text-3xl font-black text-white mb-1">10k+</div>
-                <div className="text-xs uppercase tracking-widest text-gray-500 font-bold">Happy Customers</div>
+                <div className="text-xs uppercase tracking-widest text-gray-500 font-bold">{text.customers}</div>
               </div>
             </div>
           </motion.div>
@@ -109,12 +150,12 @@ export const Home: React.FC = () => {
       <section className="py-32 px-4 bg-black">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
-            <h2 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 uppercase">WHAT WE CAN DO</h2>
-            <p className="text-gray-400 max-w-xl mx-auto">We offer a full range of automotive solutions to keep you on the road safely.</p>
+            <h2 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 uppercase">{text.servicesTitle}</h2>
+            <p className="text-gray-400 max-w-xl mx-auto">{text.servicesSubtitle}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {SERVICES.slice(0, 4).map((service, i) => {
+            {services.slice(0, 4).map((service, i) => {
               const Icon = iconMap[service.icon] || Wrench;
               return (
                 <motion.div

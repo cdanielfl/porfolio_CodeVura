@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, BriefcaseBusiness, CheckCircle2, ChevronDown, ExternalLink, Layers3, Target } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { routes } from '../routes';
+import { withDemoLanguage } from '../utils/demoLanguage';
 
 type StatItem = {
   value: string;
@@ -68,7 +69,7 @@ export default function Portfolio() {
 
   const projects = Object.entries(projectMap).map(([id, project]) => ({
     id,
-    demoPath: `/demo/${id}`,
+    demoPath: withDemoLanguage(`/demo/${id}`, lang),
     coverImage: projectImages[id] ?? 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1200',
     ...project,
   }));

@@ -1,21 +1,31 @@
-import { Outlet } from 'react-router-dom';
-import { NavLink } from 'react-router-dom';
+import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import { LayoutDashboard, ShoppingCart, Package, Users, MoreHorizontal } from 'lucide-react';
 import { Sidebar } from './components/Sidebar';
 import { Topbar } from './components/Topbar';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from './lib/utils';
 import { sp } from './lib/paths';
-
-const mobileItems = [
-  { icon: LayoutDashboard, label: 'Home', path: sp() },
-  { icon: ShoppingCart, label: 'Orders', path: sp('orders') },
-  { icon: Package, label: 'Stock', path: sp('inventory') },
-  { icon: Users, label: 'Clients', path: sp('customers') },
-  { icon: MoreHorizontal, label: 'More', path: sp('reports') },
-];
+import { resolveDemoLanguage } from '../../../../utils/demoLanguage';
 
 export const DemoLayout = () => {
+  const location = useLocation();
+  const lang = resolveDemoLanguage(location.search);
+  const mobileItems = lang === 'pt'
+    ? [
+        { icon: LayoutDashboard, label: 'Inicio', path: sp() },
+        { icon: ShoppingCart, label: 'Pedidos', path: sp('orders') },
+        { icon: Package, label: 'Estoque', path: sp('inventory') },
+        { icon: Users, label: 'Clientes', path: sp('customers') },
+        { icon: MoreHorizontal, label: 'Mais', path: sp('reports') },
+      ]
+    : [
+        { icon: LayoutDashboard, label: 'Home', path: sp() },
+        { icon: ShoppingCart, label: 'Orders', path: sp('orders') },
+        { icon: Package, label: 'Stock', path: sp('inventory') },
+        { icon: Users, label: 'Clients', path: sp('customers') },
+        { icon: MoreHorizontal, label: 'More', path: sp('reports') },
+      ];
+
   return (
     <div className="flex min-h-screen bg-bg font-sans text-ink selection:bg-accent selection:text-white overflow-hidden">
       <Sidebar />

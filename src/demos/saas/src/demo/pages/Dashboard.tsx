@@ -94,7 +94,7 @@ export const Dashboard = () => {
     >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">{text.title}</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">{text.title}</h1>
           <p className="text-slate-500 mt-1">{text.subtitle}</p>
         </div>
         <div className="flex flex-wrap gap-3">
@@ -216,25 +216,25 @@ export const Dashboard = () => {
         <motion.div variants={item} className="lg:col-span-2">
           <Card title={text.pendingOrders} subtitle={text.pendingOrdersSub} noPadding>
             <div className="overflow-x-auto">
-              <table className="w-full text-left">
+              <table className="min-w-[760px] w-full text-left">
                 <thead>
                   <tr className="bg-slate-50/50 border-y border-slate-100">
-                    <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.order}</th>
-                    <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.customer}</th>
-                    <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.total}</th>
-                    <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.status}</th>
+                    <th className="px-4 py-3 sm:px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.order}</th>
+                    <th className="px-4 py-3 sm:px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.customer}</th>
+                    <th className="px-4 py-3 sm:px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.total}</th>
+                    <th className="px-4 py-3 sm:px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.status}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {MOCK_ORDERS.slice(0, 4).map((order) => (
                     <tr key={order.id} className="hover:bg-slate-50/50 transition-colors group">
-                      <td className="px-6 py-4">
+                      <td className="px-4 py-3 sm:px-6 sm:py-4">
                         <span className="text-sm font-medium text-slate-900">{order.id}</span>
                         <p className="text-[10px] text-slate-500 font-bold uppercase tracking-tighter">{order.date}</p>
                       </td>
-                      <td className="px-6 py-4 text-sm text-slate-600">{order.customerName}</td>
-                      <td className="px-6 py-4 text-sm font-semibold text-slate-900">${order.total.toLocaleString()}</td>
-                      <td className="px-6 py-4">
+                      <td className="px-4 py-3 sm:px-6 sm:py-4 text-sm text-slate-600">{order.customerName}</td>
+                      <td className="px-4 py-3 sm:px-6 sm:py-4 text-sm font-semibold text-slate-900">${order.total.toLocaleString()}</td>
+                      <td className="px-4 py-3 sm:px-6 sm:py-4">
                         <Badge variant={order.status === 'Delivered' ? 'success' : order.status === 'Shipped' ? 'info' : 'warning'}>
                           {order.status}
                         </Badge>
@@ -281,3 +281,4 @@ export const Dashboard = () => {
     </motion.div>
   );
 };
+

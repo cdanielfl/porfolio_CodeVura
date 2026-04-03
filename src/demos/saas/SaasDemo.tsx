@@ -64,30 +64,33 @@ export default function SaasDemo() {
         </Routes>
       </div>
 
-      <DemoFeatureGuide
-        content={{
-          pt: {
-            label: 'Guia da Demo',
-            title: 'Funcionalidades da Demo de SaaS',
-            items: [
-              'Entre por "Dashboard" para visão geral da operação.',
-              'Navegue em "Orders", "Inventory" e "Customers" para rotinas do time.',
-              'Use "Sales", "Tasks" e "Reports" para validar gestão orientada a dados.',
-              'Finalize em "Settings" e "Profile" para ver o sistema completo.',
-            ],
-          },
-          en: {
-            label: 'Demo Guide',
-            title: 'Operational SaaS Demo Features',
-            items: [
-              'Start on "Dashboard" for a high-level operations overview.',
-              'Navigate through "Orders", "Inventory", and "Customers" for daily workflows.',
-              'Use "Sales", "Tasks", and "Reports" to validate data-driven operations.',
-              'Finish on "Settings" and "Profile" for complete system coverage.',
-            ],
-          },
-        }}
-      />
+      <div className="hidden md:block">
+        <DemoFeatureGuide
+          content={{
+            pt: {
+              label: 'Guia da Demo',
+              title: 'Funcionalidades da Demo de SaaS',
+              items: [
+                'Entre por "Dashboard" para visao geral da operacao.',
+                'Navegue em "Orders", "Inventory" e "Customers" para rotinas do time.',
+                'Use "Sales", "Tasks" e "Reports" para validar gestao orientada a dados.',
+                'Finalize em "Settings" e "Profile" para ver o sistema completo.',
+              ],
+            },
+            en: {
+              label: 'Demo Guide',
+              title: 'Operational SaaS Demo Features',
+              items: [
+                'Start on "Dashboard" for a high-level operations overview.',
+                'Navigate through "Orders", "Inventory", and "Customers" for daily workflows.',
+                'Use "Sales", "Tasks", and "Reports" to validate data-driven operations.',
+                'Finish on "Settings" and "Profile" for complete system coverage.',
+              ],
+            },
+          }}
+        />
+      </div>
     </div>
   );
 }
+

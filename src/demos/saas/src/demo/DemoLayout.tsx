@@ -32,7 +32,7 @@ export const DemoLayout = () => {
       <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
         <Topbar />
         <main className="flex-1 overflow-y-auto grid-pattern">
-          <div className="p-4 pb-24 sm:p-8 sm:pb-24 lg:p-12 lg:pb-12">
+          <div className="p-3 pb-24 sm:p-6 sm:pb-24 lg:p-10 lg:pb-12">
             <AnimatePresence mode="wait">
               <motion.div
                 initial={{ opacity: 0, scale: 0.98 }}
@@ -46,7 +46,7 @@ export const DemoLayout = () => {
           </div>
         </main>
 
-        <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-2 py-2 backdrop-blur-md lg:hidden">
+        <nav className="fixed inset-x-0 bottom-0 z-[80] border-t border-slate-200 bg-white/95 px-2 py-2 backdrop-blur-md lg:hidden">
           <div className="mx-auto flex max-w-md items-center justify-between">
             {mobileItems.map((item) => (
               <NavLink
@@ -54,7 +54,7 @@ export const DemoLayout = () => {
                 to={item.path}
                 className={({ isActive }) =>
                   cn(
-                    'flex min-w-[58px] flex-col items-center gap-1 rounded-lg px-2 py-1 text-[10px] font-semibold',
+                    'flex min-w-[64px] flex-col items-center gap-1 rounded-lg px-2 py-2 text-[10px] font-semibold',
                     isActive ? 'text-indigo-600' : 'text-slate-500'
                   )
                 }
@@ -69,3 +69,4 @@ export const DemoLayout = () => {
     </div>
   );
 };
+

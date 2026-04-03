@@ -41,7 +41,7 @@ export const Workflow = () => {
     <div className="space-y-8 h-full flex flex-col">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">{text.title}</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">{text.title}</h1>
           <p className="text-slate-500 mt-1">{text.subtitle}</p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -76,7 +76,7 @@ export const Workflow = () => {
               </button>
             </div>
 
-            <div className={cn("flex-1 rounded-2xl p-2 space-y-4 min-h-[500px]", col.color + "/30")}>
+            <div className={cn("flex-1 rounded-2xl p-2 space-y-4 min-h-[320px] sm:min-h-[420px] lg:min-h-[500px]", col.color + "/30")}>
               {MOCK_TASKS.filter(t => t.status === col.id).map((task) => (
                 <motion.div 
                   key={task.id}
@@ -118,3 +118,5 @@ export const Workflow = () => {
     </div>
   );
 };
+
+

@@ -51,7 +51,7 @@ export const Inventory = () => {
     <div className="space-y-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">{text.title}</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">{text.title}</h1>
           <p className="text-slate-500 mt-1">{text.subtitle}</p>
         </div>
         <div className="flex flex-wrap gap-3">
@@ -100,21 +100,21 @@ export const Inventory = () => {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="min-w-[760px] w-full text-left">
             <thead>
               <tr className="border-b border-slate-100">
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.item}</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.category}</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.price}</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.stock}</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.status}</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">{text.actions}</th>
+                <th className="px-4 py-3 sm:px-6 sm:py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.item}</th>
+                <th className="px-4 py-3 sm:px-6 sm:py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.category}</th>
+                <th className="px-4 py-3 sm:px-6 sm:py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.price}</th>
+                <th className="px-4 py-3 sm:px-6 sm:py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.stock}</th>
+                <th className="px-4 py-3 sm:px-6 sm:py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{text.status}</th>
+                <th className="px-4 py-3 sm:px-6 sm:py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">{text.actions}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {MOCK_PRODUCTS.map((product) => (
                 <tr key={product.id} className="hover:bg-slate-50/50 transition-colors group">
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-3 sm:px-6 sm:py-4">
                     <div className="flex items-center gap-3">
                       <img 
                         src={product.image} 
@@ -128,16 +128,16 @@ export const Inventory = () => {
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-3 sm:px-6 sm:py-4">
                     <Badge variant={product.category === 'Service' ? 'info' : 'neutral'}>
                       {product.category}
                     </Badge>
                   </td>
-                  <td className="px-6 py-4 text-sm font-bold text-slate-900">${product.price.toFixed(2)}</td>
-                  <td className="px-6 py-4 text-sm text-slate-600">
+                  <td className="px-4 py-3 sm:px-6 sm:py-4 text-sm font-bold text-slate-900">${product.price.toFixed(2)}</td>
+                  <td className="px-4 py-3 sm:px-6 sm:py-4 text-sm text-slate-600">
                     {product.category === 'Service' ? '—' : `${product.stock} ${lang === 'pt' ? 'unidades' : 'units'}`}
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-3 sm:px-6 sm:py-4">
                     <Badge variant={
                       product.status === 'In Stock' || product.status === 'Active' ? 'success' : 
                       product.status === 'Low Stock' ? 'warning' : 'error'
@@ -145,7 +145,7 @@ export const Inventory = () => {
                       {product.status}
                     </Badge>
                   </td>
-                  <td className="px-6 py-4 text-right">
+                  <td className="px-4 py-3 sm:px-6 sm:py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
                       <Button variant="ghost" size="icon" className="h-8 w-8">
                         <Edit3 size={16} />
@@ -164,3 +164,4 @@ export const Inventory = () => {
     </div>
   );
 };
+

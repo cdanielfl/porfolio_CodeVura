@@ -49,7 +49,7 @@ export const Profile = () => {
     <div className="max-w-5xl space-y-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">{text.title}</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">{text.title}</h1>
           <p className="mt-1 text-slate-500">{text.subtitle}</p>
         </div>
         <Button className="w-full sm:w-auto">{text.edit}</Button>
@@ -143,4 +143,5 @@ export const Profile = () => {
     </div>
   );
 };
+
 

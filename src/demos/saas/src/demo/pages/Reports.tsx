@@ -56,7 +56,7 @@ export const Reports = () => {
     <div className="space-y-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">{text.title}</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">{text.title}</h1>
           <p className="mt-1 text-slate-500">{text.subtitle}</p>
         </div>
         <Button className="w-full sm:w-auto gap-2">
@@ -68,17 +68,17 @@ export const Reports = () => {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         <Card>
           <p className="text-xs uppercase tracking-wider text-slate-500">{text.totalReports}</p>
-          <p className="mt-2 text-3xl font-bold text-slate-900">842</p>
+          <p className="mt-2 text-2xl sm:text-3xl font-bold text-slate-900">842</p>
           <p className="mt-1 text-xs text-emerald-600">+12 this week</p>
         </Card>
         <Card>
           <p className="text-xs uppercase tracking-wider text-slate-500">{text.storage}</p>
-          <p className="mt-2 text-3xl font-bold text-slate-900">12.4 GB</p>
+          <p className="mt-2 text-2xl sm:text-3xl font-bold text-slate-900">12.4 GB</p>
           <p className="mt-1 text-xs text-slate-500">of 50 GB available</p>
         </Card>
         <Card>
           <p className="text-xs uppercase tracking-wider text-slate-500">{text.scheduled}</p>
-          <p className="mt-2 text-3xl font-bold text-slate-900">4</p>
+          <p className="mt-2 text-2xl sm:text-3xl font-bold text-slate-900">4</p>
           <p className="mt-1 text-xs text-slate-500">next run in 2 days</p>
         </Card>
       </div>
@@ -103,31 +103,31 @@ export const Reports = () => {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="min-w-[760px] w-full text-left">
             <thead>
               <tr className="border-b border-slate-100 bg-slate-50/50">
-                <th className="px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-slate-400">{text.report}</th>
-                <th className="px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-slate-400">{text.type}</th>
-                <th className="px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-slate-400">{text.date}</th>
-                <th className="px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-slate-400">{text.size}</th>
-                <th className="px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-slate-400">{text.status}</th>
-                <th className="px-6 py-3 text-right text-[10px] font-bold uppercase tracking-widest text-slate-400">{text.actions}</th>
+                <th className="px-4 py-3 sm:px-6 text-[10px] font-bold uppercase tracking-widest text-slate-400">{text.report}</th>
+                <th className="px-4 py-3 sm:px-6 text-[10px] font-bold uppercase tracking-widest text-slate-400">{text.type}</th>
+                <th className="px-4 py-3 sm:px-6 text-[10px] font-bold uppercase tracking-widest text-slate-400">{text.date}</th>
+                <th className="px-4 py-3 sm:px-6 text-[10px] font-bold uppercase tracking-widest text-slate-400">{text.size}</th>
+                <th className="px-4 py-3 sm:px-6 text-[10px] font-bold uppercase tracking-widest text-slate-400">{text.status}</th>
+                <th className="px-4 py-3 sm:px-6 text-right text-[10px] font-bold uppercase tracking-widest text-slate-400">{text.actions}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {REPORTS.map((report) => (
                 <tr key={report.id} className="group transition-colors hover:bg-slate-50/60">
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-3 sm:px-6 sm:py-4">
                     <p className="text-sm font-semibold text-slate-900">{report.title}</p>
                     <p className="text-xs text-slate-500">{report.id}</p>
                   </td>
-                  <td className="px-6 py-4 text-xs text-slate-600">{report.type}</td>
-                  <td className="px-6 py-4 text-xs text-slate-500">{report.date}</td>
-                  <td className="px-6 py-4 text-xs text-slate-500">{report.size}</td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-3 sm:px-6 sm:py-4 text-xs text-slate-600">{report.type}</td>
+                  <td className="px-4 py-3 sm:px-6 sm:py-4 text-xs text-slate-500">{report.date}</td>
+                  <td className="px-4 py-3 sm:px-6 sm:py-4 text-xs text-slate-500">{report.size}</td>
+                  <td className="px-4 py-3 sm:px-6 sm:py-4">
                     <Badge variant={report.status === 'Archived' ? 'neutral' : 'success'}>{report.status}</Badge>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-3 sm:px-6 sm:py-4">
                     <div className="flex items-center justify-end gap-2">
                       <Button variant="ghost" size="icon" className="h-8 w-8">
                         <Eye size={14} />
@@ -149,4 +149,5 @@ export const Reports = () => {
     </div>
   );
 };
+
 

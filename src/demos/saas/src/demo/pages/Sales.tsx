@@ -56,7 +56,7 @@ export const Sales = () => {
     <div className="space-y-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">{text.title}</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">{text.title}</h1>
           <p className="text-slate-500 mt-1">{text.subtitle}</p>
         </div>
         <div className="flex flex-wrap gap-3">
@@ -93,7 +93,7 @@ export const Sales = () => {
         <div className="space-y-6">
           <Card className="bg-slate-900 text-white border-none">
             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{text.totalBalance}</p>
-            <h2 className="text-3xl font-bold mt-2">$428,500.00</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold mt-2">$428,500.00</h2>
             <div className="flex items-center gap-2 mt-4 text-emerald-400 text-sm font-bold">
               <ArrowUpRight size={16} />
               <span>+14.2%</span>
@@ -145,30 +145,30 @@ export const Sales = () => {
           <p className="text-xs text-slate-500 sm:text-right">{text.showing}</p>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="min-w-[760px] w-full text-left">
             <thead>
               <tr className="bg-slate-50/50 border-b border-slate-100">
-                <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">ID</th>
-                <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Customer</th>
-                <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Amount</th>
-                <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Type</th>
-                <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Status</th>
-                <th className="px-6 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Date</th>
+                <th className="px-4 py-3 sm:px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">ID</th>
+                <th className="px-4 py-3 sm:px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Customer</th>
+                <th className="px-4 py-3 sm:px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Amount</th>
+                <th className="px-4 py-3 sm:px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Type</th>
+                <th className="px-4 py-3 sm:px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Status</th>
+                <th className="px-4 py-3 sm:px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Date</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {MOCK_TRANSACTIONS.map((tx) => (
                 <tr key={tx.id} className="hover:bg-slate-50/50 transition-colors">
-                  <td className="px-6 py-4 text-sm font-medium text-slate-900">{tx.id}</td>
-                  <td className="px-6 py-4 text-sm text-slate-600">{tx.customer}</td>
-                  <td className="px-6 py-4 text-sm font-bold text-slate-900">${tx.amount.toLocaleString()}</td>
-                  <td className="px-6 py-4 text-xs text-slate-500 uppercase font-bold tracking-wider">{tx.type}</td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-3 sm:px-6 sm:py-4 text-sm font-medium text-slate-900">{tx.id}</td>
+                  <td className="px-4 py-3 sm:px-6 sm:py-4 text-sm text-slate-600">{tx.customer}</td>
+                  <td className="px-4 py-3 sm:px-6 sm:py-4 text-sm font-bold text-slate-900">${tx.amount.toLocaleString()}</td>
+                  <td className="px-4 py-3 sm:px-6 sm:py-4 text-xs text-slate-500 uppercase font-bold tracking-wider">{tx.type}</td>
+                  <td className="px-4 py-3 sm:px-6 sm:py-4">
                     <Badge variant={tx.status === 'Completed' ? 'success' : tx.status === 'Processing' ? 'info' : 'error'}>
                       {tx.status}
                     </Badge>
                   </td>
-                  <td className="px-6 py-4 text-sm text-slate-500">{tx.date}</td>
+                  <td className="px-4 py-3 sm:px-6 sm:py-4 text-sm text-slate-500">{tx.date}</td>
                 </tr>
               ))}
             </tbody>
@@ -178,3 +178,4 @@ export const Sales = () => {
     </div>
   );
 };
+

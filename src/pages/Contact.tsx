@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { Send, CheckCircle, ArrowLeft } from 'lucide-react';
@@ -14,21 +15,47 @@ const sectionReveal = {
   },
 };
 
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL ?? 'http://localhost:3001/api',
+  withCredentials: true,
+});
+
+type ContactFormData = {
+  fullName: string;
+  email: string;
+  message: string;
+};
+
 export default function Contact() {
   const { t, i18n } = useTranslation();
   const lang = i18n.language?.startsWith('en') ? 'en' : 'pt';
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [formData, setFormData] = useState<ContactFormData>({
+    fullName: '',
+    email: '',
+    message: '',
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrorMessage(null);
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      await api.post('/contact', formData);
       setIsSuccess(true);
-    }, 1500);
+      setFormData({
+        fullName: '',
+        email: '',
+        message: '',
+      });
+    } catch {
+      setErrorMessage('Nao foi possivel enviar agora. Tente novamente em alguns instantes.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -65,20 +92,24 @@ export default function Contact() {
               <AnimatePresence mode="wait">
                 {!isSuccess ? (
                   <motion.form
-                      key="form"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
+                    key="form"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
                     onSubmit={handleSubmit}
                     className="space-y-5 sm:space-y-6"
                   >
                     <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
                       <div className="space-y-2">
-                        <label htmlFor="name" className="ml-1 text-xs font-bold text-slate-100 sm:text-sm">{t('contact.form.nameLabel')}</label>
+                        <label htmlFor="fullName" className="ml-1 text-xs font-bold text-slate-100 sm:text-sm">{t('contact.form.nameLabel')}</label>
                         <input
                           type="text"
-                          id="name"
+                          id="fullName"
                           required
+                          minLength={3}
+                          maxLength={120}
+                          value={formData.fullName}
+                          onChange={(e) => setFormData((prev) => ({ ...prev, fullName: e.target.value }))}
                           placeholder={t('contact.form.namePlaceholder')}
                           className="w-full rounded-xl border border-slate-700 bg-slate-800/70 px-4 py-3 text-white transition-all placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:rounded-2xl sm:px-6 sm:py-4"
                         />
@@ -89,22 +120,13 @@ export default function Contact() {
                           type="email"
                           id="email"
                           required
+                          maxLength={160}
+                          value={formData.email}
+                          onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
                           placeholder={t('contact.form.emailPlaceholder')}
                           className="w-full rounded-xl border border-slate-700 bg-slate-800/70 px-4 py-3 text-white transition-all placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:rounded-2xl sm:px-6 sm:py-4"
                         />
                       </div>
-                    </div>
-                    <div className="space-y-2">
-                      <label htmlFor="subject" className="ml-1 text-xs font-bold text-slate-100 sm:text-sm">{t('contact.form.subjectLabel')}</label>
-                      <select
-                        id="subject"
-                        className="w-full appearance-none rounded-xl border border-slate-700 bg-slate-800/70 px-4 py-3 text-white transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:rounded-2xl sm:px-6 sm:py-4"
-                      >
-                        <option>{t('contact.form.subjectOptions.newProject')}</option>
-                        <option>{t('contact.form.subjectOptions.support')}</option>
-                        <option>{t('contact.form.subjectOptions.consulting')}</option>
-                        <option>{t('contact.form.subjectOptions.other')}</option>
-                      </select>
                     </div>
                     <div className="space-y-2">
                       <label htmlFor="message" className="ml-1 text-xs font-bold text-slate-100 sm:text-sm">{t('contact.form.messageLabel')}</label>
@@ -112,17 +134,29 @@ export default function Contact() {
                         id="message"
                         required
                         rows={4}
+                        minLength={10}
+                        maxLength={3000}
+                        value={formData.message}
+                        onChange={(e) => setFormData((prev) => ({ ...prev, message: e.target.value }))}
                         placeholder={t('contact.form.messagePlaceholder')}
                         className="w-full resize-none rounded-xl border border-slate-700 bg-slate-800/70 px-4 py-3 text-white transition-all placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:rounded-2xl sm:px-6 sm:py-4"
                       ></textarea>
                     </div>
+                    {errorMessage ? (
+                      <p className="rounded-xl border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-100">
+                        {errorMessage}
+                      </p>
+                    ) : null}
                     <button
                       type="submit"
                       disabled={isSubmitting}
                       className="group flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-500 py-4 text-base font-bold text-white shadow-2xl shadow-purple-900/40 transition-all hover:from-indigo-400 hover:to-purple-600 disabled:cursor-not-allowed disabled:opacity-70 sm:py-5 sm:text-lg"
                     >
                       {isSubmitting ? (
-                        <div className="w-6 h-6 border-3 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        <>
+                          {t('contact.form.sending')}
+                          <div className="w-6 h-6 border-3 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        </>
                       ) : (
                         <>
                           {t('contact.form.submit')}

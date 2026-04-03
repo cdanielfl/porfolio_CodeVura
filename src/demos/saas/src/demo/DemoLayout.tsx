@@ -10,6 +10,7 @@ import { resolveDemoLanguage } from '../../../../utils/demoLanguage';
 export const DemoLayout = () => {
   const location = useLocation();
   const lang = resolveDemoLanguage(location.search);
+  const routeKey = `${location.pathname}${location.search}`;
   const mobileItems = lang === 'pt'
     ? [
         { icon: LayoutDashboard, label: 'Inicio', path: sp() },
@@ -31,14 +32,15 @@ export const DemoLayout = () => {
       <Sidebar />
       <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
         <Topbar />
-        <main className="flex-1 overflow-y-auto grid-pattern">
+        <main className="flex-1 overflow-y-auto bg-bg grid-pattern">
           <div className="p-3 pb-24 sm:p-6 sm:pb-24 lg:p-10 lg:pb-12">
-            <AnimatePresence mode="wait">
+            <AnimatePresence initial={false} mode="sync">
               <motion.div
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 1.02 }}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                key={routeKey}
+                initial={{ opacity: 0.98, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0.99, y: -4 }}
+                transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
               >
                 <Outlet />
               </motion.div>

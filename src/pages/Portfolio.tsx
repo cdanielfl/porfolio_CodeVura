@@ -94,7 +94,7 @@ export default function Portfolio() {
   const visibleProjects = filteredProjects.length > 0 ? filteredProjects : projects;
 
   return (
-    <main className="flex-grow pb-20 pt-24 text-white sm:pb-24 sm:pt-32">
+    <main className="flex-grow bg-[#05031a] pb-20 pt-24 text-white sm:pb-24 sm:pt-32">
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           variants={staggerGroup}

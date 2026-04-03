@@ -35,7 +35,7 @@ export default function MainLayout({ lang }: MainLayoutProps) {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-transparent text-slate-100 font-sans relative isolate">
+    <div className="min-h-screen flex flex-col bg-[#05031a] text-slate-100 font-sans relative isolate">
       <Navbar lang={lang} />
       <Link
         to={portfolioPath}
@@ -48,7 +48,7 @@ export default function MainLayout({ lang }: MainLayoutProps) {
           {t('nav.quickPortfolio')}
         </span>
       </Link>
-      <main className="flex-grow relative z-10">
+      <main className="flex-grow relative z-10 bg-[#05031a]">
         <Outlet />
       </main>
       <Footer lang={lang} />

@@ -32,7 +32,7 @@ export default function Contact() {
   };
 
   return (
-    <main className="flex-grow pt-28 pb-20 bg-transparent text-white sm:pt-32 sm:pb-24">
+    <main className="flex-grow bg-[#05031a] pt-28 pb-20 text-white sm:pt-32 sm:pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-10 lg:flex-row lg:gap-16">
           {/* Contact Info */}

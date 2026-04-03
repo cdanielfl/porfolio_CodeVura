@@ -24,6 +24,16 @@ export default function MainLayout({ lang }: MainLayoutProps) {
     document.documentElement.lang = lang;
   }, [lang, location.pathname]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const isMobile = window.matchMedia('(max-width: 767px)').matches;
+    if (!isMobile) return;
+
+    // Warm up critical route chunks on mobile to avoid white flashes between pages.
+    void import('../pages/Portfolio');
+    void import('../pages/Contact');
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col bg-transparent text-slate-100 font-sans relative isolate">
       <Navbar lang={lang} />

@@ -15,8 +15,9 @@ const sectionReveal = {
   },
 };
 
+const apiBaseUrl = import.meta.env.VITE_API_URL;
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: apiBaseUrl,
 });
 
 type ContactFormData = {
@@ -39,6 +40,12 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!apiBaseUrl || (import.meta.env.PROD && !apiBaseUrl.startsWith('https://'))) {
+      setErrorMessage('Configuracao de API invalida no frontend. Contate o suporte.');
+      return;
+    }
+
     setIsSubmitting(true);
     setErrorMessage(null);
 
